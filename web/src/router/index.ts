@@ -20,7 +20,7 @@ export const router = createRouter({
     { path: '/explore/ic', name: 'ic-exploration', component: ICResearchView },
     { path: '/discover', name: 'discover', component: DiscoveryView },
     { path: '/library', name: 'library', component: PersonalLibraryView },
-    { path: '/analysis', name: 'research-analysis', component: IS_STATIC ? () => import('../views/StaticAnalysisView.vue') : ResearchAnalysisView },
+    { path: '/analysis', name: 'research-analysis', component: ResearchAnalysisView },
     { path: '/discover/item/:id', name: 'discover-detail', component: DiscoveryDetailView, props: true },
     {
       path: '/sections/:key',

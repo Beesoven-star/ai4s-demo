@@ -1,3 +1,6 @@
+import { IS_STATIC } from '../static-mode'
+import { staticAnalysisRequest } from './static-analysis'
+
 export interface AnalysisFilters {
   date_from: string; date_to: string; date_basis: 'published'|'collected'
   include_papers: boolean; include_news: boolean
@@ -35,6 +38,7 @@ export interface ModelConnection {model: string; base_url: string; key_configure
 export interface AnalysisOptions {today: string; max_sources: number; topics: {id: string; track: string; name: string}[]}
 
 export async function analysisRequest<T>(path: string, body?: unknown, method?: string): Promise<T> {
+  if (IS_STATIC) return staticAnalysisRequest<T>(path, body, method)
   const response = await fetch('/api/analysis'+path, {
     method: method || (body === undefined ? 'GET' : 'POST'),
     headers: body === undefined ? undefined : {'Content-Type':'application/json'},

@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { analysisRequest, type AnalysisFilters, type AnalysisPreview, type AnalysisRun, type AnalysisOptions, type AnalysisSource, type ModelConnection } from '../api/analysis'
 import { localTimeLabel, safeExternalUrl } from '../api/discovery'
 import AnalysisClaim from '../components/AnalysisClaim.vue'
+import { IS_STATIC } from '../static-mode'
 
 const route = useRoute(), router = useRouter()
 const filters = reactive<AnalysisFilters>({date_from:'',date_to:'',date_basis:'published',include_papers:true,include_news:true,
@@ -103,7 +104,7 @@ function failureMessage(run: AnalysisRun) {
 }
 onMounted(async () => {
   try {
-    const results=await Promise.all([analysisRequest<AnalysisOptions>('/options'),analysisRequest<ModelConnection>('/connection'),analysisRequest<AnalysisRun[]>('/runs')])
+    const results=await Promise.all([analysisRequest<AnalysisOptions>('/options'),IS_STATIC ? Promise.resolve(null) : analysisRequest<ModelConnection>('/connection'),analysisRequest<AnalysisRun[]>('/runs')])
     options.value=results[0];connection.value=results[1];history.value=results[2];lastMonth()
     if(typeof route.query.run==='string')await loadRun(route.query.run)
     else if(history.value[0]?.status==='running')await openRun(history.value[0].id)
@@ -118,7 +119,8 @@ onBeforeUnmount(()=>{alive=false;previewSequence++;runSequence++;clearTimeout(ti
     <header class="mb-6"><h2 class="font-serif text-3xl font-bold">相关性分析</h2><p class="mt-2 text-sm text-stone-500">从一批文献和新闻中梳理研究动向，提出有来源依据的探索问题。</p><div class="mt-5 border-t-2 border-stone-900 dark:border-stone-100" /></header>
     <p v-if="initializing" role="status" class="py-8 text-sm text-stone-500">正在加载…</p>
     <template v-else>
-      <p v-if="!connection?.key_configured" class="mb-5 border-l-2 border-accent pl-3 text-sm leading-7">模型服务尚未连接。可先筛选材料，再到 <router-link to="/settings" class="text-accent underline">设置</router-link> 完成连接。</p>
+      <p v-if="IS_STATIC" class="mb-5 border-l-2 border-accent pl-3 text-sm leading-7">可筛选、勾选分析材料，并查看下方的历史报告。当前为静态展示，生成新报告需使用本地完整版。</p>
+      <p v-else-if="!connection?.key_configured" class="mb-5 border-l-2 border-accent pl-3 text-sm leading-7">模型服务尚未连接。可先筛选材料，再到 <router-link to="/settings" class="text-accent underline">设置</router-link> 完成连接。</p>
       <form class="border border-stone-200 p-5 dark:border-stone-800" @submit.prevent="filterSources">
         <h3 class="mb-4 font-serif text-xl font-semibold">筛选分析材料</h3>
         <div class="grid gap-4 sm:grid-cols-3">
@@ -146,7 +148,7 @@ onBeforeUnmount(()=>{alive=false;previewSequence++;runSequence++;clearTimeout(ti
           <div class="mt-3 max-h-96 divide-y divide-stone-100 overflow-y-auto border-y border-stone-200 dark:divide-stone-800 dark:border-stone-800">
             <label v-for="source in preview.sources" :key="source.id" class="flex gap-3 py-3 text-sm"><input type="checkbox" class="mt-1 shrink-0" :aria-label="`选择 ${source.title}`" :checked="selected.includes(source.id)" :disabled="!selected.includes(source.id) && selected.length>=options.max_sources" @change="toggle(source.id,($event.target as HTMLInputElement).checked)" /><span class="min-w-0"><span class="mr-2 text-xs text-accent">{{ source.ref }} · {{ source.content_type==='paper' ? source.venue_type==='preprint' ? '预印本' : '文献' : '新闻' }}</span>{{ source.title }}<span class="mt-1 block text-xs text-stone-400">{{ dateLabel(source) }} · {{ source.source }} · {{ quality[source.evidence_quality] }}</span></span></label>
           </div>
-          <div class="mt-4 flex flex-wrap items-center gap-4"><button type="button" :disabled="busy || selected.length<2 || !connection?.key_configured" class="bg-accent px-5 py-2.5 text-sm text-white disabled:opacity-50" @click="start">{{ busy ? '分析进行中…' : '生成相关性分析' }}</button><span class="text-xs text-stone-500">文献 {{ chosenCounts.paper }} · 新闻 {{ chosenCounts.news }}；发送选中资料的题名与摘要/简介至所配置模型服务。</span></div>
+          <div class="mt-4 flex flex-wrap items-center gap-4"><button type="button" :disabled="IS_STATIC || busy || selected.length<2 || !connection?.key_configured" class="bg-accent px-5 py-2.5 text-sm text-white disabled:opacity-50" @click="start">{{ busy ? '分析进行中…' : '生成相关性分析' }}</button><span class="text-xs text-stone-500">文献 {{ chosenCounts.paper }} · 新闻 {{ chosenCounts.news }}；{{ IS_STATIC ? '静态展示可预览材料选择，暂不在线生成报告。' : '发送选中资料的题名与摘要/简介至所配置模型服务。' }}</span></div>
         </template>
       </section>
       <section v-if="active" class="mt-7" aria-label="分析报告">
@@ -154,7 +156,7 @@ onBeforeUnmount(()=>{alive=false;previewSequence++;runSequence++;clearTimeout(ti
         <div v-if="active.status==='failed'" role="alert" class="border border-red-200 p-5 text-sm text-red-600"><p>{{ failureMessage(active) }}</p><p class="mt-2 text-xs text-stone-500">已保留当次选中的 {{ active.source_count }} 条材料，可以使用当前模型设置重新生成。</p><button type="button" :disabled="busy || !connection?.key_configured" class="mt-4 bg-accent px-4 py-2 text-sm text-white disabled:opacity-50" @click="retry">{{ starting ? '正在重试…' : '按原材料重试' }}</button></div>
         <p v-if="active.usage?.total_tokens" class="my-3 text-xs leading-6 text-stone-500">本次用量：输入 {{ active.usage.prompt_tokens || 0 }} · 输出 {{ active.usage.completion_tokens || 0 }}<span v-if="active.usage.reasoning_tokens!==undefined">（含思考 {{ active.usage.reasoning_tokens }}）</span> · 合计 {{ active.usage.total_tokens }} token<span v-if="active.elapsed_seconds!==undefined"> · 用时 {{ active.elapsed_seconds }} 秒</span></p>
         <template v-if="report && active.status==='success'">
-          <header class="border-b-2 border-stone-900 pb-4 dark:border-stone-100"><span class="text-xs text-accent">模型分析草稿 · 待人工核验</span><h3 class="mt-2 font-serif text-2xl font-bold">{{ report.title }}</h3><p class="mt-2 text-xs leading-6 text-stone-500">{{ active.filters.date_from }} 至 {{ active.filters.date_to }} · 按{{ active.filters.date_basis==='published' ? '发表日期' : '收录日期' }}筛选 · 匹配 {{ active.matched_count }} 条 / 分析 {{ active.source_count }} 条 · {{ active.model }}</p><a :href="`/api/analysis/runs/${active.id}/export`" download class="mt-2 inline-block text-xs text-accent underline">导出分析报告</a></header>
+          <header class="border-b-2 border-stone-900 pb-4 dark:border-stone-100"><span class="text-xs text-accent">模型分析草稿 · 待人工核验</span><h3 class="mt-2 font-serif text-2xl font-bold">{{ report.title }}</h3><p class="mt-2 text-xs leading-6 text-stone-500">{{ active.filters.date_from }} 至 {{ active.filters.date_to }} · 按{{ active.filters.date_basis==='published' ? '发表日期' : '收录日期' }}筛选 · 匹配 {{ active.matched_count }} 条 / 分析 {{ active.source_count }} 条 · {{ active.model }}</p><a v-if="!IS_STATIC" :href="`/api/analysis/runs/${active.id}/export`" download class="mt-2 inline-block text-xs text-accent underline">导出分析报告</a></header>
           <p class="mt-3 text-xs leading-6 text-stone-500">{{ trackLabels[active.filters.research_track] }} · {{ options.topics.find(t=>t.id===active.filters.topic)?.name || '全部专题' }} · 文献 {{ active.counts.paper || 0 }} / 新闻 {{ active.counts.news || 0 }}<span v-if="active.filters.keyword"> · 关键词：{{ active.filters.keyword }}</span></p>
           <div class="mt-5"><AnalysisClaim :claim="report.overview" /></div>
           <h4 class="mt-7 font-serif text-xl font-semibold">该时间段的研究动向</h4>

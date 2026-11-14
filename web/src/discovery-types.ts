@@ -18,6 +18,7 @@ export interface PersonalRecord {
 }
 
 export interface DiscoveryItem {
+  analysis_classification?: { tracks: string[]; topic_ids: string[]; topics: string[]; scope: string; reviewed_on?: string }
   publication_timing?: {kind: string; label: string; as_of: string; recent_start: string; note: string}
   abstract_provenance?: {source: string; url: string}[]
   ic_ai?: ICAnalysis
