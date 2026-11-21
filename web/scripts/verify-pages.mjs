@@ -53,10 +53,20 @@ if (!process.env.PAGES_TEST_STORE) {
       for (const days of [7,30]) {
         const edition = await briefing.getICBriefing(days)
         assert.equal(edition.window.days, days)
+        assert.equal(edition.window.date_to, snapshot.facets.today, 'The rankings must reflect the export date')
         assert.equal(edition.technologies.length, 6)
         assert(Object.keys(edition.sources).every(id => snapshot.items.some(item => item.id===id)), 'All briefing evidence must resolve to exported details')
         assert(edition.technologies.every(t => t.review_status==='provisional'))
       }
+      assert((await briefing.getICBriefing(30)).event_attention_order.length <= 50)
+      const editor = await server.ssrLoadModule('/src/api/ic-editor.ts')
+      const topicIndex = await editor.getTechnologyTopics()
+      const topicEntry = topicIndex.topics.find(topic => topic.evaluation_status)
+      assert(topicEntry, 'Exported topics must include the published evaluations')
+      const topic = await editor.getTechnologyTopic(topicEntry.id)
+      assert(topic.events.length && topic.evaluation?.finding.references.length, 'The topic page must contain its evidence')
+      assert((await briefing.getICObservations()).report, 'Daily view defaults to the latest exported report')
+      assert((await editor.getPublishedWeekly()).report, 'Weekly archive has a published report')
       const analysis = await server.ssrLoadModule('/src/api/analysis.ts')
       const options = await analysis.analysisRequest('/options')
       const filters = { date_from: snapshot.facets.publication_audit.recent_start, date_to: options.today,

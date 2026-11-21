@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { IS_STATIC } from '../static-mode'
 import type { ICDailyEdition } from '../briefing-types'
 import { newsGenreLabel, readingBasisLabel, safeExternalUrl } from '../api/discovery'
 defineProps<{ report: ICDailyEdition; weekly?: boolean }>()
@@ -24,8 +23,7 @@ defineProps<{ report: ICDailyEdition; weekly?: boolean }>()
         <div class="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs leading-5 text-stone-600 dark:text-stone-400">
           <span v-for="category in entry.classification.categories" :key="category.id">{{ category.name }}</span>
           <span v-for="topic in entry.classification.topics" :key="topic.id" class="font-medium text-stone-800 dark:text-stone-300">
-            <RouterLink v-if="!IS_STATIC" :to="{ name: 'ic-technology-topic', params: { topicId: topic.id } }" class="hover:text-accent hover:underline">{{ topic.name }}</RouterLink>
-            <span v-else>{{ topic.name }}</span>
+            <RouterLink :to="{ name: 'ic-technology-topic', params: { topicId: topic.id } }" class="hover:text-accent hover:underline">{{ topic.name }}</RouterLink>
           </span>
           <a v-if="!entry.sources && safeExternalUrl(entry.source.url)" :href="safeExternalUrl(entry.source.url)" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">查看原始来源 ↗</a>
         </div>

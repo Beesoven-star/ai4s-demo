@@ -23,7 +23,7 @@ const ranked = computed(() => data.value?.importance_entries || importance.value
   id: technology.id, name: technology.name, score: technology.importance_score, rank: technology.importance_rank,
   caption: technology.tagline, automatic: false,
 })))
-const showAllHotspots = ref(IS_STATIC)
+const showAllHotspots = ref(false)
 const showAllTechnologies = ref(true)
 const previewCount = 3
 const hotspotPreviewCount = 8
@@ -85,7 +85,7 @@ onBeforeUnmount(() => {
     <header v-if="props.topicMode" class="mb-6 flex flex-wrap items-end justify-between gap-3 border-b border-stone-300 pb-5 dark:border-stone-700">
       <h2 class="font-serif text-3xl font-bold tracking-tight sm:text-4xl">技术专题与评价</h2>
       <div class="flex flex-wrap gap-x-4 gap-y-2 text-sm font-medium text-accent">
-        <RouterLink v-if="!IS_STATIC" :to="{ query: route.query, hash: '#tracked-topics' }" class="hover:underline">查看跟踪专题 ↓</RouterLink>
+        <RouterLink :to="{ query: route.query, hash: '#tracked-topics' }" class="hover:underline">查看跟踪专题 ↓</RouterLink>
         <RouterLink to="/" class="hover:underline">返回技术观察</RouterLink>
       </div>
     </header>
@@ -180,7 +180,7 @@ onBeforeUnmount(() => {
               {{ selectedCatalogTopic.status==='paused' ? '这个专题已暂停跟踪，以下是此前保存的评价。' : '这个专题已合并，以下是此前保存的评价。' }}
               <RouterLink v-if="replacementTopic" :to="topicLink(replacementTopic)" class="ml-2 text-accent hover:underline">查看合并后的专题 →</RouterLink>
             </p>
-            <RouterLink v-if="!IS_STATIC" :to="{ name: 'ic-technology-topic', params: { topicId: selected.id } }" class="mb-3 inline-block text-sm font-medium text-accent hover:underline">查看专题进展记录 →</RouterLink>
+            <RouterLink :to="{ name: 'ic-technology-topic', params: { topicId: selected.id } }" class="mb-3 inline-block text-sm font-medium text-accent hover:underline">查看专题进展记录 →</RouterLink>
             <template v-if="data.evaluations?.[selected.id]">
               <TopicEvaluationCard :evaluation="data.evaluations[selected.id]" />
               <details class="mt-4 text-sm">
@@ -193,6 +193,6 @@ onBeforeUnmount(() => {
         </div>
       </template>
     </div>
-    <TechnologyTopicIndex v-if="props.topicMode && !IS_STATIC" />
+    <TechnologyTopicIndex v-if="props.topicMode" />
   </div>
 </template>

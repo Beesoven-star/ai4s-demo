@@ -10,7 +10,6 @@ import DailyObservationView from './DailyObservationView.vue'
 import PublishedObservation from '../components/PublishedObservation.vue'
 import ObservationArchive from '../components/ObservationArchive.vue'
 import { getPublishedWeekly } from '../api/ic-editor'
-import { IS_STATIC } from '../static-mode'
 import { workspace } from '../workspace'
 
 type OverviewMode = 'weekly' | 'daily' | 'tracking' | 'rankings'
@@ -133,7 +132,7 @@ onBeforeUnmount(() => {
       </div>
     </header>
 
-    <TechnologyTopicIndex v-if="view.id==='tracking' && !IS_STATIC" compact />
+    <TechnologyTopicIndex v-if="view.id==='tracking'" compact />
     <DailyObservationView v-if="view.id==='daily'" />
     <TechnologyBriefing v-else-if="view.id==='rankings'" />
     <div v-else-if="view.id==='weekly' && workspace.domain==='ic'" :aria-busy="weeklyLoading">

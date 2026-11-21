@@ -6,7 +6,8 @@ import { snapshotArchive, type ObservationPeriod, type PublicationVersion } from
 export async function getICBriefing(days: number, signal?: AbortSignal, snapshotOnly = false): Promise<ICBriefing> {
   if (IS_STATIC) {
     const snapshot = await loadSnapshot(signal)
-    const result = snapshot.ic_briefing?.[String(days)]
+    const result = (snapshotOnly ? undefined : snapshot.ic_rankings?.[String(days)])
+      ?? snapshot.ic_briefing?.[String(days)]
     if (!result) throw new Error('当前展示快照尚未包含技术榜单，请重新导出展示数据。')
     return result
   }
@@ -23,9 +24,8 @@ export async function getICObservations(day?: string, signal?: AbortSignal, vers
   if (IS_STATIC) {
     const snapshot = await loadSnapshot(signal)
     const today = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit', day: '2-digit' }).format()
-    const selectedDay = day || today
     const reports = (snapshot.daily_observations || []).filter(edition => edition.date <= today)
-    return { today, ...snapshotArchive(reports, { day: selectedDay, version, distinctDaily: true }) }
+    return { today, ...snapshotArchive(reports, { day, version, distinctDaily: true }) }
   }
   const query = new URLSearchParams()
   if (day) query.set('day', day)

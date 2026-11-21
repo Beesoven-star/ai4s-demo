@@ -93,7 +93,7 @@ router.afterEach((to) => {
 router.beforeEach(async (to) => {
   if (IS_STATIC && ['workdocs', 'settings'].includes(String(to.name))) return { name: 'research-analysis', replace: true }
   await loadWorkspace()
-  if (to.name === 'ic-technology-topic' && (IS_STATIC || workspace.domain !== 'ic')) return { name: 'home', replace: true }
+  if (to.name === 'ic-technology-topic' && workspace.domain !== 'ic') return { name: 'home', replace: true }
   if (to.meta.requiresReports && !workspace.reportsEnabled) {
     return { name: 'discover', replace: true }
   }

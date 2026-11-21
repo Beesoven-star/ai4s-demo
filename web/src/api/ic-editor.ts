@@ -15,7 +15,7 @@ export interface TechnologyTopic {
   status: 'active' | 'history' | 'merged'; merged_into?: string; scope_reason?: string; latest_progress: string | null; reviewed_through: string | null
 }
 
-interface TechnologyTopicIndexEntry extends TechnologyTopic {
+export interface TechnologyTopicIndexEntry extends TechnologyTopic {
   event_count: number
   evaluation_status?: 'ranked' | 'partial'
   latest_event: { title: string; summary: string; date: string; sources: string[] } | null
@@ -35,6 +35,10 @@ export interface TechnologyTopicDetail extends TechnologyTopic {
 interface TopicRun {
   id: string; date: string; status: 'queued' | 'running' | 'complete' | 'unchanged' | 'empty' | 'failed'
   changes?: Pick<TechnologyTopic, 'id' | 'name' | 'status'>[]; error?: string
+}
+
+interface TechnologyTopics {
+  topics: TechnologyTopicIndexEntry[]; runs: TopicRun[]; cool_days: number; as_of?: string
 }
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
@@ -58,11 +62,21 @@ export function saveEvaluationSettings(focus: string) {
   })
 }
 
-export function getTechnologyTopics(signal?: AbortSignal) {
-  return request<{ topics: TechnologyTopicIndexEntry[]; runs: TopicRun[]; cool_days: number }>('/topics', { signal })
+export async function getTechnologyTopics(signal?: AbortSignal): Promise<TechnologyTopics> {
+  if (IS_STATIC) {
+    const snapshot = await loadSnapshot(signal)
+    const index = snapshot.ic_topics
+    return { topics: index?.topics || [], cool_days: index?.cool_days || 30, runs: [], as_of: snapshot.facets.today }
+  }
+  return request<TechnologyTopics>('/topics', { signal })
 }
 
-export function getTechnologyTopic(id: string, signal?: AbortSignal) {
+export async function getTechnologyTopic(id: string, signal?: AbortSignal): Promise<TechnologyTopicDetail> {
+  if (IS_STATIC) {
+    const details = (await loadSnapshot(signal)).ic_topics?.details
+    if (!details || !Object.prototype.hasOwnProperty.call(details, id)) throw new Error('此专题未收录于本期展示')
+    return details[id]!
+  }
   return request<TechnologyTopicDetail>(`/topics/${encodeURIComponent(id)}`, { signal })
 }
 

@@ -8,9 +8,13 @@ const error = ref('')
 const controller = new AbortController()
 const active = computed(() => (result.value?.topics || []).filter(topic => topic.status === 'active' && !topic.established))
 const past = computed(() => (result.value?.topics || []).filter(topic => topic.status === 'history'))
-const recentSince = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Shanghai' }).format(Date.now() - 6 * 86400000)
+const recentSince = computed(() => {
+  const asOf = result.value?.as_of
+  if (asOf) return new Date(Date.parse(asOf) - 6 * 86400000).toISOString().slice(0, 10)
+  return new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Shanghai' }).format(Date.now() - 6 * 86400000)
+})
 const current = computed(() => props.compact
-  ? active.value.filter(topic => topic.latest_event && topic.latest_event.date >= recentSince).slice(0, 4)
+  ? active.value.filter(topic => topic.latest_event && topic.latest_event.date >= recentSince.value).slice(0, 4)
   : active.value)
 const lastRun = computed(() => result.value?.runs[0])
 

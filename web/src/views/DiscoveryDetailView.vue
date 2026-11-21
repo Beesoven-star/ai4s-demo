@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { IS_STATIC } from '../static-mode'
 import ICRelationPanel from '../components/ICRelationPanel.vue'
 import PublicationPeriodBadge from '../components/PublicationPeriodBadge.vue'
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
@@ -217,8 +216,8 @@ onBeforeUnmount(() => { ++requestNumber; controller?.abort() })
         <span v-if="item.observation_classification.basis==='pending'"> · 未归入具体方向</span>
         <span v-for="category in item.observation_classification.categories" :key="category.id"> · {{ category.name }}</span>
         <span v-for="topic in item.observation_classification.topics" :key="topic.id"> ·
-          <RouterLink v-if="!IS_STATIC" :to="{ name: 'ic-technology-topic', params: { topicId: topic.id } }" class="text-accent hover:underline">{{ topic.name }}</RouterLink>
-          <span v-else>{{ topic.name }}</span><span v-if="topic.status==='paused'">（历史专题）</span>
+          <RouterLink :to="{ name: 'ic-technology-topic', params: { topicId: topic.id } }" class="text-accent hover:underline">{{ topic.name }}</RouterLink>
+          <span v-if="topic.status==='paused'">（历史专题）</span>
         </span>
       </p>
       <section v-if="isPaper && item.ic_ai" class="mt-5 border-t border-stone-200 pt-4 dark:border-stone-800" aria-label="研究关联">
