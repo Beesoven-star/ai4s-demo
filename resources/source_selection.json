@@ -1,0 +1,278 @@
+{
+  "version": 1,
+  "status": "journals_connected_news_candidates",
+  "used_by_collector": false,
+  "reviewed_on": "2026-11-06",
+  "domain": "分子表征与性质预测",
+  "note": "13本用户期刊已关联并启用运行来源；本候选目录本身不被采集器读取，实际执行配置为discovery_sources.json。新闻仍分已接入与候选，会议年度适配尚未实现。分区及CCF等级未核验。",
+  "journal_groups": [
+    {
+      "priority": "first",
+      "purpose": "分子信息与表征主线，JCTC限3D/量子/机器学习主题",
+      "journals": [
+        {
+          "id": "jcim",
+          "name": "Journal of Chemical Information and Modeling",
+          "runtime_source_ids": [
+            "jcim"
+          ],
+          "scope_url": "https://researcher-resources.acs.org/publish/author_guidelines?coden=jcisd8",
+          "connection_status": "enabled",
+          "issn": "1549-960X",
+          "connected_on": "2026-11-07"
+        },
+        {
+          "id": "jcheminf",
+          "name": "Journal of Cheminformatics",
+          "runtime_source_ids": [
+            "jcheminf"
+          ],
+          "issn": "1758-2946",
+          "metadata_url": "https://api.crossref.org/journals/1758-2946",
+          "metadata_probe": "http_200_title_verified",
+          "scope_url": "https://link.springer.com/journal/13321/aims-and-scope",
+          "connection_status": "enabled",
+          "connected_on": "2026-11-07"
+        },
+        {
+          "id": "bib",
+          "name": "Briefings in Bioinformatics",
+          "runtime_source_ids": [
+            "bib_rss",
+            "bib"
+          ],
+          "scope_url": "https://academic.oup.com/bib/pages/about",
+          "filter_note": "排除与分子任务无关的泛组学和组织图像候选",
+          "connection_status": "enabled",
+          "issn": "1477-4054",
+          "connected_on": "2026-11-07"
+        },
+        {
+          "id": "jctc",
+          "name": "Journal of Chemical Theory and Computation",
+          "runtime_source_ids": [
+            "jctc"
+          ],
+          "issn": "1549-9626",
+          "metadata_url": "https://api.crossref.org/journals/1549-9626",
+          "metadata_probe": "http_200_title_verified",
+          "scope_url": "https://researcher-resources.acs.org/publish/author_guidelines?coden=jctcce",
+          "connection_status": "enabled",
+          "connected_on": "2026-11-07"
+        }
+      ]
+    },
+    {
+      "priority": "extension",
+      "purpose": "化学、药物与计算生物应用，按研究主题严格筛选",
+      "journals": [
+        {
+          "id": "chemometrics",
+          "name": "Chemometrics and Intelligent Laboratory Systems",
+          "runtime_source_ids": [
+            "chemometrics"
+          ],
+          "homepage": "https://www.sciencedirect.com/journal/chemometrics-and-intelligent-laboratory-systems",
+          "web_probe": "http_403_rss_not_verified",
+          "connection_status": "enabled",
+          "issn": "0169-7439",
+          "connected_on": "2026-11-07"
+        },
+        {
+          "id": "chemical_science",
+          "name": "Chemical Science",
+          "runtime_source_ids": [
+            "chemical_science"
+          ],
+          "scope_url": "https://www.rsc.org/publishing/journals/chemical-science",
+          "connection_status": "enabled",
+          "issn": "2041-6539",
+          "connected_on": "2026-11-07"
+        },
+        {
+          "id": "communications_chemistry",
+          "name": "Communications Chemistry",
+          "runtime_source_ids": [
+            "communications_chemistry"
+          ],
+          "scope_url": "https://www.nature.com/commschem/journal-information",
+          "connection_status": "enabled",
+          "issn": "2399-3669",
+          "connected_on": "2026-11-07"
+        },
+        {
+          "id": "jmc",
+          "name": "Journal of Medicinal Chemistry",
+          "runtime_source_ids": [
+            "jmc"
+          ],
+          "scope_url": "https://researcher-resources.acs.org/publish/author_guidelines?coden=jmcmar",
+          "connection_status": "enabled",
+          "issn": "1520-4804",
+          "connected_on": "2026-11-07"
+        },
+        {
+          "id": "plos_comp_biol",
+          "name": "PLOS Computational Biology",
+          "runtime_source_ids": [
+            "plos_comp_biol"
+          ],
+          "scope_url": "https://journals.plos.org/ploscompbiol/s/submission-guidelines",
+          "connection_status": "enabled",
+          "issn": "1553-7358",
+          "connected_on": "2026-11-07"
+        }
+      ]
+    },
+    {
+      "priority": "method_topic",
+      "purpose": "直接分子应用或可迁移的多视图/对比/因果反事实/鲁棒方法；通用方法单独标注",
+      "journals": [
+        {
+          "id": "pattern_recognition",
+          "name": "Pattern Recognition",
+          "runtime_source_ids": [
+            "pattern_recognition"
+          ],
+          "homepage": "https://www.sciencedirect.com/journal/pattern-recognition",
+          "web_probe": "http_403_rss_not_verified",
+          "connection_status": "enabled",
+          "issn": "0031-3203",
+          "connected_on": "2026-11-07"
+        },
+        {
+          "id": "eswa",
+          "name": "Expert Systems with Applications",
+          "runtime_source_ids": [
+            "eswa"
+          ],
+          "homepage": "https://www.sciencedirect.com/journal/expert-systems-with-applications",
+          "web_probe": "http_403_rss_not_verified",
+          "connection_status": "enabled",
+          "issn": "0957-4174",
+          "connected_on": "2026-11-07"
+        },
+        {
+          "id": "neural_networks",
+          "name": "Neural Networks",
+          "runtime_source_ids": [
+            "neural_networks"
+          ],
+          "homepage": "https://www.sciencedirect.com/journal/neural-networks",
+          "web_probe": "http_403_rss_not_verified",
+          "connection_status": "enabled",
+          "issn": "0893-6080",
+          "connected_on": "2026-11-07"
+        },
+        {
+          "id": "information_sciences",
+          "name": "Information Sciences",
+          "runtime_source_ids": [
+            "information_sciences"
+          ],
+          "homepage": "https://www.sciencedirect.com/journal/information-sciences",
+          "web_probe": "http_403_rss_not_verified",
+          "connection_status": "enabled",
+          "issn": "0020-0255",
+          "connected_on": "2026-11-07"
+        }
+      ]
+    }
+  ],
+  "retained_existing_journals": [
+    {
+      "name": "Nature Communications",
+      "runtime_source_ids": [
+        "nature_communications"
+      ]
+    }
+  ],
+  "news": [
+    {
+      "id": "cen",
+      "name": "Chemical & Engineering News",
+      "priority": "first",
+      "runtime_source_ids": [],
+      "homepage": "https://cen.acs.org/trending/AI.html",
+      "official_feed_directory": "https://cen.acs.org/static/about/rss_feeds.html",
+      "feed_url": "https://cen.acs.org/feeds/rss/latestnews.xml",
+      "local_probe": {
+        "http_status": 200,
+        "parsed_items": 383,
+        "latest_publication": "2026-11-05",
+        "recent_30_days_items": 139,
+        "existing_keyword_rule_matches": 0
+      },
+      "before_enable": "单独实现新闻领域/AI/研究信息筛选；仅采公开元数据和链接，不承诺全文"
+    },
+    {
+      "id": "deepmodeling",
+      "name": "DeepModeling 社区研究动态",
+      "priority": "retain_first",
+      "runtime_source_ids": [
+        "deepmodeling"
+      ],
+      "feed_url": "https://blogs.deepmodeling.com/atom.xml"
+    },
+    {
+      "id": "nature_biotechnology_news",
+      "name": "Nature Biotechnology News / News Feature",
+      "priority": "research_news_candidate",
+      "runtime_source_ids": [],
+      "official_feed_directory": "https://www.nature.com/nbt/web-feeds",
+      "before_enable": "全刊TOC/AOP混合内容，需文章类型识别与稳定入口验证；不能全部当新闻"
+    },
+    {
+      "id": "fierce_biotech",
+      "name": "Fierce Biotech",
+      "priority": "filtered_supplement",
+      "runtime_source_ids": [],
+      "homepage": "https://www.fiercebiotech.com/research",
+      "official_feed_directory": "https://www.fiercebiotech.com/fiercebiotechcom/rss-feeds",
+      "feed_candidates": [
+        {
+          "url": "https://www.fiercebiotech.com/rss/xml",
+          "local_http_status": 403
+        },
+        {
+          "url": "https://www.fiercebiotech.com/rss/biotech/xml",
+          "local_http_status": 403
+        }
+      ],
+      "before_enable": "入口可用性及研究相关性验证"
+    },
+    {
+      "id": "pharmcube",
+      "name": "医药魔方",
+      "priority": "chinese_reserve",
+      "runtime_source_ids": [],
+      "homepage": "https://bydrug.pharmcube.com/",
+      "before_enable": "官方RSS未核验；聚合内容保留原始来源，过滤泛产业新闻"
+    },
+    {
+      "id": "biopharma_dive",
+      "name": "BioPharma Dive",
+      "priority": "industry_reserve",
+      "runtime_source_ids": [],
+      "homepage": "https://www.biopharmadive.com/about/",
+      "before_enable": "官方RSS未核验；仅跟踪与分子AI直接相关的产业背景"
+    },
+    {
+      "id": "vbdata",
+      "name": "动脉网",
+      "priority": "later",
+      "runtime_source_ids": [],
+      "homepage": "https://www.vbdata.cn/",
+      "before_enable": "官方RSS未核验；仅保留AI制药/分子模型相关材料，不全站采集"
+    },
+    {
+      "id": "endpoints",
+      "name": "Endpoints News",
+      "priority": "later",
+      "runtime_source_ids": [],
+      "homepage": "https://endpoints.news/faq/",
+      "before_enable": "医药商业报道和订阅访问限制，暂不作为首批自动来源"
+    }
+  ],
+  "updated_on": "2026-11-07"
+}

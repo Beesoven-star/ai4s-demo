@@ -12,7 +12,7 @@ interface CollectionSettings {
 interface CollectionJob {
   id: string
   status: 'running' | 'success' | 'partial' | 'failed' | 'interrupted'
-  trigger: 'manual' | 'daily'
+  trigger: 'manual' | 'daily' | 'intraday'
   started_at: string
   finished_at: string | null
   window_start: string
@@ -24,6 +24,7 @@ interface CollectionJob {
   inserted: number
   updated: number
   error?: string | null
+  editor_error?: string
 }
 
 interface CollectionState {
@@ -34,6 +35,7 @@ interface CollectionState {
   next_run_at: string | null
   job: CollectionJob | null
   available: boolean
+  news_interval_hours?: number | null
 }
 
 const emit = defineEmits<{ completed: [] }>()
@@ -54,11 +56,23 @@ let seenFinishedId = ''
 const running = computed(() => state.value?.job?.status === 'running')
 const job = computed(() => state.value?.job)
 const coverageLimited = computed(() => job.value?.runs.some(run => Boolean(run.coverage_warning)))
+const failedSources = computed(() => job.value?.runs.filter(run => run.status === 'failed') || [])
+const completedSources = computed(() => job.value?.runs.filter(run => run.status !== 'failed') || [])
+const noMatches = computed(() => ['success', 'partial'].includes(job.value?.status || '')
+  && completedSources.value.length > 0 && completedSources.value.every(run => run.found === 0))
 const noNewExplanation = computed(() => {
-  if (job.value?.status !== 'success' || job.value.inserted !== 0) return ''
-  return job.value.runs.some(run => run.found > 0)
-    ? '本轮相关候选均已收录，去重后没有新增。'
-    : '本轮已读取内容中未筛出匹配候选，请查看各来源结果与覆盖提示。'
+  const current = job.value
+  if (!current || !['success', 'partial'].includes(current.status) || current.inserted) return ''
+  if (!noMatches.value) return '本轮有匹配候选，入库比对后没有新增。'
+  const window = current.window_start === current.window_end ? current.window_end : `${current.window_start} 至 ${current.window_end}`
+  const runs = completedSources.value
+  const parsed = runs.reduce((total, run) => total + (run.selection?.parsed || 0), 0)
+  if (runs.every(run => run.selection?.date_matched === 0)) {
+    return parsed ? `已完成的来源共解析 ${parsed} 条候选，没有条目进入 ${window} 的发表日期范围。`
+      : `已完成的来源未返回 ${window} 的候选。`
+  }
+  if (runs.every(run => run.selection)) return `${window} 的候选未通过后续筛选，请查看各来源结果。`
+  return `已完成的来源中，${window} 无匹配资料。`
 })
 const jobLabel = computed(() => ({
   running: '正在采集', success: '本轮采集完成', partial: '部分来源未完成',
@@ -94,16 +108,20 @@ function applyState(value: CollectionState, resetSettings = false) {
   const firstLoad = state.value === null
   state.value = value
   if (firstLoad) {
-    dates.date_to = value.today
-    const start = new Date(`${value.today}T00:00:00Z`)
-    start.setUTCDate(start.getUTCDate() - 6)
-    dates.date_from = start.toISOString().slice(0, 10)
+    fillRecentWindow(value.today)
   }
   if (firstLoad || resetSettings) Object.assign(settings, value.settings)
   if (value.job && value.job.status !== 'running' && value.job.id !== seenFinishedId) {
     seenFinishedId = value.job.id
     emit('completed')
   }
+}
+
+function fillRecentWindow(end: string) {
+  const start = new Date(`${end}T00:00:00Z`)
+  start.setUTCDate(start.getUTCDate() - 6)
+  dates.date_from = start.toISOString().slice(0, 10)
+  dates.date_to = end
 }
 
 function schedule(delay?: number) {
@@ -227,10 +245,13 @@ onBeforeUnmount(() => {
           <p class="text-sm font-medium" :class="jobTone">{{ jobLabel }}<span v-if="running" class="ml-2 text-xs font-normal tabular-nums">{{ job.sources_done }} / {{ job.sources_total }} 个来源</span></p>
           <p class="text-xs tabular-nums text-stone-500 dark:text-stone-400">新增 {{ job.inserted }} 条 · 更新 {{ job.updated }} 条</p>
         </div>
-        <p class="mt-2 text-xs leading-6 text-stone-400">{{ job.trigger === 'daily' ? '自动采集' : '手动采集' }} · {{ job.window_start }} 至 {{ job.window_end }} · {{ localTimeLabel(job.finished_at || job.started_at) }}</p>
+        <p class="mt-2 text-xs leading-6 text-stone-400">{{ job.trigger === 'intraday' ? '新闻定时刷新' : job.trigger === 'daily' ? '自动采集' : '手动采集' }} · {{ job.window_start }} 至 {{ job.window_end }} · {{ localTimeLabel(job.finished_at || job.started_at) }}</p>
         <p v-if="running && job.current_source" class="mt-1 break-words text-xs leading-6 text-stone-500 dark:text-stone-400">正在读取：{{ job.current_source }}</p>
-        <p v-if="noNewExplanation" class="mt-1 text-xs leading-6 text-stone-500 dark:text-stone-400">{{ noNewExplanation }}</p>
+        <p v-if="noNewExplanation" class="mt-1 text-sm leading-6 text-stone-700 dark:text-stone-300">{{ noNewExplanation }}</p>
+        <p v-if="!running && failedSources.length" class="mt-1 break-words text-xs leading-6 text-amber-700 dark:text-amber-400">{{ completedSources.length }} 个来源完成 · {{ failedSources.length }} 个来源读取失败（{{ failedSources.map(run => run.source_name).join('、') }}）</p>
         <p v-if="job.error" class="mt-1 break-words text-xs leading-6 text-red-600 dark:text-red-400">{{ job.error }}</p>
+        <p v-if="job.editor_error" class="mt-1 break-words text-xs leading-6 text-red-600 dark:text-red-400">自动观察任务准备失败 · {{ job.editor_error }}</p>
+        <button v-if="noMatches && job.window_start===job.window_end" type="button" :disabled="busy" class="mt-1 text-xs text-accent hover:underline disabled:opacity-50" @click="fillRecentWindow(job.window_end)">将采集日期填为最近 7 天</button>
         <p v-if="coverageLimited" class="mt-1 text-xs leading-6 text-amber-700 dark:text-amber-400">部分来源存在覆盖限制，请展开查看各来源结果。</p>
         <details v-if="job.runs.length" class="mt-2">
           <summary class="cursor-pointer text-xs text-stone-600 dark:text-stone-300">查看各来源结果</summary>
@@ -248,6 +269,7 @@ onBeforeUnmount(() => {
       <div class="mt-4 grid gap-3 border-t border-stone-100 pt-4 text-xs sm:grid-cols-2 dark:border-stone-800">
         <details>
           <summary class="cursor-pointer text-stone-600 dark:text-stone-300">每日采集设置</summary>
+          <p v-if="state.news_interval_hours" class="mt-2 text-xs text-stone-500">新闻和论文每天采集一次，新闻在当天约每 {{ state.news_interval_hours }} 小时补查一次。采集完成后会自动整理观察。</p>
           <form class="mt-3 space-y-3" @submit.prevent="saveSettings">
             <label class="flex items-center gap-2 text-stone-600 dark:text-stone-300"><input v-model="settings.enabled" type="checkbox" class="accent-accent" />开启每日自动采集</label>
             <div class="grid grid-cols-2 gap-3">
@@ -261,7 +283,7 @@ onBeforeUnmount(() => {
         <details>
           <summary class="cursor-pointer text-stone-600 dark:text-stone-300">采集来源与关键词（{{ state.sources.length }} 个来源）</summary>
           <ul class="mt-3 space-y-2 leading-6 text-stone-500 dark:text-stone-400"><li v-for="source in state.sources" :key="source.id"><span class="mr-2 text-stone-400">{{ source.content_type === 'paper' ? '论文' : '动态' }}</span>{{ source.name }}</li></ul>
-          <p class="mt-3 leading-6 text-stone-400">按领域词与方法词共同初筛，相关性仍需核验。</p>
+          <p class="mt-3 leading-6 text-stone-400">关键词用于初筛。专题归类依据题名与可用摘要或简介。</p>
           <p class="mt-2 break-words leading-6 text-stone-500 dark:text-stone-400">领域：{{ state.relevance.domain_terms.join('、') }}</p>
           <p class="mt-2 break-words leading-6 text-stone-500 dark:text-stone-400">方法：{{ state.relevance.method_terms.join('、') }}</p>
           <p class="mt-2 leading-6 text-stone-400">订阅与元数据接口有覆盖范围；本轮无匹配不表示当天没有相关研究。</p>

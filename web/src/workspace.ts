@@ -2,7 +2,7 @@ import { reactive, readonly } from 'vue'
 import { IS_STATIC } from './static-mode'
 
 // Report navigation follows the server's workspace, never the current URL alone.
-const state = reactive({ reportsEnabled: false })
+const state = reactive({ reportsEnabled: false, domain: IS_STATIC ? 'ic' : '' })
 export const workspace = readonly(state)
 let pending: Promise<void> | undefined
 
@@ -14,6 +14,7 @@ export function loadWorkspace(): Promise<void> {
         if (!response.ok) return
         const options = await response.json()
         state.reportsEnabled = options.reports_enabled === true
+        state.domain = typeof options.domain === 'string' ? options.domain : ''
       })
       // Core discovery pages remain usable if the optional report configuration fails.
       .catch(() => { state.reportsEnabled = false })

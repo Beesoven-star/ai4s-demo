@@ -1,0 +1,70 @@
+{
+  "version": 2,
+  "status": "catalog_only",
+  "note": "按会议年份登记的官方论文集目录；本文件尚未被 collect_discovery.py 读取，不代表已实现会议批量采集。会议年、在线发表日期和首次收录日期分别记录。Workshop与主会分别管理。",
+  "verified_on": "2026-11-06",
+  "conferences": [
+    {
+      "id": "ijcai",
+      "venue_name": "IJCAI",
+      "venue_type": "conference",
+      "index_url": "https://www.ijcai.org/all_proceedings/",
+      "editions": [
+        {"conference_year": 2025, "proceedings_url": "https://ijcai.org/proceedings/2025/", "import_status": "not_imported"},
+        {"conference_year": 2026, "proceedings_url": "https://ijcai.org/proceedings/2026/", "import_status": "not_imported"}
+      ],
+      "note": "主会与各track分别识别；现有CausalGIB人工样本保留会议年份2025，不伪造具体发表日。"
+    },
+    {
+      "id": "icml",
+      "venue_name": "ICML",
+      "venue_type": "conference",
+      "index_url": "https://proceedings.mlr.press/",
+      "editions": [
+        {"conference_year": 2025, "proceedings_url": "https://proceedings.mlr.press/v267/", "volume": "267", "import_status": "not_imported"},
+        {"conference_year": 2026, "proceedings_url": "https://proceedings.mlr.press/v306/", "volume": "306", "import_status": "not_imported"}
+      ],
+      "note": "按会议年份归档；PMLR出版日期与会议举办日期分别保存，不用出版月推导会议年份。"
+    },
+    {
+      "id": "iclr",
+      "venue_name": "ICLR",
+      "venue_type": "conference",
+      "index_url": "https://proceedings.iclr.cc/",
+      "editions": [
+        {"conference_year": 2025, "proceedings_url": "https://proceedings.iclr.cc/paper_files/paper/2025", "import_status": "not_imported"},
+        {"conference_year": 2026, "proceedings_url": "https://proceedings.iclr.cc/paper_files/paper/2026", "import_status": "not_imported"}
+      ],
+      "note": "官方首页已列2025与2026；本轮年度整页读取超时，待采集联调。OpenReview只能补充正式接收会场元数据，不能将全部投稿当已发表。"
+    },
+    {
+      "id": "neurips",
+      "venue_name": "NeurIPS",
+      "venue_type": "conference",
+      "index_url": "https://proceedings.neurips.cc/",
+      "editions": [
+        {"conference_year": 2025, "proceedings_url": "https://proceedings.neurips.cc/paper_files/paper/2025/vol38-main-conference", "import_status": "not_imported"}
+      ],
+      "note": "必须保留明确卷入口；裸年份页本次默认显示Creative AI。逐篇保留Main/Datasets and Benchmarks/Position等轨道；本轮未核验2026正式论文集，不猜地址。"
+    },
+    {
+      "id": "kdd",
+      "venue_name": "KDD",
+      "venue_type": "conference",
+      "index_url": "https://kdd.org/kdd2025/",
+      "editions": [
+        {"conference_year": 2025, "proceedings_url": "https://kdd.org/kdd2025/research-track-papers-2/", "track": "Research Track", "import_status": "not_imported"}
+      ],
+      "note": "官方Research目录可读并列DOI，含分子图文和因果分子图工作。优先Research Track，应用轨道另行筛选；具体发表日期不可用会议年份代替。"
+    },
+    {
+      "id": "aaai",
+      "venue_name": "AAAI",
+      "venue_type": "conference",
+      "index_url": "https://ojs.aaai.org/index.php/AAAI/issue/archive",
+      "editions": [],
+      "note": "本轮官方归档返回Anubis Access Denied，尚未核验可用年度入口；保留候选，不启用、不绕过检查页。"
+    }
+  ],
+  "later_candidates": []
+}

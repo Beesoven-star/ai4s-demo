@@ -1,0 +1,766 @@
+{
+  "version": 1,
+  "domain": "集成电路",
+  "research_scope": {
+    "primary_tracks": [
+      "AI用于芯片设计",
+      "芯片用于AI计算"
+    ],
+    "background": "保留少量通用集成电路背景资料，并与AI交叉专题区分。",
+    "screening": "题录按题名和原始摘要初筛，新采集论文先进入扩展归档，经审核后进入主库；不将全部期刊题录当作AI研究。"
+  },
+  "description": "集成电路独立资料库。期刊与会议采用Crossref公开登记题录，新闻使用专业媒体及机构公告。新增渠道按AI交叉线索初筛后进入扩展归档；保留日期原始精度。arXiv首批样本保留为预印本资料。",
+  "timeout_seconds": 30,
+  "max_response_bytes": 6000000,
+  "relevance": {
+    "domain_terms": [
+      "integrated circuit",
+      "vlsi",
+      "chiplet",
+      "cmos",
+      "rtl",
+      "verilog",
+      "asic",
+      "chip",
+      "semiconductor",
+      "silicon",
+      "memory",
+      "transistor",
+      "circuit",
+      "foundry",
+      "lithograph",
+      "wafer",
+      "packaging",
+      "interconnect",
+      "eda",
+      "soc",
+      "GPU",
+      "HBM",
+      "DRAM",
+      "DDR5",
+      "DDR6",
+      "LPDDR",
+      "GDDR",
+      "NAND",
+      "NVLink",
+      "CUDA",
+      "芯片",
+      "半导体",
+      "集成电路",
+      "晶圆",
+      "封装",
+      "存储",
+      "算力",
+      "存算",
+      "EDA",
+      "英伟达",
+      "台积电",
+      "光刻",
+      "互连"
+    ],
+    "method_terms": [
+      "circuit",
+      "chip",
+      "rtl",
+      "verilog",
+      "vlsi",
+      "cmos",
+      "hardware",
+      "synthesis",
+      "design",
+      "architecture"
+    ]
+  },
+  "sources": [
+    {
+      "id": "jssc_ic",
+      "name": "IEEE JSSC · Crossref题录",
+      "kind": "crossref_journal",
+      "content_type": "paper",
+      "body_exclude_patterns": [
+        "^new associate editor"
+      ],
+      "issn": "0018-9200",
+      "url": "https://api.crossref.org/journals/0018-9200/works",
+      "homepage": "https://sscs.ieee.org/publications/ieee-journal-of-solid-state-circuits-jssc/",
+      "journal_name": "IEEE Journal of Solid-State Circuits",
+      "rows": 100,
+      "max_pages": 3,
+      "relevance_mode": "dedicated_journal",
+      "enabled": true,
+      "title_exclude_patterns": [
+        "publication information|table of contents|information for authors|guest editorial|^editorial|^index\\b|^correction|^errat|^cover\\b|^call for|^list of reviewers",
+        "Society Information"
+      ],
+      "verification": "2026-11-13：期刊官方介绍及Crossref期刊ISSN/题录接口核对。",
+      "metadata_note": "出版社登记的期刊题录，不表示已读全文；月份日期不计入精确日区间。",
+      "initial_literature_scope": "archive"
+    },
+    {
+      "id": "tcad_ic",
+      "name": "IEEE TCAD · Crossref题录",
+      "kind": "crossref_journal",
+      "content_type": "paper",
+      "issn": "0278-0070",
+      "url": "https://api.crossref.org/journals/0278-0070/works",
+      "homepage": "https://ieee-ceda.org/publications/tcad",
+      "journal_name": "IEEE Transactions on Computer-Aided Design of Integrated Circuits and Systems",
+      "rows": 100,
+      "max_pages": 3,
+      "relevance_mode": "dedicated_journal",
+      "enabled": true,
+      "title_exclude_patterns": [
+        "publication information|table of contents|information for authors|guest editorial|^editorial|^index\\b|^correction|^errat|^cover\\b|^call for|^list of reviewers",
+        "Society Information"
+      ],
+      "verification": "2026-11-13：IEEE CEDA官方页面核对ISSN与范围，Crossref日期窗口题录实际返回。",
+      "metadata_note": "出版社登记的期刊题录，不表示已读全文；月份日期不计入精确日区间。",
+      "initial_literature_scope": "archive"
+    },
+    {
+      "id": "tvlsi_ic",
+      "name": "IEEE TVLSI · Crossref题录",
+      "kind": "crossref_journal",
+      "content_type": "paper",
+      "issn": "1063-8210",
+      "url": "https://api.crossref.org/journals/1063-8210/works",
+      "homepage": "https://sscs.ieee.org/Publications/",
+      "journal_name": "IEEE Transactions on Very Large Scale Integration (VLSI) Systems",
+      "rows": 100,
+      "max_pages": 3,
+      "relevance_mode": "dedicated_journal",
+      "enabled": true,
+      "title_exclude_patterns": [
+        "publication information|table of contents|information for authors|guest editorial|^editorial|^index\\b|^correction|^errat|^cover\\b|^call for|^list of reviewers",
+        "Society Information"
+      ],
+      "verification": "2026-11-13：SSCS出版物目录与Crossref ISSN题录返回的刊名核对。",
+      "metadata_note": "出版社登记的期刊题录，不表示已读全文；月份日期不计入精确日区间。",
+      "initial_literature_scope": "archive"
+    },
+    {
+      "id": "todaes_ic",
+      "name": "ACM TODAES · Crossref题录",
+      "kind": "crossref_journal",
+      "content_type": "paper",
+      "body_exclude_patterns": [
+        "CAD parametric models"
+      ],
+      "issn": "1084-4309",
+      "url": "https://api.crossref.org/journals/1084-4309/works",
+      "homepage": "https://dl.acm.org/journal/todaes",
+      "journal_name": "ACM Transactions on Design Automation of Electronic Systems",
+      "rows": 100,
+      "max_pages": 3,
+      "relevance_mode": "dedicated_journal",
+      "enabled": true,
+      "title_exclude_patterns": [
+        "publication information|table of contents|information for authors|guest editorial|^editorial|^index\\b|^correction|^errat|^cover\\b|^call for|^list of reviewers",
+        "Society Information"
+      ],
+      "verification": "2026-11-13：ACM官方期刊标识及Crossref期刊元数据核对。",
+      "metadata_note": "优先网络发表日期，未来印刷期次不当作近期发表日期；出版社页面访问受限时仅核验公开题录。",
+      "initial_literature_scope": "archive"
+    },
+    {
+      "id": "spectrum_ic",
+      "name": "IEEE Spectrum · Semiconductors",
+      "kind": "feed",
+      "content_type": "news",
+      "url": "https://spectrum.ieee.org/feeds/topic/semiconductors.rss",
+      "homepage": "https://spectrum.ieee.org/topic/semiconductors/",
+      "relevance_mode": "domain_only",
+      "require_exact_date": true,
+      "news_genre": "专业媒体报道",
+      "enabled": true,
+      "title_exclude_patterns": [
+        "From Chip Lab to Center Stage|Community Colleges|Rare Earth"
+      ],
+      "verification": "2026-11-13：半导体栏目HTML公开RSS链接与RSS发布日期实际核对。",
+      "metadata_note": "RSS只保留有限近期文章，不代表完整30天历史；只保存简短来源摘录并链接原文。"
+    },
+    {
+      "id": "semieng_ic",
+      "name": "Semiconductor Engineering",
+      "kind": "feed",
+      "content_type": "news",
+      "url": "https://semiengineering.com/feed/",
+      "homepage": "https://semiengineering.com/",
+      "relevance_mode": "domain_only",
+      "require_exact_date": true,
+      "news_genre": "专业媒体报道与行业观点",
+      "enabled": true,
+      "verification": "2026-11-13：官网HTML公开RSS链接与实际返回的10条RSS记录核对。",
+      "metadata_note": "公开RSS支持有界历史分页，按来源发布日期筛选；分页记录覆盖范围与失败，不保证全站历史完整。仅保留简短来源简介。",
+      "history_page_url": "https://semiengineering.com/feed/?paged={page}",
+      "max_feed_pages": 12,
+      "title_exclude_patterns": [
+        "eBook|Handbook|^Blog Review:|College Grads And AI|AI Raises The Bar For Tomorrow|^Neural Super Resolution$|^Quantum Interconnects"
+      ]
+    },
+    {
+      "id": "imec_ic",
+      "name": "imec · 官方研究与产业公告",
+      "kind": "imec_newsroom",
+      "content_type": "news",
+      "body_exclude_patterns": [
+        "solar technology|photovoltaic|perovskite.*tandem"
+      ],
+      "url": "https://www.imec-int.com/en/reading-room?type=press",
+      "homepage": "https://www.imec-int.com/en/reading-room?type=press",
+      "max_articles": 12,
+      "relevance_mode": "domain_only",
+      "require_exact_date": true,
+      "news_genre": "研究机构公告",
+      "enabled": true,
+      "verification": "2026-11-13：官方公告目录、原文标题/简介与可见Published on日期核对。",
+      "metadata_note": "机构自述的研究/产业动态，与同行评审论文及独立媒体报道区分。只保存原站元描述简介。"
+    },
+    {
+      "id": "arxiv_ic_electronic",
+      "name": "arXiv · 集成电路与芯片设计",
+      "kind": "arxiv",
+      "content_type": "paper",
+      "url": "https://export.arxiv.org/api/query",
+      "homepage": "https://arxiv.org/",
+      "query": "((cat:cs.AR OR cat:cs.ET) AND (abs:\"integrated circuits\" OR abs:\"integrated circuit\" OR abs:VLSI OR abs:chiplet))",
+      "max_results": 80,
+      "enabled": false,
+      "verification": "2026-11-10：同一主题表达式实际读取40条原始Atom；后续手动采集上限80条，新增条目待逐篇核验。首次提交日不等同于期刊发表日。",
+      "initial_literature_scope": "archive"
+    },
+    {
+      "id": "eetimes_ic",
+      "name": "EE Times",
+      "kind": "feed",
+      "url": "https://www.eetimes.com/feed/",
+      "homepage": "https://www.eetimes.com/",
+      "news_genre": "专业媒体报道",
+      "content_type": "news",
+      "enabled": true,
+      "relevance_mode": "domain_only",
+      "require_exact_date": true,
+      "verification": "2026-11-14：实际读取官方公开订阅或目录、核对文章题名和首次发布日期。",
+      "metadata_note": "公开RSS支持有界历史分页，按来源发布日期筛选；分页记录覆盖范围与失败，不保证全站历史完整。仅保留简短来源简介。",
+      "history_page_url": "https://www.eetimes.com/feed/?paged={page}",
+      "max_feed_pages": 12,
+      "title_exclude_patterns": [
+        "^EE Times Magazine|^We Source Chips|Sir Arthur C. Clarke|on a Decade of OktoberTech"
+      ]
+    },
+    {
+      "id": "nvidia_ic",
+      "name": "NVIDIA Technical Blog",
+      "kind": "feed",
+      "url": "https://developer.nvidia.com/blog/feed/",
+      "homepage": "https://developer.nvidia.com/blog/",
+      "news_genre": "企业技术博客",
+      "title_include_patterns": [
+        "GPU|CUDA|NVLink|Blackwell|Rubin|chip|memory|DGX|Tensor|cuDLA|wafer|FP64|supply.chain|hardware|AI.Factory"
+      ],
+      "content_type": "news",
+      "enabled": true,
+      "relevance_mode": "domain_only",
+      "require_exact_date": true,
+      "verification": "2026-11-14：实际读取官方公开订阅或目录、核对文章题名和首次发布日期。",
+      "metadata_note": "仅保留公开来源简介并链接原文；当前目录/订阅条目有限，不代表完整历史。企业博客、行业研究与独立媒体分开标注。",
+      "title_exclude_patterns": [
+        "Kubernetes|DSX|Snapshot|Black Hole|Image Generation|Peak GPU Yield|GPUDirect Storage|AI Factory Operations"
+      ]
+    },
+    {
+      "id": "semianalysis_ic",
+      "name": "SemiAnalysis",
+      "kind": "feed",
+      "url": "https://newsletter.semianalysis.com/feed",
+      "homepage": "https://semianalysis.com/",
+      "news_genre": "行业研究与分析（部分付费）",
+      "content_type": "news",
+      "enabled": true,
+      "relevance_mode": "domain_only",
+      "require_exact_date": true,
+      "verification": "2026-11-14：官网跳转的newsletter公开RSS已核验；旧主域RSS停在2025年，停用旧入口。",
+      "metadata_note": "仅保留公开来源简介并链接原文；当前目录/订阅条目有限，不代表完整历史。企业博客、行业研究与独立媒体分开标注。 付费部分未读取，不作为已核验全文。",
+      "title_include_patterns": [
+        "Nvidia|TPU|GPU|Jensen|Stargate|Chip|Silicon|HBM|Cloud|Datacenter|Data.Center|Trainium|Memory|Compute|Infrastructure"
+      ]
+    },
+    {
+      "id": "trendforce_ic",
+      "name": "TrendForce 集邦咨询",
+      "kind": "html_news",
+      "url": "https://www.trendforce.com/news/",
+      "homepage": "https://www.trendforce.com/news/",
+      "news_genre": "产业新闻与市场研究",
+      "content_type": "news",
+      "enabled": true,
+      "relevance_mode": "domain_only",
+      "require_exact_date": true,
+      "verification": "2026-11-14：实际读取官方公开订阅或目录、核对文章题名和首次发布日期。",
+      "metadata_note": "仅保留公开来源简介并链接原文；当前目录/订阅条目有限，不代表完整历史。企业博客、行业研究与独立媒体分开标注。",
+      "article_url_pattern": "^https://www\\.trendforce\\.com/news/\\d{4}/\\d{2}/\\d{2}/[^/]+/$",
+      "max_articles": 25,
+      "title_exclude_patterns": [
+        "AI Assistant|AI Video Generation"
+      ]
+    },
+    {
+      "id": "ijiwei_ic",
+      "name": "爱集微（集微网）",
+      "kind": "html_news",
+      "url": "https://www.ijiwei.com/",
+      "homepage": "https://www.ijiwei.com/",
+      "news_genre": "专业媒体报道",
+      "article_url_pattern": "^https://www\\.ijiwei\\.com/n/\\d+$",
+      "max_articles": 26,
+      "title_exclude_patterns": [
+        "【中标】|【预成交】|【招标】|回购股份|回购A股|业绩预告"
+      ],
+      "content_type": "news",
+      "enabled": true,
+      "relevance_mode": "domain_only",
+      "require_exact_date": true,
+      "verification": "2026-11-14：实际读取官方公开订阅或目录、核对文章题名和首次发布日期。",
+      "metadata_note": "仅保留公开来源简介并链接原文；当前目录/订阅条目有限，不代表完整历史。企业博客、行业研究与独立媒体分开标注。"
+    },
+    {
+      "id": "synopsys_ic",
+      "name": "Synopsys 芯片设计博客",
+      "kind": "html_news",
+      "url": "https://www.synopsys.com/blogs/chip-design.html",
+      "homepage": "https://www.synopsys.com/blogs/chip-design.html",
+      "news_genre": "企业技术博客",
+      "article_url_pattern": "^https://www\\.synopsys\\.com/blogs/chip-design/(?!category\\.)[^/]+\\.html$",
+      "max_articles": 14,
+      "content_type": "news",
+      "enabled": true,
+      "relevance_mode": "domain_only",
+      "require_exact_date": true,
+      "verification": "2026-11-14：实际读取官方公开订阅或目录、核对文章题名和首次发布日期。",
+      "metadata_note": "仅保留公开来源简介并链接原文；当前目录/订阅条目有限，不代表完整历史。企业博客、行业研究与独立媒体分开标注。"
+    },
+    {
+      "id": "zhidx_ic",
+      "name": "芯东西／智东西",
+      "kind": "html_news",
+      "url": "https://zhidx.com/aichip001",
+      "homepage": "https://zhidx.com/aichip001",
+      "news_genre": "专业媒体报道",
+      "article_url_pattern": "^https://zhidx\\.com/p/\\d+\\.html$",
+      "max_articles": 22,
+      "content_type": "news",
+      "enabled": true,
+      "relevance_mode": "domain_only",
+      "require_exact_date": true,
+      "verification": "2026-11-14：实际读取官方公开订阅或目录、核对文章题名和首次发布日期。",
+      "metadata_note": "仅保留公开来源简介并链接原文；当前目录/订阅条目有限，不代表完整历史。企业博客、行业研究与独立媒体分开标注。"
+    },
+    {
+      "id": "sia_ic",
+      "name": "SIA 美国半导体行业协会",
+      "kind": "html_news",
+      "url": "https://www.semiconductors.org/news-events/latest-news/",
+      "homepage": "https://www.semiconductors.org/news-events/latest-news/",
+      "news_genre": "行业协会公告与统计",
+      "article_url_pattern": "^https://www\\.semiconductors\\.org/(?:former-secretary|sia-urges|global-semiconductor-sales|professors-from|year-to-date-global)[^/]+/$",
+      "max_articles": 12,
+      "title_exclude_patterns": [
+        "Keynote|Awards Dinner"
+      ],
+      "content_type": "news",
+      "enabled": true,
+      "relevance_mode": "domain_only",
+      "require_exact_date": true,
+      "verification": "2026-11-14：实际读取官方公开订阅或目录、核对文章题名和首次发布日期。",
+      "metadata_note": "仅保留公开来源简介并链接原文；当前目录/订阅条目有限，不代表完整历史。企业博客、行业研究与独立媒体分开标注。"
+    },
+    {
+      "id": "tcas2_ic",
+      "name": "IEEE Transactions on Circuits and Systems II: Express Briefs · Crossref题录",
+      "kind": "crossref_journal",
+      "content_type": "paper",
+      "issn": "1549-7747",
+      "url": "https://api.crossref.org/journals/1549-7747/works",
+      "homepage": "https://ieee-cas.org/publication/tcas-ii",
+      "journal_name": "IEEE Transactions on Circuits and Systems II: Express Briefs",
+      "rows": 100,
+      "max_pages": 5,
+      "relevance_mode": "domain_and_method",
+      "enabled": true,
+      "title_exclude_patterns": [
+        "publication information|table of contents|information for authors|guest editorial|^editorial|^index\\b|^correction|^errat|^cover\\b|^call for|^list of reviewers|society information|front matter|organizing committee|keynote|welcome message",
+        "career panel|session\\s+\\d+\\s+overview|^forum\\s+\\d|neural probe|spin qubit|transformer[- ]coupled"
+      ],
+      "body_include_patterns": [
+        "\\b(?:AI|LLMs?|large language models?|machine learning|deep learning|neural|DNNs?|CNNs?|GNNs?|reinforcement learning|transformers?|neuromorphic|spiking|bayesian optimization)\\b"
+      ],
+      "initial_literature_scope": "archive",
+      "verification": "2026-11-14：Crossref期刊接口已核对ISSN与刊名。",
+      "metadata_note": "补充AI与集成电路交叉题录，规则初筛后进入扩展归档；保留来源日期精度。"
+    },
+    {
+      "id": "nature_electronics_ic",
+      "name": "Nature Electronics · Crossref题录",
+      "kind": "crossref_journal",
+      "content_type": "paper",
+      "issn": "2520-1131",
+      "url": "https://api.crossref.org/journals/2520-1131/works",
+      "homepage": "https://www.nature.com/natelectron/",
+      "journal_name": "Nature Electronics",
+      "rows": 100,
+      "max_pages": 3,
+      "relevance_mode": "domain_and_method",
+      "enabled": true,
+      "title_exclude_patterns": [
+        "publication information|table of contents|information for authors|guest editorial|^editorial|^index\\b|^correction|^errat|^cover\\b|^call for|^list of reviewers|society information|front matter|organizing committee|keynote|welcome message",
+        "career panel|session\\s+\\d+\\s+overview|^forum\\s+\\d|neural probe|spin qubit|transformer[- ]coupled"
+      ],
+      "body_include_patterns": [
+        "\\b(?:AI|LLMs?|large language models?|machine learning|deep learning|neural|DNNs?|CNNs?|GNNs?|reinforcement learning|transformers?|neuromorphic|spiking|bayesian optimization)\\b"
+      ],
+      "initial_literature_scope": "archive",
+      "verification": "2026-11-14：Crossref期刊接口已核对ISSN与刊名。",
+      "metadata_note": "补充AI与集成电路交叉题录，规则初筛后进入扩展归档；保留来源日期精度。"
+    },
+    {
+      "id": "mlcad_ic",
+      "name": "MLCAD · Crossref会议题录",
+      "kind": "crossref_conference",
+      "content_type": "paper",
+      "url": "https://api.crossref.org/works",
+      "homepage": "https://mlcad.org/",
+      "conference_query": "ACM IEEE International Symposium on Machine Learning for CAD MLCAD",
+      "venue_patterns": [
+        "\\bmachine learning for cad\\b"
+      ],
+      "venue_exclude_patterns": [
+        "workshop|companion|tutorial"
+      ],
+      "rows": 100,
+      "max_pages": 2,
+      "relevance_mode": "domain_and_method",
+      "enabled": true,
+      "title_exclude_patterns": [
+        "publication information|table of contents|information for authors|guest editorial|^editorial|^index\\b|^correction|^errat|^cover\\b|^call for|^list of reviewers|society information|front matter|organizing committee|keynote|welcome message",
+        "career panel|session\\s+\\d+\\s+overview|^forum\\s+\\d|neural probe|spin qubit|transformer[- ]coupled"
+      ],
+      "body_include_patterns": [],
+      "initial_literature_scope": "archive",
+      "metadata_note": "只接受会议名匹配的正式会议题录；有界检索，不承诺完整覆盖。会议举办日期不代替论文发表日期。"
+    },
+    {
+      "id": "dac_ic",
+      "name": "DAC · Crossref会议题录",
+      "kind": "crossref_conference",
+      "content_type": "paper",
+      "url": "https://api.crossref.org/works",
+      "homepage": "https://dac.com/",
+      "conference_query": "ACM IEEE Design Automation Conference DAC",
+      "venue_patterns": [
+        "\\bdesign automation conference\\b"
+      ],
+      "venue_exclude_patterns": [
+        "workshop|companion|tutorial",
+        "asia|south pacific"
+      ],
+      "rows": 100,
+      "max_pages": 2,
+      "relevance_mode": "domain_and_method",
+      "enabled": true,
+      "title_exclude_patterns": [
+        "publication information|table of contents|information for authors|guest editorial|^editorial|^index\\b|^correction|^errat|^cover\\b|^call for|^list of reviewers|society information|front matter|organizing committee|keynote|welcome message",
+        "career panel|session\\s+\\d+\\s+overview|^forum\\s+\\d|neural probe|spin qubit|transformer[- ]coupled"
+      ],
+      "body_include_patterns": [
+        "\\b(?:AI|LLMs?|large language models?|machine learning|deep learning|neural|DNNs?|CNNs?|GNNs?|reinforcement learning|transformers?|neuromorphic|spiking|bayesian optimization)\\b"
+      ],
+      "initial_literature_scope": "archive",
+      "metadata_note": "只接受会议名匹配的正式会议题录；有界检索，不承诺完整覆盖。会议举办日期不代替论文发表日期。"
+    },
+    {
+      "id": "iccad_ic",
+      "name": "ICCAD · Crossref会议题录",
+      "kind": "crossref_conference",
+      "content_type": "paper",
+      "url": "https://api.crossref.org/works",
+      "homepage": "https://iccad.com/",
+      "conference_query": "IEEE ACM International Conference on Computer Aided Design ICCAD",
+      "venue_patterns": [
+        "\\bcomputer[- ]aided design\\b"
+      ],
+      "venue_exclude_patterns": [
+        "workshop|companion|tutorial"
+      ],
+      "rows": 100,
+      "max_pages": 2,
+      "relevance_mode": "domain_and_method",
+      "enabled": true,
+      "title_exclude_patterns": [
+        "publication information|table of contents|information for authors|guest editorial|^editorial|^index\\b|^correction|^errat|^cover\\b|^call for|^list of reviewers|society information|front matter|organizing committee|keynote|welcome message",
+        "career panel|session\\s+\\d+\\s+overview|^forum\\s+\\d|neural probe|spin qubit|transformer[- ]coupled"
+      ],
+      "body_include_patterns": [
+        "\\b(?:AI|LLMs?|large language models?|machine learning|deep learning|neural|DNNs?|CNNs?|GNNs?|reinforcement learning|transformers?|neuromorphic|spiking|bayesian optimization)\\b"
+      ],
+      "initial_literature_scope": "archive",
+      "metadata_note": "只接受会议名匹配的正式会议题录；有界检索，不承诺完整覆盖。会议举办日期不代替论文发表日期。"
+    },
+    {
+      "id": "aspdac_ic",
+      "name": "ASP-DAC · Crossref会议题录",
+      "kind": "crossref_conference",
+      "content_type": "paper",
+      "url": "https://api.crossref.org/works",
+      "homepage": "https://www.aspdac.com/",
+      "conference_query": "Asia and South Pacific Design Automation Conference ASP DAC",
+      "venue_patterns": [
+        "\\basia and south pacific design automation conference\\b"
+      ],
+      "venue_exclude_patterns": [
+        "workshop|companion|tutorial"
+      ],
+      "rows": 100,
+      "max_pages": 2,
+      "relevance_mode": "domain_and_method",
+      "enabled": true,
+      "title_exclude_patterns": [
+        "publication information|table of contents|information for authors|guest editorial|^editorial|^index\\b|^correction|^errat|^cover\\b|^call for|^list of reviewers|society information|front matter|organizing committee|keynote|welcome message",
+        "career panel|session\\s+\\d+\\s+overview|^forum\\s+\\d|neural probe|spin qubit|transformer[- ]coupled"
+      ],
+      "body_include_patterns": [
+        "\\b(?:AI|LLMs?|large language models?|machine learning|deep learning|neural|DNNs?|CNNs?|GNNs?|reinforcement learning|transformers?|neuromorphic|spiking|bayesian optimization)\\b"
+      ],
+      "initial_literature_scope": "archive",
+      "metadata_note": "只接受会议名匹配的正式会议题录；有界检索，不承诺完整覆盖。会议举办日期不代替论文发表日期。"
+    },
+    {
+      "id": "isca_ic",
+      "name": "ISCA · Crossref会议题录",
+      "kind": "crossref_conference",
+      "content_type": "paper",
+      "url": "https://api.crossref.org/works",
+      "homepage": "https://www.iscaconf.org/",
+      "conference_query": "ACM IEEE Annual International Symposium on Computer Architecture ISCA",
+      "venue_patterns": [
+        "\\binternational symposium on computer architecture\\b"
+      ],
+      "venue_exclude_patterns": [
+        "workshop|companion|tutorial"
+      ],
+      "rows": 100,
+      "max_pages": 2,
+      "relevance_mode": "domain_and_method",
+      "enabled": true,
+      "title_exclude_patterns": [
+        "publication information|table of contents|information for authors|guest editorial|^editorial|^index\\b|^correction|^errat|^cover\\b|^call for|^list of reviewers|society information|front matter|organizing committee|keynote|welcome message",
+        "career panel|session\\s+\\d+\\s+overview|^forum\\s+\\d|neural probe|spin qubit|transformer[- ]coupled"
+      ],
+      "body_include_patterns": [
+        "\\b(?:AI|LLMs?|large language models?|machine learning|deep learning|neural|DNNs?|CNNs?|GNNs?|reinforcement learning|transformers?|neuromorphic|spiking|bayesian optimization)\\b"
+      ],
+      "initial_literature_scope": "archive",
+      "metadata_note": "只接受会议名匹配的正式会议题录；有界检索，不承诺完整覆盖。会议举办日期不代替论文发表日期。"
+    },
+    {
+      "id": "micro_ic",
+      "name": "MICRO · Crossref会议题录",
+      "kind": "crossref_conference",
+      "content_type": "paper",
+      "url": "https://api.crossref.org/works",
+      "homepage": "https://www.microarch.org/",
+      "conference_query": "IEEE ACM International Symposium on Microarchitecture MICRO",
+      "venue_patterns": [
+        "\\binternational symposium on microarchitecture\\b"
+      ],
+      "venue_exclude_patterns": [
+        "workshop|companion|tutorial"
+      ],
+      "rows": 100,
+      "max_pages": 2,
+      "relevance_mode": "domain_and_method",
+      "enabled": true,
+      "title_exclude_patterns": [
+        "publication information|table of contents|information for authors|guest editorial|^editorial|^index\\b|^correction|^errat|^cover\\b|^call for|^list of reviewers|society information|front matter|organizing committee|keynote|welcome message",
+        "career panel|session\\s+\\d+\\s+overview|^forum\\s+\\d|neural probe|spin qubit|transformer[- ]coupled"
+      ],
+      "body_include_patterns": [
+        "\\b(?:AI|LLMs?|large language models?|machine learning|deep learning|neural|DNNs?|CNNs?|GNNs?|reinforcement learning|transformers?|neuromorphic|spiking|bayesian optimization)\\b"
+      ],
+      "initial_literature_scope": "archive",
+      "metadata_note": "只接受会议名匹配的正式会议题录；有界检索，不承诺完整覆盖。会议举办日期不代替论文发表日期。"
+    },
+    {
+      "id": "hpca_ic",
+      "name": "HPCA · Crossref会议题录",
+      "kind": "crossref_conference",
+      "content_type": "paper",
+      "url": "https://api.crossref.org/works",
+      "homepage": "https://2026.hpca-conf.org/",
+      "conference_query": "IEEE International Symposium on High Performance Computer Architecture HPCA",
+      "venue_patterns": [
+        "\\bhigh[- ]performance computer architecture\\b"
+      ],
+      "venue_exclude_patterns": [
+        "workshop|companion|tutorial"
+      ],
+      "rows": 100,
+      "max_pages": 2,
+      "relevance_mode": "domain_and_method",
+      "enabled": true,
+      "title_exclude_patterns": [
+        "publication information|table of contents|information for authors|guest editorial|^editorial|^index\\b|^correction|^errat|^cover\\b|^call for|^list of reviewers|society information|front matter|organizing committee|keynote|welcome message",
+        "career panel|session\\s+\\d+\\s+overview|^forum\\s+\\d|neural probe|spin qubit|transformer[- ]coupled"
+      ],
+      "body_include_patterns": [
+        "\\b(?:AI|LLMs?|large language models?|machine learning|deep learning|neural|DNNs?|CNNs?|GNNs?|reinforcement learning|transformers?|neuromorphic|spiking|bayesian optimization)\\b"
+      ],
+      "initial_literature_scope": "archive",
+      "metadata_note": "只接受会议名匹配的正式会议题录；有界检索，不承诺完整覆盖。会议举办日期不代替论文发表日期。"
+    },
+    {
+      "id": "isscc_ic",
+      "name": "ISSCC · Crossref会议题录",
+      "kind": "crossref_conference",
+      "content_type": "paper",
+      "url": "https://api.crossref.org/works",
+      "homepage": "https://www.isscc.org/",
+      "conference_query": "IEEE International Solid State Circuits Conference ISSCC",
+      "venue_patterns": [
+        "\\binternational solid[- ]state circuits conference\\b"
+      ],
+      "venue_exclude_patterns": [
+        "workshop|companion|tutorial"
+      ],
+      "rows": 100,
+      "max_pages": 2,
+      "relevance_mode": "domain_and_method",
+      "enabled": true,
+      "title_exclude_patterns": [
+        "publication information|table of contents|information for authors|guest editorial|^editorial|^index\\b|^correction|^errat|^cover\\b|^call for|^list of reviewers|society information|front matter|organizing committee|keynote|welcome message",
+        "career panel|session\\s+\\d+\\s+overview|^forum\\s+\\d|neural probe|spin qubit|transformer[- ]coupled"
+      ],
+      "body_include_patterns": [
+        "\\b(?:AI|LLMs?|large language models?|machine learning|deep learning|neural|DNNs?|CNNs?|GNNs?|reinforcement learning|transformers?|neuromorphic|spiking|bayesian optimization)\\b"
+      ],
+      "initial_literature_scope": "archive",
+      "metadata_note": "只接受会议名匹配的正式会议题录；有界检索，不承诺完整覆盖。会议举办日期不代替论文发表日期。"
+    },
+    {
+      "id": "nsr_ic",
+      "name": "National Science Review · Crossref题录",
+      "kind": "crossref_journal",
+      "content_type": "paper",
+      "issn": "2053-714X",
+      "url": "https://api.crossref.org/journals/2053-714X/works",
+      "homepage": "https://academic.oup.com/nsr/advance-articles",
+      "journal_name": "National Science Review",
+      "rows": 100,
+      "max_pages": 3,
+      "relevance_mode": "domain_only",
+      "enabled": true,
+      "title_exclude_patterns": [
+        "publication information|table of contents|information for authors|guest editorial|^editorial|^index\\b|^correction|^errat|^cover\\b|^call for|^list of reviewers|society information|front matter|organizing committee|keynote|welcome message",
+        "career panel|session\\s+\\d+\\s+overview|^forum\\s+\\d|neural probe|spin qubit|transformer[- ]coupled"
+      ],
+      "body_include_patterns": [
+        "\\b(?:AI|LLMs?|large language models?|machine learning|deep learning|neural|DNNs?|CNNs?|GNNs?|reinforcement learning|transformers?|neuromorphic|spiking|bayesian optimization)\\b"
+      ],
+      "initial_literature_scope": "archive",
+      "verification": "2026-11-14：Oxford Advance Access页面与Crossref DOI元数据交叉核对；包含接受稿在线发布，具体阶段按原始来源另标。",
+      "metadata_note": "综合期刊中只初筛AI与IC交叉题录，不采集其他学科；新题录进入扩展归档，审核后进入主库。",
+      "title_include_patterns": [
+        "FeRAM|ReRAM|SRAM|DRAM|\\bchips?\\b|\\bcircuits?\\b|semiconductor|in[- ]memory|integrated|lithograph|physical design|\\bRTL\\b|Verilog"
+      ]
+    },
+    {
+      "id": "amd_news_ic",
+      "name": "AMD 官方新闻",
+      "kind": "feed",
+      "content_type": "news",
+      "url": "https://ir.amd.com/news-events/press-releases/rss",
+      "homepage": "https://ir.amd.com/news-events/press-releases",
+      "enabled": true,
+      "news_genre": "企业官方公告",
+      "relevance_mode": "domain_only",
+      "require_exact_date": true,
+      "title_include_patterns": [
+        "EPYC|Instinct|Ryzen|Radeon|Helion|AI|chip|processor|semiconductor"
+      ],
+      "title_exclude_patterns": [
+        "Financial Results|Conference|Earnings|Stockholder|Dividend"
+      ],
+      "verification": "2026-11-14：实际读取官方RSS，核对原站发布日期；属于企业自述。",
+      "metadata_note": "RSS仅保留有限近期文章，不能保证覆盖整个查询区间。",
+      "domain_terms": [
+        "EPYC",
+        "Instinct",
+        "Ryzen",
+        "Radeon",
+        "Helion",
+        "processor",
+        "semiconductor",
+        "chip"
+      ]
+    },
+    {
+      "id": "thelec_ic",
+      "name": "THE ELEC",
+      "kind": "html_news",
+      "content_type": "news",
+      "url": "https://www.thelec.net/news/articleList.html?sc_section_code=S1N2&view_type=sm",
+      "homepage": "https://www.thelec.net/",
+      "article_url_pattern": "^https://www\\.thelec\\.net/news/articleView\\.html\\?idxno=\\d+$",
+      "max_articles": 18,
+      "enabled": true,
+      "news_genre": "专业媒体报道",
+      "relevance_mode": "domain_only",
+      "require_exact_date": true,
+      "title_exclude_patterns": [
+        "\\b(?:appoints|promotes|names.{0,50}chiefs?|wins.{0,50}award|named.{0,50}world class product|domestic stock|quarterly earnings|posts?.{0,45}revenues?)\\b",
+        "\\b(?:OLED|smartphone shipments|EV batteries)\\b"
+      ],
+      "verification": "2026-11-21：核对英文半导体栏目与署名文章的原站题名和首次发布日期。",
+      "metadata_note": "优先用于韩国存储、晶圆制造和封测设备线索。独家消息、采访与转述企业披露均需逐篇辨别。目录仅覆盖近期公开条目。"
+    },
+    {
+      "id": "mynavi_techplus_ic",
+      "name": "TECH+（マイナビ）· 半导体",
+      "kind": "feed",
+      "content_type": "news",
+      "url": "https://news.mynavi.jp/rss/techplus/technology/semiconductor",
+      "homepage": "https://news.mynavi.jp/techplus/list/headline/technology/semiconductor/",
+      "enabled": true,
+      "news_genre": "专业媒体报道",
+      "relevance_mode": "domain_only",
+      "require_exact_date": true,
+      "domain_terms": [
+        "半導体", "ウエハ", "ウェハ", "露光", "先端パッケージ", "チップレット", "電子材料", "光電融合", "直流給電", "EUV", "HBM", "DRAM", "DDR5", "DDR6", "LPDDR", "GDDR", "NAND", "GPU", "TPU", "EDA"
+      ],
+      "title_exclude_patterns": [
+        "TrendForce|PR TIMES|\\[PR\\]|［PR］|広報資料|ホワイトペーパー"
+      ],
+      "verification": "2026-11-21：实测官方半导体 RSS，核对公开条目的题名、日期与原文链接。",
+      "metadata_note": "补充日本设备、材料、工艺和先进封装报道。RSS只覆盖有限近期内容；保留日文题名，标明 TrendForce 的转引在采集初筛时排除。"
+    },
+    {
+      "id": "servethehome_ic",
+      "name": "ServeTheHome",
+      "kind": "feed",
+      "content_type": "news",
+      "url": "https://www.servethehome.com/feed/",
+      "homepage": "https://www.servethehome.com/",
+      "enabled": true,
+      "news_genre": "硬件专业媒体报道",
+      "relevance_mode": "domain_only",
+      "require_exact_date": true,
+      "domain_terms": [
+        "GPU", "TPU", "Xeon", "EPYC", "NVLink", "co-packaged optics", "CPO", "silicon photonics", "chiplet", "HBM", "DRAM", "DDR5", "DDR6", "LPDDR", "GDDR", "AI accelerator", "datacenter switch", "data center switch", "interconnect", "rack-scale", "800V"
+      ],
+      "title_exclude_patterns": [
+        "Amazon Prime Day|Black Friday|giveaway|sponsored|advertorial"
+      ],
+      "verification": "2026-11-21：实测公开 RSS，交叉核对 CPO 报道的原文日期及署名。",
+      "metadata_note": "补充 AI 集群、交换网络和服务器芯片的现场报道。评测、厂商演示和规模或性能数据依据需逐篇核验；RSS只覆盖有限近期内容。"
+    }
+  ]
+}

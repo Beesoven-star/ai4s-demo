@@ -1,0 +1,53 @@
+# 敏感文件
+.env
+.env.local
+.runtime/
+!.env.example
+
+# 本地配置（使用时从 config.json.example 拷贝并修改）
+config.json
+!config.json.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+.venv
+
+# 测试
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 数据文件
+news-data/
+*.log
+
+# 前端（web/ 与 AI4S-Daily-HTML/ 通用）
+node_modules/
+dist-pages/
+dist/
+
+
+# Claude/其他代理数据
+.omc/
+.claude/
+
+# Git worktrees
+.worktrees/
+
+# Local work documents
+ongoing_work/
+ongoing_work_ic/

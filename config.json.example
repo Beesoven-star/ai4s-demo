@@ -1,0 +1,303 @@
+{
+  "filter": {
+    "min_score": 60,
+    "hot_threshold": 90,
+    "context_days": 2,
+    "fetch_dedup_days": 3,
+    "keep_days": null,
+    "archive_keep_days": null,
+    "push_context_days": 5,
+    "no_content_marker": "[NO_NEW_CONTENT]"
+  },
+  "web": {
+    "host": "127.0.0.1",
+    "port": 8000
+  },
+  "site_sync": {
+    "enabled": true,
+    "repo_path": "AI4S-Daily-HTML",
+    "branch": "main"
+  },
+  "log": {
+    "retention_days": 7
+  },
+  "notify": {
+    "llm_error_push": false
+  },
+  "schedule": {
+    "fetch_interval_minutes": 60,
+    "fetch_lookback_minutes": 360,
+    "push_cron": [
+      "0 8 * * *"
+    ],
+    "timezone_hours": 8,
+    "weekly_cron": [
+      "0 17 * * 4",
+      "0 17 * * 0"
+    ]
+  },
+  "sections": {
+    "weekly": {
+      "enabled": true,
+      "top_n": 40,
+      "top_hot_n": 10
+    },
+    "hackernews": {
+      "enabled": true,
+      "select_k": 3,
+      "top_comments": 50,
+      "top_l2_per_l1": 3,
+      "comment_max_chars": 2000,
+      "comments_total_chars": 80000,
+      "link_content_max_chars": 50000,
+      "request_timeout": 30,
+      "algolia_base": "https://hn.algolia.com/api/v1",
+      "jinaTokenName": "JINA_API_KEY"
+    },
+    "insights": {
+      "enabled": true,
+      "top_n": 20
+    },
+    "gaps": {
+      "enabled": false,
+      "top_n": 20
+    },
+    "relevance": {
+      "enabled": true,
+      "work_dir": "ongoing_work",
+      "top_n": 30,
+      "work_doc_max_chars": 20000,
+      "include_docs": [
+        "以往研究内容.docx"
+      ]
+    }
+  },
+  "fetch": {
+    "max_workers": 10,
+    "timeout": 10
+  },
+  "search": {
+    "enabled": true,
+    "apiKeyName": "TAVILY_API_KEY",
+    "queries": [
+      "AI for Science",
+      "\"Genesis Mission\"",
+      "AI drug discovery",
+      "protein design foundation model",
+      "AI materials discovery",
+      "machine learning chemistry",
+      "AI weather climate model",
+      "autonomous lab AI scientist"
+    ],
+    "max_results_per_query": 5,
+    "topic": "news",
+    "days": 3,
+    "max_age_days": 3,
+    "search_depth": "basic",
+    "interval_hours": 12,
+    "request_timeout": 20,
+    "content_max_chars": 4000,
+    "exclude_domains": [
+      "google.com"
+    ]
+  },
+  "llm": {
+    "provider": "openai",
+    "model": "deepseek-v4-flash",
+    "baseUrl": "https://api.deepseek.com",
+    "baseUrlName": "OPENAI_BASE_URL",
+    "apiKeyName": "OPENAI_API_KEY",
+    "max_prompt_chars": 150000,
+    "max_concurrent_batches": 3,
+    "request_timeout": 600,
+    "prompts": {
+      "score_batch": "prompts/score_batch.md",
+      "immediate_push": "prompts/immediate_push.md",
+      "digest": "prompts/digest.md",
+      "section_hackernews_select": "prompts/section_hackernews_select.md",
+      "section_hackernews": "prompts/section_hackernews.md",
+      "insights": "prompts/insights.md",
+      "section_gaps": "prompts/section_gaps.md",
+      "section_relevance": "prompts/section_relevance.md",
+      "weekly": "prompts/weekly.md"
+    },
+    "monthly_model": "gpt-5.6-terra"
+  },
+  "push": {
+    "discord": {
+      "enabled": false,
+      "apiKeyName": "DISCORD_WEBHOOK_URL"
+    },
+    "feishu": {
+      "enabled": true,
+      "apiKeyName": "FEISHU_WEBHOOK_URL"
+    },
+    "feishu_1": {
+      "enabled": true,
+      "apiKeyName": "FEISHU_WEBHOOK_URL_1"
+    },
+    "feishu_no_teacher": {
+      "enabled": true,
+      "apiKeyName": "FEISHU_WEBHOOK_URL_no_teacher",
+      "exclude_sections": [
+        "relevance"
+      ],
+      "include_archive_link": false
+    }
+  },
+  "sources": {
+    "base_opml": [
+      "resources/tidings-ai.opml",
+      "resources/tidings-research.opml",
+      "resources/tidings-engineering.opml",
+      "resources/twitter.opml"
+    ],
+    "add": [
+      {
+        "title": "OpenAI News",
+        "xmlUrl": "https://openai.com/news/rss.xml",
+        "category": "AI"
+      },
+      {
+        "title": "Chrome for Developers",
+        "xmlUrl": "https://developer.chrome.com/static/blog/feed.xml",
+        "category": "Chrome"
+      },
+      {
+        "title": "Cloudflare Developers",
+        "xmlUrl": "https://developers.cloudflare.com/changelog/rss/index.xml",
+        "category": "Cloudflare"
+      },
+      {
+        "title": "Infoq",
+        "xmlUrl": "https://feed.infoq.com/",
+        "category": "News"
+      },
+      {
+        "title": "Quanta Magazine",
+        "xmlUrl": "https://www.quantamagazine.org/feed/",
+        "category": "AI4S"
+      },
+      {
+        "title": "Google Research",
+        "xmlUrl": "https://research.google/blog/rss/",
+        "category": "AI4S"
+      },
+      {
+        "title": "The Gradient",
+        "xmlUrl": "https://thegradient.pub/rss/",
+        "category": "AI4S"
+      },
+      {
+        "title": "Phys.org ML&AI",
+        "xmlUrl": "https://phys.org/rss-feed/technology-news/machine-learning-ai/",
+        "category": "AI4S"
+      },
+      {
+        "title": "Phys.org Chemistry",
+        "xmlUrl": "https://phys.org/rss-feed/chemistry-news/",
+        "category": "AI4S"
+      },
+      {
+        "title": "Phys.org Biology",
+        "xmlUrl": "https://phys.org/rss-feed/biology-news/",
+        "category": "AI4S"
+      },
+      {
+        "title": "MIT Tech Review AI",
+        "xmlUrl": "https://www.technologyreview.com/topic/artificial-intelligence/feed",
+        "category": "AI4S"
+      },
+      {
+        "title": "IEEE Spectrum AI",
+        "xmlUrl": "https://spectrum.ieee.org/feeds/topic/artificial-intelligence.rss",
+        "category": "AI4S"
+      },
+      {
+        "title": "NVIDIA Blog",
+        "xmlUrl": "https://blogs.nvidia.com/feed/",
+        "category": "AI4S"
+      },
+      {
+        "title": "Nature Machine Learning 主题",
+        "xmlUrl": "https://www.nature.com/subjects/machine-learning.rss",
+        "category": "AI4S"
+      },
+      {
+        "title": "Nature",
+        "xmlUrl": "https://www.nature.com/nature.rss",
+        "category": "AI4S"
+      },
+      {
+        "title": "Science",
+        "xmlUrl": "https://www.science.org/action/showFeed?type=etoc&feed=rss&jc=science",
+        "category": "AI4S"
+      },
+      {
+        "title": "Science Advances",
+        "xmlUrl": "https://www.science.org/action/showFeed?type=etoc&feed=rss&jc=sciadv",
+        "category": "AI4S"
+      },
+      {
+        "title": "arXiv AI×Science",
+        "xmlUrl": "https://export.arxiv.org/api/query?search_query=%28abs%3A%22machine%20learning%22%20OR%20abs%3A%22deep%20learning%22%20OR%20abs%3A%22neural%20network%22%20OR%20abs%3A%22foundation%20model%22%20OR%20abs%3A%22large%20language%20model%22%29%20AND%20%28cat%3Aq-bio.%2A%20OR%20cat%3Acond-mat.%2A%20OR%20cat%3Aphysics.chem-ph%20OR%20cat%3Aphysics.comp-ph%20OR%20cat%3Aphysics.atom-ph%20OR%20cat%3Aastro-ph.%2A%20OR%20cat%3Anlin.%2A%29&sortBy=submittedDate&sortOrder=descending&max_results=50",
+        "category": "AI4S"
+      },
+      {
+        "title": "PaperWeekly",
+        "xmlUrl": "https://wechat2rss.xlab.app/feed/3be891c2f4e526629ab055a297cc2cd6c1f0a563.xml",
+        "category": "AI"
+      },
+      {
+        "title": "我爱计算机视觉",
+        "xmlUrl": "https://wechat2rss.xlab.app/feed/b81ffcfff1107b5265cd7e39de610dc7ca72caf4.xml",
+        "category": "AI"
+      },
+      {
+        "title": "集智俱乐部",
+        "xmlUrl": "https://wechat2rss.xlab.app/feed/8540570d27c0bfe0a219173cf1ace83ae79445cb.xml",
+        "category": "AI"
+      },
+      {
+        "title": "夕小瑶科技说",
+        "xmlUrl": "https://wechat2rss.bestblogs.dev/feed/64b57d666259aee6bd097e76164e4a8371f0ad04.xml",
+        "category": "AI"
+      },
+      {
+        "title": "Microsoft Research",
+        "xmlUrl": "https://www.microsoft.com/en-us/research/feed/",
+        "category": "Research"
+      },
+      {
+        "title": "DOE Newsroom",
+        "xmlUrl": "https://www.energy.gov/newsroom/rss.xml",
+        "category": "Research"
+      },
+      {
+        "title": "Berkeley Lab News",
+        "xmlUrl": "https://newscenter.lbl.gov/feed/",
+        "category": "Research"
+      },
+      {
+        "title": "IT之家",
+        "xmlUrl": "https://www.ithome.com/rss/",
+        "category": "Media"
+      },
+      {
+        "title": "TechCrunch AI",
+        "xmlUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
+        "category": "Media"
+      },
+      {
+        "title": "The Verge AI",
+        "xmlUrl": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
+        "category": "Media"
+      }
+    ],
+    "block": [],
+    "block_domains": [
+      "*.substack.com",
+      "*.youtube.com"
+    ]
+  }
+}

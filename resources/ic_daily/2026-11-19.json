@@ -1,0 +1,101 @@
+{
+  "date": "2026-11-19",
+  "title": "把光和电接到芯片旁，系统设计要重新算账",
+  "intro": "两篇专业报道从光纤连接和供电网络讲同一个工程问题：器件离芯片更近之后，组装、测试和供电会怎么变。一篇论文补充了芯片内部的供电完整性视角。",
+  "prepared_on": "2026-11-21",
+  "catalog_version": "2026-11-21-v1",
+  "entries": [
+    {
+      "title": "硅光能接进封装，光纤怎么装、怎么换？",
+      "summary": "报道比较了固定尾纤和可拆卸接口。可拆卸接口有利于组装、测试和更换，量产还要解决光学对准和跨厂兼容。",
+      "source": {
+        "id": "605ba6fc671e18d60d73b758",
+        "source": "Semiconductor Engineering",
+        "title": "Detachable Fiber Connectors Pose New Challenges For Photonics",
+        "url": "https://semiengineering.com/detachable-fiber-connectors-pose-new-challenges-for-photonics/",
+        "content_type": "news",
+        "published_at": "2026-11-19",
+        "news_genre": "专业媒体报道与行业观点"
+      },
+      "classification": {
+        "catalog_version": "2026-11-21-v1",
+        "categories": [
+          {
+            "id": "packaging",
+            "name": "封装与测试"
+          },
+          {
+            "id": "memory",
+            "name": "存储与互连"
+          }
+        ],
+        "topics": [
+          {
+            "id": "optics",
+            "name": "AI光互连与共封装光学",
+            "status": "active"
+          }
+        ],
+        "basis": "editorial"
+      }
+    },
+    {
+      "title": "AI 加速器把稳压器往芯片附近移",
+      "summary": "报道介绍把稳压模块放到电路板背面、封装或中介层的方案。评估时还要计入散热和集成代价。",
+      "source": {
+        "id": "d65aa2ded6d609166303b9c7",
+        "source": "Semiconductor Engineering",
+        "title": "AI Accelerators Drive Changes In Power Delivery Networks",
+        "url": "https://semiengineering.com/ai-accelerators-drive-changes-in-power-delivery-networks/",
+        "content_type": "news",
+        "published_at": "2026-11-19",
+        "news_genre": "专业媒体报道与行业观点"
+      },
+      "classification": {
+        "catalog_version": "2026-11-21-v1",
+        "categories": [
+          {
+            "id": "architecture",
+            "name": "计算架构"
+          },
+          {
+            "id": "power",
+            "name": "供电与散热"
+          }
+        ],
+        "topics": [
+          {
+            "id": "power-thermal",
+            "name": "AI芯片供电与散热",
+            "status": "candidate"
+          }
+        ],
+        "basis": "editorial"
+      }
+    },
+    {
+      "title": "论文尝试用强化学习缓解动态压降",
+      "summary": "作者在 7 个 28 nm 设计上评估了调整寄存器时钟到达时间的做法。结果受所用设计和工具流程限制。",
+      "source": {
+        "id": "31ec70f80d57605a3ff6fd94",
+        "source": "ACM TODAES · Crossref题录",
+        "title": "Direction-Aware Timing Modeling for Reinforcement-Learning-Based Clock Arrival Time Optimization in Power-Integrity-Aware Physical Design",
+        "url": "https://doi.org/10.1145/3864457",
+        "content_type": "paper",
+        "published_at": "2026-11-19",
+        "news_genre": null
+      },
+      "classification": {
+        "catalog_version": "2026-11-21-v1",
+        "categories": [
+          {
+            "id": "design",
+            "name": "电路设计与 EDA"
+          }
+        ],
+        "topics": [],
+        "basis": "rule"
+      }
+    }
+  ]
+}

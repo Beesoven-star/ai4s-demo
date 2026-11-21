@@ -1,0 +1,69 @@
+{
+  "date": "2026-11-20",
+  "title": "端侧推理做到样片验证，3D 存储仍需看工程数据",
+  "intro": "当天两条线索都与存储带宽有关。一条来自端侧芯片的点亮活动，另一条转述企业对 3D DRAM 的路线展望。",
+  "prepared_on": "2026-11-21",
+  "catalog_version": "2026-11-21-v1",
+  "entries": [
+    {
+      "title": "迈特芯披露 MEGA188 完成样片点亮",
+      "summary": "爱集微现场报道记载，厂商披露了上电、核心算子与堆叠存储读写等验证。后续可看真实机型的模型吞吐、整机功耗和交付。",
+      "source": {
+        "id": "63d5f16bf9f60d8764e662cd",
+        "source": "爱集微（集微网）",
+        "title": "迈特芯MEGA188成功点亮，加速端侧AI产业化落地",
+        "url": "https://www.ijiwei.com/n/1143389",
+        "content_type": "news",
+        "published_at": "2026-11-20",
+        "news_genre": "专业媒体现场报道（厂商演示）"
+      },
+      "classification": {
+        "catalog_version": "2026-11-21-v1",
+        "categories": [
+          {
+            "id": "packaging",
+            "name": "封装与测试"
+          }
+        ],
+        "topics": [
+          {
+            "id": "chiplet",
+            "name": "面向AI的芯粒与3D集成",
+            "status": "active"
+          }
+        ],
+        "basis": "editorial"
+      }
+    },
+    {
+      "title": "美光的 3D DRAM 采用时间属于路线展望",
+      "summary": "TrendForce 转述了客户合作意向和采用时间预期。后续可看样品交付和客户验证。",
+      "source": {
+        "id": "66d2d2a366c54d0fba3584ac",
+        "source": "TrendForce 集邦咨询",
+        "title": "[News] Micron Reportedly Says All Major Customers Eye 3D DRAM Tie-Ups, Broader Adoption Expected by 2030–31",
+        "url": "https://www.trendforce.com/news/2026/11/20/news-micron-reportedly-says-all-major-customers-eye-3d-dram-tie-ups-broader-adoption-expected-by-2030-31/",
+        "content_type": "news",
+        "published_at": "2026-11-20",
+        "news_genre": "二手编译"
+      },
+      "classification": {
+        "catalog_version": "2026-11-21-v1",
+        "categories": [
+          {
+            "id": "memory",
+            "name": "存储与互连"
+          }
+        ],
+        "topics": [
+          {
+            "id": "hbm",
+            "name": "HBM与AI存储层次协同",
+            "status": "active"
+          }
+        ],
+        "basis": "editorial"
+      }
+    }
+  ]
+}

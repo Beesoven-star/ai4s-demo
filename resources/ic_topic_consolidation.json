@@ -1,0 +1,19 @@
+{
+  "merged": {
+    "auto-c91812cf2f90b798": "optics",
+    "auto-c6b7f11474be5b25": "power-thermal",
+    "auto-b01154449c0bd6dd": "power-thermal",
+    "auto-a5c02e3c767daf78": "power-thermal",
+    "auto-60df8c9530770edd": "chiplet",
+    "auto-bd2d09195420b802": "hbm",
+    "auto-95e4d12dfbfb20e3": "pim",
+    "auto-2754bec138993261": "pim"
+  },
+  "names": {
+    "auto-7bef2416c523550e": "DDR6 与服务器内存标准",
+    "auto-dcd775db7897a4fd": "EUV 金属氧化物光刻胶",
+    "auto-c0cd9eaca360f1aa": "嵌入式 MRAM 与接口标准化",
+    "auto-5cdd447efbc61890": "AI 辅助工艺量测与过程控制",
+    "auto-a78e72508ea90a59": "硅光计算的可靠性与安全"
+  }
+}

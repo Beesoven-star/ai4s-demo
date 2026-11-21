@@ -1,0 +1,19 @@
+[Unit]
+Description=Daily News - Web Archive (FastAPI)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User={{USER}}
+Group={{GROUP}}
+WorkingDirectory={{PROJECT_DIR}}
+EnvironmentFile={{PROJECT_DIR}}/.env
+ExecStart={{UV_BIN}} run --project {{PROJECT_DIR}} python -m src.web
+Restart=on-failure
+RestartSec=5
+LogNamespace=dnews
+Nice=10
+
+[Install]
+WantedBy=multi-user.target

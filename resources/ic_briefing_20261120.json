@@ -1,0 +1,2352 @@
+{
+  "schema_version": 1,
+  "edition": "2026-11-20-manufacturing-and-integration",
+  "prepared_on": "2026-11-21",
+  "data_through": "2026-11-20",
+  "title": "集成电路热点与技术观察",
+  "backfill": {
+    "date_from": "2026-11-15",
+    "date_to": "2026-11-20",
+    "reviewed_in_window": 29,
+    "counted_in_window": 12
+  },
+  "coverage": {
+    "library_papers": 453,
+    "library_news": 274,
+    "selected_news": 64,
+    "selected_papers": 10
+  },
+  "attention_label": "热点关注度 · 来源覆盖初榜",
+  "attention_method": "按媒体机构数、合并后的讨论或事件数、媒体报道覆盖天数依次降序，完全相同则并列。11月15日至20日的新增材料依据原站稿件核对，署名报道和实质技术分析计入媒体覆盖。同稿分发、二手编译、厂商内容及含赞助披露的采访作为背景呈现。",
+  "importance_method": "瓶颈价值、影响范围、带动作用各计 1–5 分，等权合计 15 分，按总分排序并连续编号。每项分数链接到本版引用的论文摘要、标准文件、报道或披露。",
+  "limitations": [
+    "固定资料快照，统计以媒体稿件的原站发布日期为准。对较早事件的本周解读仍可计报道覆盖。",
+    "热点榜统计本期选入的独立事件与讨论，允许收录尚无正式技术专题的进展。技术重要性榜沿用六个已评价方向。",
+    "媒体采访和厂商披露用于了解技术路线。性能和商业化日期按报道中的发布方口径理解。",
+    "同一新闻可关联多个方向，跨方向计数宜分别阅读。"
+  ],
+  "weekly_story": {
+    "question": "从光刻材料到服务器，怎样判断进展离量产还有多远？",
+    "overview": "TECH+ 报道 JSR 韩国 EUV 光刻胶工厂已竣工。THE ELEC 跟进了 PFN 推理芯片的 3D 堆叠流片计划，ServeTheHome 则在 SC26 拍到了搭载下一代 Xeon 封装的液冷刀片。三条消息分别给出了材料供货、芯片制造和系统集成的阶段线索。",
+    "research_question": "后续可核对光刻胶批次一致性和客户验证、DRAM 与逻辑堆叠后的带宽和温度，以及刀片长时间满载时的冷却与整机功耗。"
+  },
+  "weekly_highlights": [
+    {
+      "event_id": "jsr-mor-korea",
+      "reading_question": "光刻胶工厂竣工后，何时能稳定供货？",
+      "what_happened": "JSR 在说明会确认韩国金属氧化物光刻胶工厂已竣工。TECH+ 报道称，JSR 计划于 2027 年初启动量产。",
+      "why_it_matters": "这是面向 EUV 工艺的材料供给进展。客户使用前还要验证不同批次是否稳定，以及材料与各自产线的曝光和后续工艺是否匹配。",
+      "evidence_stage": "企业确认厂房竣工。投产时间是计划，合格供货待披露。",
+      "watch_next": "看客户验证、批次一致性及稳定出货的公开记录。"
+    },
+    {
+      "event_id": "pfn-l2000-stack",
+      "reading_question": "把 DRAM 叠到逻辑裸片上，什么时候能看到实测？",
+      "what_happened": "PFN 与 SEMIFIVE 公布 MN-Core L2000 联合开发方案，将 DRAM 垂直堆叠到逻辑裸片上。THE ELEC 跟进了方案，thebell 采访了 SEMIFIVE 负责人。计划于 2027 年第一季度提交流片。",
+      "why_it_matters": "缩短存储连接提供了增加带宽的路径，也让供电、热和堆叠良率成为同一设计问题。",
+      "evidence_stage": "方案已公开，流片和带宽属于企业计划与目标。",
+      "watch_next": "看样片是否如期产出，以及相同推理负载下的有效带宽、功耗和温度。"
+    },
+    {
+      "event_id": "bull-rapids-sc26",
+      "reading_question": "展会上的液冷刀片，能看到哪些实物证据？",
+      "what_happened": "ServeTheHome 在 SC26 拍到 Bull 的刀片样机，可看到英特尔 Diamond Rapids 封装、双路节点及液冷接头的布局。",
+      "why_it_matters": "实物照片让人看到服务器如何安排处理器、内存和冷却部件。可用性还需看实际运行条件下的温度与维护数据。",
+      "evidence_stage": "记者现场见到实物，照片能确认部件布局。",
+      "watch_next": "看整机交付、持续负载测试和现场维护表现。"
+    }
+  ],
+  "article_briefs": [
+    {
+      "event_id": "rohm-delta-800v",
+      "reading_question": "把 800V 直流引到机柜边，能否减少供电损耗？",
+      "what_happened": "台达电子日本公司与罗姆签署基本协议，准备共同明确 AI 数据中心 800V 直流供电的系统需求。TECH+ 报道解释了高功率机柜的配电与电压转换。",
+      "why_it_matters": "提高配电电压会改变配线和转换环节的负担，也给功率半导体的选型带来新的约束。这条进展给「AI 芯片供电与散热」候选专题增加了机柜层面的案例。",
+      "evidence_stage": "双方已签署基本协议。系统实测与部署结果待公布。",
+      "watch_next": "看试点负载下的端到端效率、散热和可靠性。"
+    },
+    {
+      "event_id": "azure-emib",
+      "reading_question": "微软选定 EMIB 后，先进封装离交付还有多远？",
+      "what_happened": "微软和英特尔公布长期合作，计划为 Azure 自研芯片采用 EMIB。Tom’s Hardware 核对了披露范围，芯片型号、晶圆工艺及部署日期仍待公布。",
+      "why_it_matters": "云服务商公开表态采用封装方案，使芯粒互连有了可以跟踪的客户案例。能否按时交付，还要看具体器件、验证与封装产能。",
+      "evidence_stage": "双方公布采用计划。具体产品与交付规模待披露。",
+      "watch_next": "看首个采用该封装的器件、封装测试及交付进度。"
+    },
+    {
+      "event_id": "lambda-cpo",
+      "reading_question": "集群里的光互连，能省电也能好维护吗？",
+      "what_happened": "Lambda 披露在加拿大魁北克园区用 NVIDIA 共封装光学交换机连接逾一万张 Blackwell Ultra GPU，ServeTheHome 和 TechTarget 均报道了这次部署。",
+      "why_it_matters": "共封装光学进入实际交换网络。评估重点从光器件本身延伸到整网功耗、故障率与现场维修。",
+      "evidence_stage": "部署方披露，另有独立媒体报道",
+      "watch_next": "看其他客户能否复现，以及整网功耗是否包含光源和控制开销。"
+    },
+    {
+      "event_id": "ucie-memory",
+      "reading_question": "同一个封装里，算力芯粒和存储可以怎么接？",
+      "what_happened": "UCIe 联盟发布 4.0 版芯粒互连规范，增加了用于封装内存储连接的 UCIe.mem。Jon Peddie Research 随后分析了协议变化和系统设计影响。",
+      "why_it_matters": "UCIe.mem 给封装内存储连接提供了开放接口，影响 SoC 与存储逻辑裸片的组合方式。",
+      "evidence_stage": "联盟发布规范，本期有专业媒体解读",
+      "watch_next": "看不同厂商器件能否在参考板上互操作，以及整套系统的测试和验证结果。"
+    },
+    {
+      "event_id": "titania-dimc",
+      "reading_question": "推理时，能少在存储和计算单元之间搬几次数据吗？",
+      "what_happened": "Axelera AI 公布面向数据中心推理的 Titania 芯粒架构。在其披露的设计中，数字存内计算、LPDDR6 和可编程 RISC-V 计算集成在同一封装。",
+      "why_it_matters": "Titania 将数字存内计算用于面向机房的推理芯粒，提供了一条减少数据搬运的设计路线。",
+      "evidence_stage": "产品架构披露与媒体分析",
+      "watch_next": "看相同模型与精度下的整机能耗、吞吐和软件适配。"
+    }
+  ],
+  "events": [
+    {
+      "id": "jsr-mor-korea",
+      "title": "JSR 韩国 EUV 光刻胶工厂竣工，准备进入量产",
+      "technology_ids": [],
+      "source_ids": [
+        "261f8fb79a78855664ea5582",
+        "8c43c1d20b25e15910bb9b4b"
+      ],
+      "kind": "产线进展",
+      "grouping_note": "11 月 19 日披露产线情况，TECH+ 20 日报道。工厂竣工发生在 9 月。",
+      "occurred_at": "2026-11-19",
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "pfn-l2000-stack",
+      "title": "PFN 与 SEMIFIVE 公开 3D 堆叠推理芯片计划",
+      "technology_ids": [
+        "chiplet",
+        "hbm"
+      ],
+      "source_ids": [
+        "03d7682ef0cd8794ee1ad7a1",
+        "fae1fed6bb44e5ec3d9241e8",
+        "ebbddb17a89f713b73c52e5a"
+      ],
+      "kind": "联合开发",
+      "grouping_note": "联合公告、媒体转述与记者采访指向同一项目，提交流片及带宽为企业计划。",
+      "occurred_at": "2026-11-16",
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "bull-rapids-sc26",
+      "title": "Bull 在 SC26 展示装有 Diamond Rapids 封装的液冷刀片",
+      "technology_ids": [],
+      "source_ids": [
+        "592ceb60750d63a0d88f915d"
+      ],
+      "kind": "展会现场",
+      "grouping_note": "展示用实物现场报道。展出日以已确认的报道日期覆盖，实际交付日期未披露。",
+      "occurred_at": null,
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "asra-chiplet-acir",
+      "title": "ASRA 与 imec 公布车载芯粒互操作共同要求",
+      "technology_ids": [
+        "chiplet"
+      ],
+      "source_ids": [
+        "84a783fbcfac80f79fab257e",
+        "248446beb1ff4e6a2bb268f2"
+      ],
+      "kind": "要求文件",
+      "grouping_note": "以机构首次发布日记录事件，17 日媒体解读与原始文件合并。",
+      "occurred_at": "2026-11-12",
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "azure-emib",
+      "title": "微软计划为 Azure 自研芯片采用英特尔 EMIB 封装",
+      "technology_ids": [
+        "chiplet"
+      ],
+      "source_ids": [
+        "a00e7ff3ebc466ed33b833e8",
+        "495bc0db74c1f69074e64300"
+      ],
+      "kind": "客户采用计划",
+      "grouping_note": "联合公告与媒体分析共指同一合作。芯片制造工艺、交付时间和规模尚需披露。",
+      "occurred_at": "2026-11-18",
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "rohm-delta-800v",
+      "title": "台达与罗姆签署 AI 数据中心 800V 直流供电合作协议",
+      "technology_ids": [],
+      "source_ids": [
+        "77d19b08058f062640d0b8f5",
+        "557310486a70a1bac42bd5a4"
+      ],
+      "kind": "合作协议",
+      "grouping_note": "双方公告和日文技术报道归为同一事件。供电与散热列在候选专题。",
+      "occurred_at": "2026-11-18",
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "samsung-dram-strategy",
+      "title": "THE ELEC 报道三星下一代 DRAM 的三条研发路线",
+      "technology_ids": [
+        "hbm",
+        "chiplet"
+      ],
+      "source_ids": [
+        "7218ea4159b7a623731dc519"
+      ],
+      "kind": "媒体披露",
+      "grouping_note": "内部决定的日期未核实，覆盖日期以记者署名报道的首次发布日期为准。",
+      "occurred_at": null,
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "siemens-breker",
+      "title": "西门子签约拟收购 SoC 验证工具商 Breker",
+      "technology_ids": [],
+      "source_ids": [
+        "a321fe498889e85786046064",
+        "a12d640290da83ad401ca4b6"
+      ],
+      "kind": "并购签约",
+      "grouping_note": "企业公告及行业摘要归为同一事件，暂列电路设计与 EDA 线索。",
+      "occurred_at": "2026-11-17",
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "lambda-cpo",
+      "title": "Lambda 披露规模化 CPO 交换网络部署",
+      "technology_ids": [
+        "optics"
+      ],
+      "source_ids": [
+        "24b9f05db2f055aabcf4efd1",
+        "8477effb7829a98cb70b8c42",
+        "c8266ce7908dbce9d535efda"
+      ],
+      "kind": "部署披露",
+      "grouping_note": "两篇媒体报道与客户公告指向同一项目。使用披露日期，实际网络投运日期未核实。",
+      "occurred_at": "2026-11-16",
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "marvell-memory",
+      "title": "Marvell 与 Penguin 推进光内存池及 CXL 扩容",
+      "technology_ids": [
+        "optics",
+        "hbm"
+      ],
+      "source_ids": [
+        "a09000dfe0153a289826f039",
+        "70c1947cf010f80294ef7b31",
+        "5b12cde3f76ba73e8a919ab4"
+      ],
+      "kind": "合作与路线图",
+      "grouping_note": "联合稿在两家渠道发布，合并为一次合作公告。The Register 采访单独计作媒体覆盖。",
+      "occurred_at": "2026-11-16",
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "ucie-memory",
+      "title": "UCIe 4.0 加入封装内存储连接",
+      "technology_ids": [
+        "chiplet",
+        "hbm"
+      ],
+      "source_ids": [
+        "b2df7947da77d6344944768d",
+        "cd12564d9da20ddc2058a892"
+      ],
+      "kind": "标准解读",
+      "grouping_note": "联盟 12 日发布，Jon Peddie Research 16 日解读。统计报道关注日期，事件按首次公布日期记录。",
+      "occurred_at": "2026-11-12",
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "titania-dimc",
+      "title": "Titania 存内推理芯粒在 SC26 获后续关注",
+      "technology_ids": [
+        "pim",
+        "chiplet"
+      ],
+      "source_ids": [
+        "581b81e388bf6938e0192267",
+        "3615b60fd9f24fc900808ff3",
+        "fade898eecedd9df196e088f"
+      ],
+      "kind": "架构解读",
+      "grouping_note": "12 日首发与 17 日分析、19 日展会采访归到同一架构。采访含赞助披露，性能采用厂商归属。",
+      "occurred_at": "2026-11-12",
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "raptor-stack",
+      "title": "d-Matrix 在 SC26 讨论 Raptor 堆叠 DRAM",
+      "technology_ids": [
+        "pim",
+        "hbm",
+        "chiplet"
+      ],
+      "source_ids": [
+        "870c2dc209874fc364e88153"
+      ],
+      "kind": "展会采访",
+      "grouping_note": "按本周采访记录，Raptor 此前已公开。报道页披露采访环节获赞助。",
+      "occurred_at": null,
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "micron-rd",
+      "title": "AI 存储研发与制造投入受到行业关注",
+      "technology_ids": [
+        "hbm"
+      ],
+      "source_ids": [
+        "52653ee7ec30bc0293ccc058"
+      ],
+      "kind": "技术与产业分析",
+      "grouping_note": "报道含第三方采访，引用此前研究机构公告作为背景，无新增机构成立事件。",
+      "occurred_at": null,
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "micron-roadmap",
+      "title": "TomorrowX 峰会上的 3D DRAM 路线讨论",
+      "technology_ids": [
+        "hbm"
+      ],
+      "source_ids": [
+        "66d2d2a366c54d0fba3584ac",
+        "4d501ec75babf2d3e66e38a6"
+      ],
+      "kind": "路线展望",
+      "grouping_note": "11 月 18 日官方活动与 20 日二手报道归为同一组。未来采用时间属于企业判断。",
+      "occurred_at": "2026-11-18",
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "chipnexus-feedback",
+      "title": "ChipNexus 讨论设计智能体的人机分工",
+      "technology_ids": [
+        "rtl",
+        "analog"
+      ],
+      "source_ids": [
+        "d4c2b523a61a7fd90da06111"
+      ],
+      "kind": "厂商问答",
+      "grouping_note": "同一访谈关联数字前端及模拟流程背景，问答中的产品描述与效果主张按企业口径保留。",
+      "occurred_at": null,
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "packaging-materials",
+      "title": "Qnity 讨论先进封装材料与系统协同",
+      "technology_ids": [
+        "chiplet"
+      ],
+      "source_ids": [
+        "682b342c05c430ad2a698bdb"
+      ],
+      "kind": "厂商供稿",
+      "grouping_note": "来源标明 Partner Content，作为封装背景。",
+      "occurred_at": null,
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "synopsys-exhibit",
+      "title": "Synopsys 预告 SC26 的 AI 工程与验证议题",
+      "technology_ids": [
+        "rtl"
+      ],
+      "source_ids": [
+        "3b0c1955620f1d3d73cec509"
+      ],
+      "kind": "厂商预告",
+      "grouping_note": "作为相邻的工具链议题，材料来自展商。",
+      "occurred_at": null,
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "rtl-bench",
+      "title": "RTL评测从功能正确走向PPA与真实流程",
+      "technology_ids": [
+        "rtl"
+      ],
+      "source_ids": [
+        "2774217a470785e1672fa9e8",
+        "09195c36351e4873ecbf5bdb"
+      ],
+      "kind": "技术讨论",
+      "grouping_note": "两篇材料共同讨论AI设计评测范围，合为一个议题，不当作两个独立突破。",
+      "occurred_at": null,
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "rtl-physics",
+      "title": "以物理工具反馈约束设计智能体",
+      "technology_ids": [
+        "rtl"
+      ],
+      "source_ids": [
+        "dbaf06ff9e99692a4667f41a",
+        "7f9444b0ae8d9d1be3fdbc9d"
+      ],
+      "kind": "技术讨论",
+      "grouping_note": "媒体观点与企业方法建议关联到同一议题；企业博客不计入媒体机构数。",
+      "occurred_at": null,
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "cadence-maestro",
+      "title": "Cadence发布Maestro设计模型组合",
+      "technology_ids": [
+        "rtl"
+      ],
+      "source_ids": [
+        "d9c9cfe63d6750181552ad75"
+      ],
+      "kind": "企业发布",
+      "grouping_note": "仅有官方简述，效果为企业自述，不计媒体覆盖；简介未明确模拟设计范围，不向该方向扩展归类。",
+      "occurred_at": null,
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "chipagents",
+      "title": "ChipAgents数字／模拟设计方案与演示",
+      "technology_ids": [
+        "rtl",
+        "analog"
+      ],
+      "source_ids": [
+        "24c81d058c8857aa22b27e41",
+        "103e0884fb9d2d33d6033f82"
+      ],
+      "kind": "企业方案",
+      "grouping_note": "SEMI会员新闻稿与EE Times厂商网络研讨会合并；发布平台不同不等于独立报道。",
+      "occurred_at": null,
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "analog-design",
+      "title": "AI辅助模拟电路设计的流程与约束",
+      "technology_ids": [
+        "analog"
+      ],
+      "source_ids": [
+        "8f64592a14c42b684015a968",
+        "285eb402bcdf2b6250368ac9"
+      ],
+      "kind": "技术讨论",
+      "grouping_note": "同机构、同日的模拟／RF设计观点合为一个讨论议题。",
+      "occurred_at": null,
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "pim-inference",
+      "title": "近存计算用于缓解AI推理数据搬运",
+      "technology_ids": [
+        "pim"
+      ],
+      "source_ids": [
+        "6a342d8fa359881c5f7afa48",
+        "5cdd8006d9375cfe9e59c2b5"
+      ],
+      "kind": "技术进展",
+      "grouping_note": "综合观点与产品流片报道围绕近存推理关联；产品性能预测尚未独立验证。",
+      "occurred_at": null,
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "pim-security",
+      "title": "3D存内计算的多租户安全映射",
+      "technology_ids": [
+        "pim"
+      ],
+      "source_ids": [
+        "07fbcacf4e5413f3d4673ad9"
+      ],
+      "kind": "研究摘介",
+      "grouping_note": "仅有研究摘介，不把它当作独立复现。",
+      "occurred_at": null,
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "pim-pcm",
+      "title": "PCM模拟存储密度与精度权衡",
+      "technology_ids": [
+        "pim"
+      ],
+      "source_ids": [
+        "18a6d6761c5b3a090f59b9c4"
+      ],
+      "kind": "研究摘介",
+      "grouping_note": "原型结果为来源转述，尚未核验全文和硬件数据。",
+      "occurred_at": null,
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "pim-meeting",
+      "title": "存算一体产业大会预告",
+      "technology_ids": [
+        "pim"
+      ],
+      "source_ids": [
+        "92aa190df139c7c613f79bf4"
+      ],
+      "kind": "会议预告",
+      "grouping_note": "只证明会议预告发布，不证明11月20日大会已举办或技术落地；承办方宣传不计媒体覆盖。",
+      "occurred_at": null,
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "hbm-wall",
+      "title": "AI推理的存储墙与HBM字节效率",
+      "technology_ids": [
+        "hbm"
+      ],
+      "source_ids": [
+        "eb46439080619f4a7c505c69",
+        "ee68dcea31edefe50deed62c",
+        "52f41d96df5dfcc41c4add07"
+      ],
+      "kind": "技术讨论",
+      "grouping_note": "媒体简介与企业技术博客共同关联存储层次议题；不以企业博客抬高媒体覆盖。",
+      "occurred_at": null,
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "hbm-controller",
+      "title": "HBM控制功能向基底逻辑迁移",
+      "technology_ids": [
+        "hbm"
+      ],
+      "source_ids": [
+        "c8f51837097654657782e677"
+      ],
+      "kind": "研究摘介",
+      "grouping_note": "讨论HBM控制器分区，不等同于产品大规模应用。",
+      "occurred_at": null,
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "hbm-thermal",
+      "title": "DRAM-on-GPU堆叠的热设计空间",
+      "technology_ids": [
+        "hbm",
+        "chiplet"
+      ],
+      "source_ids": [
+        "883dee8726b5f1d4e4881c84"
+      ],
+      "kind": "研究摘介",
+      "grouping_note": "来源描述封装级热仿真；不能改写为已流片验证。",
+      "occurred_at": null,
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "interposer",
+      "title": "imec推进硅中介层平台与开放PDK",
+      "technology_ids": [
+        "chiplet"
+      ],
+      "source_ids": [
+        "e6dd821c3c594d418f4b7509"
+      ],
+      "kind": "机构公告",
+      "grouping_note": "公开平台进展来自机构自身公告，不视为第三方技术验证。",
+      "occurred_at": null,
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "chiplet-system",
+      "title": "芯粒扩展中的系统约束与协同设计",
+      "technology_ids": [
+        "chiplet"
+      ],
+      "source_ids": [
+        "9ef5433ffd0ca2dbecc53331",
+        "51bbaa370e367e257706c1bd",
+        "b7e7eb296678650652d551ab"
+      ],
+      "kind": "技术讨论",
+      "grouping_note": "多芯粒系统限制与工程观点合为一个讨论议题。",
+      "occurred_at": null,
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "chiplet-meta",
+      "title": "面向AI工作负载的芯粒开发节奏",
+      "technology_ids": [
+        "chiplet"
+      ],
+      "source_ids": [
+        "ee6ec89839eb9f1c9f2b75ed"
+      ],
+      "kind": "厂商演讲",
+      "grouping_note": "EE Times承载企业演讲，不计独立媒体关注。",
+      "occurred_at": null,
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "optics-roadmap",
+      "title": "AI带宽需求推动光互连路线讨论",
+      "technology_ids": [
+        "optics"
+      ],
+      "source_ids": [
+        "6a6861bb894abcdb6781d38f",
+        "be79049f7ea3daa8d45b315b",
+        "ced077b5caa881aa7f4ff93e"
+      ],
+      "kind": "技术讨论",
+      "grouping_note": "路线图、行业观点与采访关联为一个议题，避免按文章数制造多个突破。",
+      "occurred_at": null,
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "optics-test",
+      "title": "CPO规模化测试与良率成本",
+      "technology_ids": [
+        "optics"
+      ],
+      "source_ids": [
+        "b6fbd715047b092b6a578a24",
+        "537588d0606c6ddf1216068c",
+        "328fdf1670fbbf200480e897"
+      ],
+      "kind": "工程约束",
+      "grouping_note": "光纤对准、封装及测试成本合为一个工程议题。",
+      "occurred_at": null,
+      "date_basis": "来源发布日期"
+    },
+    {
+      "id": "optics-modulator",
+      "title": "面向AI互连的硅光调制器研究",
+      "technology_ids": [
+        "optics"
+      ],
+      "source_ids": [
+        "be926e0150024d8ea9a9ad7d"
+      ],
+      "kind": "研究摘介",
+      "grouping_note": "器件实验摘介不能代表完整链路或封装的系统级能效。",
+      "occurred_at": null,
+      "date_basis": "来源发布日期"
+    }
+  ],
+  "technologies": [
+    {
+      "id": "rtl",
+      "name": "LLM辅助RTL生成与验证",
+      "track": "ai_for_ic",
+      "topic_ids": [
+        "A1",
+        "A6"
+      ],
+      "tagline": "从生成代码走向工具反馈与可验证质量",
+      "overview": {
+        "text": "让模型生成或修复RTL，再用仿真、综合及验证工具检查结果，目标是减少设计迭代中的人工工作。现有资料同时涉及生成、验证环境与评测方法。",
+        "source_ids": [
+          "9bbc7038db3f1fa234f5b94c",
+          "8d17507365a589198532247e"
+        ]
+      },
+      "assessment": {
+        "text": "建议优先跟进工具反馈闭环与评测可信度。AutoC2V摘要描述综合反馈训练，RTLRepairBench提示评分语义会改变结论；因此价值应结合功能、PPA和工具预算判断。当前材料支持这一研究路径，尚不能证明可自主完成生产级芯片设计。 新增厂商访谈强调由工程师检查结果、根据反馈迭代。相关展会预告也提及硬件辅助验证。两项材料仅支持继续跟踪工具链，当前评分仍主要依据已有研究与可复核评测。",
+        "source_ids": [
+          "9bbc7038db3f1fa234f5b94c",
+          "199b013bceeb4f0168d36428",
+          "2774217a470785e1672fa9e8",
+          "d4c2b523a61a7fd90da06111",
+          "3b0c1955620f1d3d73cec509"
+        ]
+      },
+      "limitations": {
+        "text": "重置与首周期语义、测试覆盖以及规格使用方式均可能影响通过率。只看一次编译或一个总分不足以评价可靠性；本版未阅读全文或复现实验。",
+        "source_ids": [
+          "199b013bceeb4f0168d36428"
+        ]
+      },
+      "watch_next": {
+        "text": "观察是否公开工具链、测试语义、失败案例与等预算基线，以及生成后验证和PPA能否同时改善。",
+        "source_ids": [
+          "199b013bceeb4f0168d36428",
+          "9bbc7038db3f1fa234f5b94c"
+        ]
+      },
+      "scores": [
+        {
+          "text": "涉及生成、调试及验证的迭代负担，但当前证据仍以受限任务和摘要为主。",
+          "source_ids": [
+            "9bbc7038db3f1fa234f5b94c",
+            "8d17507365a589198532247e"
+          ],
+          "label": "瓶颈价值",
+          "value": 4
+        },
+        {
+          "text": "可覆盖RTL生成、修复及验证环境等多个数字设计环节；不外推到全部EDA。",
+          "source_ids": [
+            "8d17507365a589198532247e",
+            "199b013bceeb4f0168d36428"
+          ],
+          "label": "影响范围",
+          "value": 4
+        },
+        {
+          "text": "工具反馈与可复核评测可作为后续设计智能体的共同基础；这是潜力判断。",
+          "source_ids": [
+            "09195c36351e4873ecbf5bdb",
+            "dbaf06ff9e99692a4667f41a"
+          ],
+          "label": "带动作用",
+          "value": 5
+        }
+      ],
+      "paper_ids": [
+        "9bbc7038db3f1fa234f5b94c",
+        "199b013bceeb4f0168d36428",
+        "8d17507365a589198532247e"
+      ],
+      "maturity": "已见研究框架与企业方案，本版材料未提供生产部署记录。",
+      "review_status": "provisional",
+      "reviewed_by": null,
+      "reviewed_on": null,
+      "evidence_status": "论文摘要提供评测结果，媒体与厂商材料补充工具流程。结果适用于材料描述的任务和预算。"
+    },
+    {
+      "id": "analog",
+      "name": "AI辅助模拟与RF电路设计",
+      "track": "ai_for_ic",
+      "topic_ids": [
+        "A3"
+      ],
+      "tagline": "把电路理解与仿真反馈接到优化过程",
+      "overview": {
+        "text": "利用模型理解电路拓扑、生成网表或调整尺寸，并借助仿真反馈搜索满足规格的设计。SAFTAC与TopoSizing分别提供训练反馈和拓扑理解的研究线索。",
+        "source_ids": [
+          "9b19413eaab062e47b015aff",
+          "f5447a6635537e0217fb4cbd"
+        ]
+      },
+      "assessment": {
+        "text": "值得跟进的重点是模型是否理解电路约束，以及仿真反馈能否减少无效搜索。两个摘要给出不同的实现路径，适合对照研究；厂商方案与研讨会则说明这一方向正在被产品化讨论，但不作为效果认证。 新增 ChipNexus 访谈提供了工具接入与人工评估的工程线索。下一步优先核对跨工艺结果和仿真误差，再判断影响范围。",
+        "source_ids": [
+          "9b19413eaab062e47b015aff",
+          "f5447a6635537e0217fb4cbd",
+          "103e0884fb9d2d33d6033f82",
+          "d4c2b523a61a7fd90da06111"
+        ]
+      },
+      "limitations": {
+        "text": "摘要中的收益依赖电路类型、工艺及仿真设置；没有证据表明可直接跨工艺、跨拓扑复用。规格满足也不自动等于版图后或硅上可用。",
+        "source_ids": [
+          "f5447a6635537e0217fb4cbd",
+          "9b19413eaab062e47b015aff"
+        ]
+      },
+      "watch_next": {
+        "text": "观察跨拓扑与跨工艺测试、调用及仿真预算、版图后结果，以及公开数据能否支撑复现。",
+        "source_ids": [
+          "f5447a6635537e0217fb4cbd",
+          "9b19413eaab062e47b015aff"
+        ]
+      },
+      "scores": [
+        {
+          "text": "电路拓扑、尺寸与性能耦合使自动化困难，反馈优化具有直接价值。",
+          "source_ids": [
+            "9b19413eaab062e47b015aff"
+          ],
+          "label": "瓶颈价值",
+          "value": 4
+        },
+        {
+          "text": "材料覆盖若干模拟电路任务，跨工艺和更广电路类型的证据不足。",
+          "source_ids": [
+            "f5447a6635537e0217fb4cbd"
+          ],
+          "label": "影响范围",
+          "value": 3
+        },
+        {
+          "text": "仿真数据、拓扑知识与约束搜索可支撑后续模拟设计工具。",
+          "source_ids": [
+            "f5447a6635537e0217fb4cbd",
+            "9b19413eaab062e47b015aff"
+          ],
+          "label": "带动作用",
+          "value": 4
+        }
+      ],
+      "paper_ids": [
+        "9b19413eaab062e47b015aff",
+        "f5447a6635537e0217fb4cbd"
+      ],
+      "maturity": "论文摘要描述仿真实验，厂商访谈介绍工具流程。本版材料未提供企业方案的实测结果。",
+      "review_status": "provisional",
+      "reviewed_by": null,
+      "reviewed_on": null,
+      "evidence_status": "论文摘要、技术报道和厂商访谈提供方法线索。现有对比限于各资料所列的工艺与实验条件。"
+    },
+    {
+      "id": "pim",
+      "name": "面向AI的存内与近存计算",
+      "track": "ic_for_ai",
+      "topic_ids": [
+        "B2"
+      ],
+      "tagline": "减少数据搬运，同时处理精度与可编程性",
+      "overview": {
+        "text": "将部分运算放到存储阵列内部或存储附近，以降低AI任务的数据搬运负担。这里同时跟踪数字近存架构和模拟存内阵列，两者的精度、工艺和软件条件不同。",
+        "source_ids": [
+          "5838a15333e5c6dceecf735e",
+          "701dbfcc431daef8569f0bab"
+        ]
+      },
+      "assessment": {
+        "text": "其重要性来自存储与计算间的数据搬运限制。近期材料包含近存推理讨论、产品流片报道和温度鲁棒性研究，表明必须把架构、器件及软件一起考虑；流片报道中的性能预测不能当作实测提升。 Titania 后续报道把数字存内计算的适用场景扩展到机房推理。Raptor 采访提供另一条堆叠 DRAM 路线线索，两者都需要统一负载下的端到端比较。",
+        "source_ids": [
+          "6a342d8fa359881c5f7afa48",
+          "5cdd8006d9375cfe9e59c2b5",
+          "701dbfcc431daef8569f0bab",
+          "581b81e388bf6938e0192267",
+          "3615b60fd9f24fc900808ff3",
+          "870c2dc209874fc364e88153"
+        ]
+      },
+      "limitations": {
+        "text": "模拟路线存在温漂与精度约束，近存路线仍受负载映射和软件支持限制；跨论文的TOPS/W或时延不能直接混排。现有材料没有提供统一的独立系统复测。",
+        "source_ids": [
+          "701dbfcc431daef8569f0bab",
+          "6a342d8fa359881c5f7afa48"
+        ]
+      },
+      "watch_next": {
+        "text": "优先观察真实模型的端到端能耗、精度与吞吐，非理想因素补偿的成本，以及可运行的软件接口。",
+        "source_ids": [
+          "701dbfcc431daef8569f0bab",
+          "5838a15333e5c6dceecf735e"
+        ]
+      },
+      "scores": [
+        {
+          "text": "直接面向AI计算的数据搬运与存储墙，具有改变运算位置的潜力。",
+          "source_ids": [
+            "6a342d8fa359881c5f7afa48",
+            "701dbfcc431daef8569f0bab"
+          ],
+          "label": "瓶颈价值",
+          "value": 5
+        },
+        {
+          "text": "覆盖边缘到机房推理的设计目标，实际影响范围受负载、精度和软件支持约束，初评4。",
+          "source_ids": [
+            "5838a15333e5c6dceecf735e",
+            "5cdd8006d9375cfe9e59c2b5",
+            "581b81e388bf6938e0192267"
+          ],
+          "label": "影响范围",
+          "value": 4
+        },
+        {
+          "text": "可牵引器件、架构及映射软件协同，但尚未形成统一成熟接口。",
+          "source_ids": [
+            "6a342d8fa359881c5f7afa48",
+            "701dbfcc431daef8569f0bab"
+          ],
+          "label": "带动作用",
+          "value": 4
+        }
+      ],
+      "paper_ids": [
+        "5838a15333e5c6dceecf735e",
+        "701dbfcc431daef8569f0bab"
+      ],
+      "maturity": "已有原型，也有产品披露和架构计划。Titania、Raptor 的材料以路线介绍为主，缺少同负载下的独立性能对照。",
+      "review_status": "provisional",
+      "reviewed_by": null,
+      "reviewed_on": null,
+      "evidence_status": "论文摘要、产品披露与采访覆盖不同层级。性能比较需要对齐负载、精度和系统边界。"
+    },
+    {
+      "id": "hbm",
+      "name": "HBM与AI存储层次协同",
+      "track": "ic_for_ai",
+      "topic_ids": [
+        "B2"
+      ],
+      "tagline": "在带宽、容量、供电与热约束间协同设计",
+      "overview": {
+        "text": "围绕AI工作负载设计高带宽存储层次，关注控制器分区、存储堆叠与计算侧的协同。相比只追求带宽，容量利用和热设计同样需要评估。",
+        "source_ids": [
+          "eb46439080619f4a7c505c69",
+          "b5a2f3ff9c508e15c44ec0f5"
+        ]
+      },
+      "assessment": {
+        "text": "应把HBM视为存储、互连、供电和软件共同约束的问题。库内材料讨论控制功能迁移、DRAM-on-GPU热设计与字节效率，适合形成系统评价；企业博客提供方法线索，不能替代中立比较。 本周光内存池与封装内存储链路提供了扩充容量的不同路径。评估应区分片上 HBM、CXL 扩容和远端共享的带宽、延迟与用途。美光 3D DRAM 时间表属于企业展望。 THE ELEC 另报道三星在 HBM5 上探索先分别制造存储和外围逻辑晶圆、再键合的路线。该消息来自产业人士，设计细节和量产时间待三星公开确认。",
+        "source_ids": [
+          "c8f51837097654657782e677",
+          "883dee8726b5f1d4e4881c84",
+          "ee68dcea31edefe50deed62c",
+          "a09000dfe0153a289826f039",
+          "cd12564d9da20ddc2058a892",
+          "66d2d2a366c54d0fba3584ac",
+          "4d501ec75babf2d3e66e38a6",
+          "7218ea4159b7a623731dc519"
+        ]
+      },
+      "limitations": {
+        "text": "3D堆叠可能改变热设计和供电条件。NMC-HBM摘要给出电气与系统仿真框架，未证明所有工作负载受益，也不能据此认定已有规模化部署。",
+        "source_ids": [
+          "b5a2f3ff9c508e15c44ec0f5",
+          "883dee8726b5f1d4e4881c84"
+        ]
+      },
+      "watch_next": {
+        "text": "跟进同负载下的有效带宽、容量利用、系统能耗及温度，核查控制器迁移收益是否覆盖新增复杂度。 PFN 的方案将 DRAM 叠在逻辑裸片上，可作为不同存储集成路线的对照。优先比较样片的有效带宽、功耗和温度。",
+        "source_ids": [
+          "b5a2f3ff9c508e15c44ec0f5",
+          "c8f51837097654657782e677",
+          "ebbddb17a89f713b73c52e5a",
+          "fae1fed6bb44e5ec3d9241e8"
+        ]
+      },
+      "scores": [
+        {
+          "text": "长上下文和并发使存储压力变化，带宽之外的容量与系统约束具有共性。",
+          "source_ids": [
+            "eb46439080619f4a7c505c69"
+          ],
+          "label": "瓶颈价值",
+          "value": 5
+        },
+        {
+          "text": "片上高带宽、封装内连接和机架级内存扩容都影响系统设计。AI 存储研发投入与制造转化成本进一步支持影响范围5分。",
+          "source_ids": [
+            "eb46439080619f4a7c505c69",
+            "b5a2f3ff9c508e15c44ec0f5",
+            "a09000dfe0153a289826f039",
+            "b2df7947da77d6344944768d",
+            "52653ee7ec30bc0293ccc058"
+          ],
+          "label": "影响范围",
+          "value": 5
+        },
+        {
+          "text": "控制器、堆叠及软件协同能带动多环节改进，但当前例证较局部。",
+          "source_ids": [
+            "c8f51837097654657782e677",
+            "ee68dcea31edefe50deed62c"
+          ],
+          "label": "带动作用",
+          "value": 4
+        }
+      ],
+      "paper_ids": [
+        "b5a2f3ff9c508e15c44ec0f5"
+      ],
+      "maturity": "HBM 有既有商用平台。所列光内存池及 3D DRAM 路线处于开发或路线讨论阶段",
+      "review_status": "provisional",
+      "reviewed_by": null,
+      "reviewed_on": null,
+      "evidence_status": "材料包含公开规范、产业报道和厂商路线。不同存储方案的带宽、延迟和容量口径分别理解。"
+    },
+    {
+      "id": "chiplet",
+      "name": "面向AI的芯粒与3D集成",
+      "track": "ic_for_ai",
+      "topic_ids": [
+        "B3"
+      ],
+      "tagline": "扩展系统能力，也把难题带到封装与协同层",
+      "overview": {
+        "text": "通过多个芯粒、中介层或3D堆叠构建AI系统，技术评价需同时考虑接口、原型验证、热与供电。机构平台进展与工程观点提供了不同层次的线索。",
+        "source_ids": [
+          "e6dd821c3c594d418f4b7509",
+          "9ef5433ffd0ca2dbecc53331"
+        ]
+      },
+      "assessment": {
+        "text": "价值在于将计算和存储扩展问题转化为可协同设计的系统问题。imec公告关注中介层及PDK，行业材料讨论多芯粒扩展边界；这支持持续跟踪平台开放性和工程可组合性，而非仅用芯粒数量判断先进程度。 UCIe 4.0 将规范覆盖延伸到封装内存储连接。Titania 提供了专用推理芯粒的设计示例，现阶段可据此跟踪验证板、跨厂商互操作和系统签核。 微软为 Azure 自研芯片公开提出采用 EMIB 的计划，增加了可以跟踪的客户案例。芯片型号、晶圆工艺和实际交付时间待披露。",
+        "source_ids": [
+          "e6dd821c3c594d418f4b7509",
+          "51bbaa370e367e257706c1bd",
+          "9ef5433ffd0ca2dbecc53331",
+          "cd12564d9da20ddc2058a892",
+          "b2df7947da77d6344944768d",
+          "581b81e388bf6938e0192267",
+          "a00e7ff3ebc466ed33b833e8",
+          "495bc0db74c1f69074e64300"
+        ]
+      },
+      "limitations": {
+        "text": "更多芯粒并不自动带来更高系统效率，工具速度、共享资源和热设计都可能成为限制。当前公告与讨论不足以验证跨厂商即插即用或量产良率。",
+        "source_ids": [
+          "51bbaa370e367e257706c1bd",
+          "883dee8726b5f1d4e4881c84"
+        ]
+      },
+      "watch_next": {
+        "text": "跟进开放PDK、系统原型、跨芯粒接口与热验证，并在相同负载下比较系统收益和集成代价。 新收录的 PFN 项目提供了可跟踪的流片时间。车载 ACIR 文件则提供了不同厂商芯粒组合时的错误报告、启动和供电管理要求，可作为系统验证的对照。",
+        "source_ids": [
+          "e6dd821c3c594d418f4b7509",
+          "9ef5433ffd0ca2dbecc53331",
+          "ebbddb17a89f713b73c52e5a",
+          "248446beb1ff4e6a2bb268f2"
+        ]
+      },
+      "scores": [
+        {
+          "text": "针对AI系统扩展和集成约束，当前资料以平台与局部验证为主。",
+          "source_ids": [
+            "e6dd821c3c594d418f4b7509",
+            "9ef5433ffd0ca2dbecc53331"
+          ],
+          "label": "瓶颈价值",
+          "value": 4
+        },
+        {
+          "text": "同时涉及计算、存储、接口、封装与工具协同，有广泛系统影响潜力。",
+          "source_ids": [
+            "b7e7eb296678650652d551ab",
+            "51bbaa370e367e257706c1bd"
+          ],
+          "label": "影响范围",
+          "value": 5
+        },
+        {
+          "text": "开放中介层、PDK 和 UCIe.mem 形成可复用的技术基础，带动作用评为5。跨厂商器件组合和量产验证仍需实证。",
+          "source_ids": [
+            "e6dd821c3c594d418f4b7509",
+            "cd12564d9da20ddc2058a892",
+            "b2df7947da77d6344944768d"
+          ],
+          "label": "带动作用",
+          "value": 5
+        }
+      ],
+      "paper_ids": [
+        "a90a0079837bc7d1607c46b6",
+        "631fc4bbd8b63ecee0b80d69"
+      ],
+      "maturity": "已有开放标准、机构平台和厂商设计。本版材料未提供跨厂商量产互操作的测试结果。",
+      "review_status": "provisional",
+      "reviewed_by": null,
+      "reviewed_on": null,
+      "evidence_status": "标准文件和机构公告说明接口要求，报道与厂商披露说明项目阶段。系统互操作取决于具体实现与测试条件。"
+    },
+    {
+      "id": "optics",
+      "name": "AI光互连与共封装光学",
+      "track": "ic_for_ai",
+      "topic_ids": [
+        "B3"
+      ],
+      "tagline": "用光扩展互连，同时面对测试与封装成本",
+      "overview": {
+        "text": "将光连接引入AI系统互连，并通过硅光或共封装光学缩短电连接路径，目标是缓解带宽密度与能耗压力。器件、封装和系统架构的进展需要分别看待。",
+        "source_ids": [
+          "6a6861bb894abcdb6781d38f",
+          "631fc4bbd8b63ecee0b80d69"
+        ]
+      },
+      "assessment": {
+        "text": "建议同时关注互连效率与可制造性。库内材料覆盖路线讨论、光调制器研究，以及CPO对准、测试与封装成本；这些线索表明“器件更快”还不足以证明整个AI系统更划算。 Lambda 项目提供了规模化网络部署案例，媒体补充了可换光源、维修和功耗预算的分析。Marvell 的光内存池仍处于另一条产品路线的联合开发阶段。",
+        "source_ids": [
+          "be926e0150024d8ea9a9ad7d",
+          "b6fbd715047b092b6a578a24",
+          "328fdf1670fbbf200480e897",
+          "c8266ce7908dbce9d535efda",
+          "24b9f05db2f055aabcf4efd1",
+          "8477effb7829a98cb70b8c42",
+          "70c1947cf010f80294ef7b31"
+        ]
+      },
+      "limitations": {
+        "text": "光纤对准、连接耐久及光电联合测试可能影响规模化。APEX摘要给出特定DNN负载下的架构评价，不能等同于完整CPO产品的量产性能。",
+        "source_ids": [
+          "b6fbd715047b092b6a578a24",
+          "631fc4bbd8b63ecee0b80d69"
+        ]
+      },
+      "watch_next": {
+        "text": "观察链路或系统级能耗是否计入光源与控制，测试成本与良率是否透明，以及动态负载下的重配置开销。 跟进不同客户部署的故障率、现场维修耗时及整网功耗对比。",
+        "source_ids": [
+          "537588d0606c6ddf1216068c",
+          "631fc4bbd8b63ecee0b80d69",
+          "8477effb7829a98cb70b8c42"
+        ]
+      },
+      "scores": [
+        {
+          "text": "直接面向AI互连的带宽与能耗压力，存在改变连接路径的潜力。",
+          "source_ids": [
+            "6a6861bb894abcdb6781d38f",
+            "631fc4bbd8b63ecee0b80d69"
+          ],
+          "label": "瓶颈价值",
+          "value": 5
+        },
+        {
+          "text": "涉及AI互连和光电集成，但不同距离、负载及封装的可用性仍有差异。",
+          "source_ids": [
+            "631fc4bbd8b63ecee0b80d69",
+            "328fdf1670fbbf200480e897"
+          ],
+          "label": "影响范围",
+          "value": 4
+        },
+        {
+          "text": "规模部署为封装、测试和维修协同提供了工程案例。可复制性与长期运维成本仍待更多客户数据，带动作用评为4。",
+          "source_ids": [
+            "b6fbd715047b092b6a578a24",
+            "537588d0606c6ddf1216068c",
+            "24b9f05db2f055aabcf4efd1",
+            "8477effb7829a98cb70b8c42"
+          ],
+          "label": "带动作用",
+          "value": 4
+        }
+      ],
+      "paper_ids": [
+        "631fc4bbd8b63ecee0b80d69"
+      ],
+      "maturity": "网络交换有客户披露的生产部署案例。跨机架光内存共享仍在联合开发",
+      "review_status": "provisional",
+      "reviewed_by": null,
+      "reviewed_on": null,
+      "evidence_status": "客户披露支持交换网络已部署，媒体补充了维修和功耗讨论。长期故障率与整网实测功耗在本版材料中未见。"
+    }
+  ],
+  "sources": {
+    "03d7682ef0cd8794ee1ad7a1": {
+      "id": "03d7682ef0cd8794ee1ad7a1",
+      "content_type": "news",
+      "title": "SEMIFIVE Applies 3D-IC Platform to PFN AI Chip, Targets Q1 Tape-Out",
+      "source": "THE ELEC",
+      "url": "https://www.thelec.net/news/articleView.html?idxno=15686",
+      "published_at": "2026-11-17",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "厂商披露报道",
+      "excerpt": "THE ELEC 报道 SEMIFIVE 将 3D 集成方案用于 PFN 的 MN-Core L2000 推理芯片，计划在 2027 年第一季度提交流片。",
+      "evidence_kind": "原文核对简述",
+      "organization": "THE ELEC",
+      "attention_eligible": false,
+      "attention_note": "原站题名、署名和日期已核对，项目安排可追溯到企业公告，同组仅计独立采访的媒体覆盖。",
+      "author": "JEONG IL JOO"
+    },
+    "07fbcacf4e5413f3d4673ad9": {
+      "id": "07fbcacf4e5413f3d4673ad9",
+      "content_type": "news",
+      "title": "Security-Aware Layer Mapping Reduces Fault Vulnerability In 3D Compute-In-Memory (ASU, U. of Maryland)",
+      "source": "Semiconductor Engineering",
+      "url": "https://semiengineering.com/security-aware-layer-mapping-reduces-fault-vulnerability-in-3d-compute-in-memory-asu-u-of-maryland/",
+      "published_at": "2026-10-25",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "研究动态报道（链接原研究）",
+      "excerpt": "Researchers at Arizona State University and University of Maryland published “SEAL: Multitenant Security-Aware Layer Mapping for Heterogeneous 3-D CiM Accelerators.” Abstract: “Heterogeneous 3-D compute-in-memory architectures can combine different memory technologies across stacked tiers to accelerate deep neural network inference, but multitenant deployments introduce security risks through shared power delivery networks. The researchers developed SEAL, a security-aware... » read more The post Security-Aware Layer Mapping Reduces Fault Vulnerability In 3D Compute-In-Memory (ASU, U. of Maryland) appeared first on Semiconductor Engineering.",
+      "evidence_kind": "来源简介",
+      "organization": "Semiconductor Engineering",
+      "attention_eligible": true,
+      "attention_note": "按媒体机构计入本期覆盖。来源简介提供报道线索，稿件的署名、赞助或转载关系需要原文信息才能区分。"
+    },
+    "09195c36351e4873ecbf5bdb": {
+      "id": "09195c36351e4873ecbf5bdb",
+      "content_type": "news",
+      "title": "Introducing Build-A-Chip-Bench: From Workload Specification to GDS",
+      "source": "Semiconductor Engineering",
+      "url": "https://semiengineering.com/introducing-build-a-chip-bench-from-workload-specification-to-gds/",
+      "published_at": "2026-10-28",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "专业媒体报道与行业观点",
+      "excerpt": "Evaluate AI agents from workload specification through GDS layout, using open-source tools and an open-source PDK to assess their ability to complete the chip-design workflow. The post Introducing Build-A-Chip-Bench: From Workload Specification to GDS appeared first on Semiconductor Engineering.",
+      "evidence_kind": "来源简介",
+      "organization": "Semiconductor Engineering",
+      "attention_eligible": true,
+      "attention_note": "按媒体机构计入本期覆盖。来源简介提供报道线索，稿件的署名、赞助或转载关系需要原文信息才能区分。"
+    },
+    "103e0884fb9d2d33d6033f82": {
+      "id": "103e0884fb9d2d33d6033f82",
+      "content_type": "news",
+      "title": "Accelerate Analog Design with Flexible, AI-Native Workflows",
+      "source": "EE Times",
+      "url": "https://www.eetimes.com/accelerate-analog-design-with-flexible-ai-native-workflows/",
+      "published_at": "2026-11-05",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "专业媒体报道",
+      "excerpt": "Join this webinar to learn how ChipAgents’ IC-star chip neural engine automates analog design, simulation, and verification in one unified, flexible agentic loop. The post Accelerate Analog Design with Flexible, AI-Native Workflows appeared first on EE Times.",
+      "evidence_kind": "来源简介",
+      "organization": "EE Times",
+      "attention_eligible": false,
+      "attention_note": "厂商网络研讨会，与SEMI会员新闻稿关联，不作为独立媒体报道。"
+    },
+    "18a6d6761c5b3a090f59b9c4": {
+      "id": "18a6d6761c5b3a090f59b9c4",
+      "content_type": "news",
+      "title": "Analog Superposition Increases Effective PCM Storage Density (IBM Research Europe)",
+      "source": "Semiconductor Engineering",
+      "url": "https://semiengineering.com/analog-superposition-increases-effective-pcm-storage-density-ibm-research-europe/",
+      "published_at": "2026-10-27",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "专业媒体报道与行业观点",
+      "excerpt": "Researchers at IBM Research Europe published “Superposed analog memory for vector storage in neural networks.” Summary: Researchers demonstrated an analog phase-change memory architecture that stores multiple AI vectors in superposition, increasing effective storage density with a tunable accuracy tradeoff. Tests on prototype PCM hardware showed inference accuracy close to full-precision software. Find the technical paper here.... » read more The post Analog Superposition Increases Effective PCM Storage Density (IBM Research Europe) appeared first on Semiconductor Engineering.",
+      "evidence_kind": "来源简介",
+      "organization": "Semiconductor Engineering",
+      "attention_eligible": true,
+      "attention_note": "按媒体机构计入本期覆盖。来源简介提供报道线索，稿件的署名、赞助或转载关系需要原文信息才能区分。"
+    },
+    "199b013bceeb4f0168d36428": {
+      "id": "199b013bceeb4f0168d36428",
+      "content_type": "paper",
+      "title": "What Do RTL Repair Benchmarks Actually Measure?",
+      "source": "arXiv 作者预印本",
+      "url": "https://arxiv.org/abs/2610.28595",
+      "published_at": "2026-10-20",
+      "publication_month": null,
+      "venue_type": "preprint",
+      "news_genre": null,
+      "excerpt": "RTL repair benchmarks should measure whether a model can fix broken RTL given a specification. To this end, we construct and hash-bind RTLRepairDataset, 5,784 (broken, fixed) training pairs; RTLRepairBench, 459 held-out cases with 374 syntactic and 85 behavioral mutations; and an evaluation harness supporting simulation and formal equivalence. We then use this infrastructure to identify two measurement confounds. First, simulation and formal scoring give opposite signs for the apparent effect of providing a specification in one evaluated cohort; reset-aware rescoring attributes almost all of the simulation-formal disagreement to reset and first-cycle comparison semantics. Second, on 274 mined model failures, the specification-only minus specification-conditioned recovery point estimate ranges from -8.5 to +18.3 percentage points across six models. Thus, a conventional repair score need not isolate whether the model used the faulty RTL. We translate these findings into evaluation controls: report initialization, reset, first-cycle, and unknown-value semantics; disclose oracle coverage and undecided cases; and include a specification-only baseline. Together, the resources and audit provide both a benchmark for behavioral repair and a protocol for diagnosing what contributes to its measured score. We release the benchmark, the training set, construction code, sanitized aggregate evidence, and reproduction materials at https://github.com/Evaaaz/RTLRepairBench.",
+      "evidence_kind": "原始摘要",
+      "reading_takeaway": "在一组评测中，仿真和形式评分对提供规格的效果给出相反结论。对齐复位和首周期比较规则后，大部分分歧消失。",
+      "organization": "arXiv 作者预印本",
+      "attention_eligible": false,
+      "attention_note": "论文或企业／机构自述不计媒体覆盖；保留为技术线索。"
+    },
+    "248446beb1ff4e6a2bb268f2": {
+      "id": "248446beb1ff4e6a2bb268f2",
+      "content_type": "news",
+      "title": "ASRA and imec release joint architectural requirements",
+      "source": "imec · 官方研究与产业公告",
+      "url": "https://www.imec-int.com/en/press/asra-and-imec-release-joint-architectural-requirements-interoperable-automotive-chiplets",
+      "published_at": "2026-11-12",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "联合公告",
+      "excerpt": "ASRA 和 imec 发布车载芯粒互操作的架构要求，为不同厂商器件组合提供共同参考。",
+      "evidence_kind": "原文核对简述",
+      "organization": "imec · 官方研究与产业公告",
+      "attention_eligible": false,
+      "attention_note": "联合公告与要求文件说明设计约束，硬件互操作结果待验证。",
+      "author": "ASRA / imec"
+    },
+    "24b9f05db2f055aabcf4efd1": {
+      "id": "24b9f05db2f055aabcf4efd1",
+      "content_type": "news",
+      "title": "NVIDIA and Lambda Disclose First Production Co-Packaged Optics Cluster… It is FINALLY real",
+      "source": "ServeTheHome",
+      "url": "https://www.servethehome.com/nvidia-and-lambda-disclose-first-production-co-packaged-optics-cluster-it-is-finally-real/",
+      "published_at": "2026-11-16",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "署名技术分析",
+      "excerpt": "文章结合作者此前对交换机的报道，分析可更换光源、维修方式及电连接缩短对交换设备功耗的影响。部署规模取自企业披露。",
+      "evidence_kind": "原文核对简述",
+      "organization": "ServeTheHome",
+      "attention_eligible": true,
+      "attention_note": "原站署名。文中加入作者对硬件照片、可维护性及旧报道的分析，和企业公告的行文及内容不同。",
+      "author": "Patrick Kennedy"
+    },
+    "24c81d058c8857aa22b27e41": {
+      "id": "24c81d058c8857aa22b27e41",
+      "content_type": "news",
+      "title": "ChipAgents Expands Full-Stack Agentic AI Across Digital and Analog Chip Design",
+      "source": "SEMI Global",
+      "url": "https://www.semi.org/en/node/176746",
+      "published_at": "2026-10-27",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "会员企业新闻稿",
+      "excerpt": "会员新闻稿介绍面向数字与模拟芯片设计的 Agentic AI 方案。效果来自企业描述，这份材料未提供独立对照结果。",
+      "evidence_kind": "报道简述",
+      "organization": "SEMI Global",
+      "attention_eligible": false,
+      "attention_note": "论文或企业／机构自述不计媒体覆盖；保留为技术线索。"
+    },
+    "261f8fb79a78855664ea5582": {
+      "id": "261f8fb79a78855664ea5582",
+      "content_type": "news",
+      "title": "2027年3月期上期の電子材料売り上げは35.8％増の1228億円、JSRが韓国MOR工場を年度内量産へ",
+      "source": "TECH+（マイナビ）· 半导体",
+      "url": "https://news.mynavi.jp/techplus/article/20261120-5361555/",
+      "published_at": "2026-11-20",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "署名技术分析",
+      "excerpt": "TECH+ 根据 JSR 说明会梳理了前后道材料业务和 EUV 金属氧化物光刻胶（MOR）供给。韩国工厂已竣工，报道所述投产目标为 2027 年初。",
+      "evidence_kind": "原文核对简述",
+      "organization": "TECH+（マイナビ）· 半导体",
+      "attention_eligible": true,
+      "attention_note": "原站署名报道，提供材料应用及供应链背景。产线进度和投产目标依据 JSR 披露。",
+      "author": "小林行雄"
+    },
+    "2774217a470785e1672fa9e8": {
+      "id": "2774217a470785e1672fa9e8",
+      "content_type": "news",
+      "title": "Why Chip Design AI Benchmarks Must Go Beyond Functional Correctness",
+      "source": "EE Times",
+      "url": "https://www.eetimes.com/why-chip-design-ai-benchmarks-must-go-beyond-functional-correctness/",
+      "published_at": "2026-10-21",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "专业媒体报道",
+      "excerpt": "Demand for custom silicon is rising as physical AI, data centers, automotive systems, and edge devices require architectures optimized for specific workloads, memory bandwidth, latency, and energy efficiency. Delivering these designs requires teams to coordinate heterogeneous compute blocks, complex interconnects, and multiple domains while closing increasingly demanding power, performance, and area (PPA) targets. AI offers […] The post Why Chip Design AI Benchmarks Must Go Beyond Functional Correctness appeared first on EE Times.",
+      "evidence_kind": "来源简介",
+      "organization": "EE Times",
+      "attention_eligible": true,
+      "attention_note": "按媒体机构计入本期覆盖。来源简介提供报道线索，稿件的署名、赞助或转载关系需要原文信息才能区分。"
+    },
+    "285eb402bcdf2b6250368ac9": {
+      "id": "285eb402bcdf2b6250368ac9",
+      "content_type": "news",
+      "title": "Planning Your AI Design Journey In RF EDA",
+      "source": "Semiconductor Engineering",
+      "url": "https://semiengineering.com/planning-your-ai-design-journey-in-rf-eda/",
+      "published_at": "2026-10-28",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "专业媒体报道与行业观点",
+      "excerpt": "Agentic solutions for RF design. The post Planning Your AI Design Journey In RF EDA appeared first on Semiconductor Engineering.",
+      "evidence_kind": "来源简介",
+      "organization": "Semiconductor Engineering",
+      "attention_eligible": true,
+      "attention_note": "按媒体机构计入本期覆盖。来源简介提供报道线索，稿件的署名、赞助或转载关系需要原文信息才能区分。"
+    },
+    "328fdf1670fbbf200480e897": {
+      "id": "328fdf1670fbbf200480e897",
+      "content_type": "news",
+      "title": "Five Things You Didn’t Know About Co-Packaged Optics",
+      "source": "EE Times",
+      "url": "https://www.eetimes.com/five-things-you-didnt-know-about-co-packaged-optics/",
+      "published_at": "2026-11-03",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "专业媒体报道",
+      "excerpt": "CPO may be a photonics breakthrough, but commercial success hinges equally on advanced packaging that integrates, connects and protects components at scale. The post Five Things You Didn’t Know About Co-Packaged Optics appeared first on EE Times.",
+      "evidence_kind": "来源简介",
+      "organization": "EE Times",
+      "attention_eligible": true,
+      "attention_note": "按媒体机构计入本期覆盖。来源简介提供报道线索，稿件的署名、赞助或转载关系需要原文信息才能区分。"
+    },
+    "3615b60fd9f24fc900808ff3": {
+      "id": "3615b60fd9f24fc900808ff3",
+      "content_type": "news",
+      "title": "Axelera AI Unveils Titania Architecture",
+      "source": "Axelera AI",
+      "url": "https://axelera.ai/news/axelera-ai-unveils-titania-architecture-hpc-class-ai-responsiveness-without-liquid-cooled-racks-targeting-110b-underserved-market",
+      "published_at": "2026-11-12",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "企业公告",
+      "excerpt": "Axelera AI 首次公布 Titania 的数字存内计算与芯粒架构，面向现有机房的高效推理。",
+      "evidence_kind": "原文核对简述",
+      "organization": "Axelera AI",
+      "attention_eligible": false,
+      "attention_note": "企业首发日期为 11 月 12 日。架构来自厂商披露，产品性能与部署仍待验证。",
+      "author": "Axelera AI"
+    },
+    "3b0c1955620f1d3d73cec509": {
+      "id": "3b0c1955620f1d3d73cec509",
+      "content_type": "news",
+      "title": "Synopsys at Supercomputing 2026",
+      "source": "Synopsys",
+      "url": "https://news.synopsys.com/2026-11-16-Synopsys-at-Supercomputing-2026",
+      "published_at": "2026-11-16",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "企业展会预告",
+      "excerpt": "Synopsys 预告 SC26 展示中的 AI 辅助工程和硬件辅助验证议题。",
+      "evidence_kind": "原文核对简述",
+      "organization": "Synopsys",
+      "attention_eligible": false,
+      "attention_note": "厂商展会预告。议题只作为背景，未提供 RTL 生成能力或生产效果验证。",
+      "author": "Synopsys"
+    },
+    "495bc0db74c1f69074e64300": {
+      "id": "495bc0db74c1f69074e64300",
+      "content_type": "news",
+      "title": "Intel 18A yields hit 70% as company signs Microsoft as EMIB customer — the first company to publicly commit to Intel's new packaging technology",
+      "source": "Tom's Hardware",
+      "url": "https://www.tomshardware.com/tech-industry/semiconductors/intel-18a-yields-hit-70-percent-as-company-signs-microsoft-as-emib-customer-the-first-company-to-publicly-commit-to-intels-new-packaging-technology",
+      "published_at": "2026-11-19",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "署名技术分析",
+      "excerpt": "作者分析微软公开承诺采用 EMIB 的意义，并指出仍缺少芯片型号、工艺、产量和部署时间。文章中的 18A 良率为英特尔披露，统计口径不详。",
+      "evidence_kind": "原文核对简述",
+      "organization": "Tom's Hardware",
+      "attention_eligible": true,
+      "attention_note": "原站署名技术分析，与联合公告合为一个事件。报道对承诺范围及缺失信息有独立分析。",
+      "author": "Anton Shilov"
+    },
+    "4d501ec75babf2d3e66e38a6": {
+      "id": "4d501ec75babf2d3e66e38a6",
+      "content_type": "news",
+      "title": "TomorrowX Summit",
+      "source": "Micron",
+      "url": "https://investors.micron.com/events-and-presentations/event-details/2026/TomorrowX-Summit/default.aspx",
+      "published_at": null,
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "官方活动记录",
+      "excerpt": "美光投资者关系页提供 11 月 18 日 TomorrowX 峰会日期与回放入口。",
+      "evidence_kind": "原文核对简述",
+      "organization": "Micron",
+      "attention_eligible": false,
+      "attention_note": "官方活动页用于核对议程日期。此处为活动日期，来源页面未提供可核实的首次发布日期。",
+      "author": "Micron 投资者关系"
+    },
+    "51bbaa370e367e257706c1bd": {
+      "id": "51bbaa370e367e257706c1bd",
+      "content_type": "news",
+      "title": "Accelerating Plug-And-Play Prototyping In Chiplet-Based Designs",
+      "source": "Semiconductor Engineering",
+      "url": "https://semiengineering.com/accelerating-plug-and-play-prototyping-in-chiplet-based-designs/",
+      "published_at": "2026-11-04",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "专业媒体报道与行业观点",
+      "excerpt": "Shared resources, a mix of tools running at different speeds, and multiple dies are adding new challenges for design teams. The post Accelerating Plug-And-Play Prototyping In Chiplet-Based Designs appeared first on Semiconductor Engineering.",
+      "evidence_kind": "来源简介",
+      "organization": "Semiconductor Engineering",
+      "attention_eligible": true,
+      "attention_note": "按媒体机构计入本期覆盖。来源简介提供报道线索，稿件的署名、赞助或转载关系需要原文信息才能区分。"
+    },
+    "52653ee7ec30bc0293ccc058": {
+      "id": "52653ee7ec30bc0293ccc058",
+      "content_type": "news",
+      "title": "Memory R&D Is a High-Stakes Game",
+      "source": "EE Times",
+      "url": "https://www.eetimes.com/memory-rd-is-a-high-stakes-game/",
+      "published_at": "2026-11-19",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "署名报道",
+      "excerpt": "记者以 Micron 研究机构为切入点，访谈行业分析师，讨论 AI 对存储研究议程的影响，以及研究进入晶圆厂所需的资金和协作。",
+      "evidence_kind": "原文核对简述",
+      "organization": "EE Times",
+      "attention_eligible": true,
+      "attention_note": "原站新闻栏目署名并有向 EE Times 提供的分析师访谈，与企业公告分开。研究机构最早于 8 月公布。",
+      "author": "Gary Hilson"
+    },
+    "52f41d96df5dfcc41c4add07": {
+      "id": "52f41d96df5dfcc41c4add07",
+      "content_type": "news",
+      "title": "Edge AI MCU Features Multimodal Compute, Tiered Memory",
+      "source": "EE Times",
+      "url": "https://www.eetimes.com/edge-ai-mcu-features-multimodal-compute-tiered-memory/",
+      "published_at": "2026-10-21",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "专业媒体报道",
+      "excerpt": "A new MCU combines AI-native acceleration with integrated high-bandwidth DRAM scalable to hundreds of megabytes. The post Edge AI MCU Features Multimodal Compute, Tiered Memory appeared first on EE Times.",
+      "evidence_kind": "来源简介",
+      "organization": "EE Times",
+      "attention_eligible": true,
+      "attention_note": "按媒体机构计入本期覆盖。来源简介提供报道线索，稿件的署名、赞助或转载关系需要原文信息才能区分。"
+    },
+    "537588d0606c6ddf1216068c": {
+      "id": "537588d0606c6ddf1216068c",
+      "content_type": "news",
+      "title": "Bringing Down Test Costs For Co-Packaged Optics",
+      "source": "Semiconductor Engineering",
+      "url": "https://semiengineering.com/bringing-down-test-costs-for-co-packaged-optics/",
+      "published_at": "2026-10-26",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "专业媒体报道与行业观点",
+      "excerpt": "Pinpointing failures, ensuring known-good optical engines, and controlling test costs become increasingly critical as photonics moves into advanced packages. The post Bringing Down Test Costs For Co-Packaged Optics appeared first on Semiconductor Engineering.",
+      "evidence_kind": "来源简介",
+      "organization": "Semiconductor Engineering",
+      "attention_eligible": true,
+      "attention_note": "按媒体机构计入本期覆盖。来源简介提供报道线索，稿件的署名、赞助或转载关系需要原文信息才能区分。"
+    },
+    "557310486a70a1bac42bd5a4": {
+      "id": "557310486a70a1bac42bd5a4",
+      "content_type": "news",
+      "title": "AIラック1MW時代へ、ロームとデルタ電子が800V直流給電の国内実装で協業",
+      "source": "TECH+（マイナビ）· 半导体",
+      "url": "https://news.mynavi.jp/techplus/article/20261119-5354056/",
+      "published_at": "2026-11-19",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "署名技术分析",
+      "excerpt": "作者从机柜配电和电源转换解释 800V 直流供电的工程动机，并区分台达和罗姆各自的系统与功率半导体分工。",
+      "evidence_kind": "原文核对简述",
+      "organization": "TECH+（マイナビ）· 半导体",
+      "attention_eligible": true,
+      "attention_note": "原站署名，补充配电和转换环节的技术解释。合作时间表和节材估算来自企业口径。",
+      "author": "小林行雄"
+    },
+    "581b81e388bf6938e0192267": {
+      "id": "581b81e388bf6938e0192267",
+      "content_type": "news",
+      "title": "Axelera AI moves into HPC with Titania",
+      "source": "Jon Peddie Research",
+      "url": "https://www.jonpeddie.com/news/axelera-ai-moves-into-hpc-with-titania/",
+      "published_at": "2026-11-17",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "署名技术分析",
+      "excerpt": "作者对照此前 Metis 和 Europa 产品，分析 Titania 将数字存内计算、RISC-V 和 LPDDR6 集成到面向机房推理的芯粒架构。",
+      "evidence_kind": "原文核对简述",
+      "organization": "Jon Peddie Research",
+      "attention_eligible": true,
+      "attention_note": "按文章署名下的 11 月 17 日日期。含跨代与部署条件比较，性能数据归于厂商；首发为 11 月 12 日。",
+      "author": "David Harold"
+    },
+    "5838a15333e5c6dceecf735e": {
+      "id": "5838a15333e5c6dceecf735e",
+      "content_type": "paper",
+      "title": "SGAP: A Scatter-Gather Processing-in-Memory Architecture with Fixed-Point Reconfiguration for Energy-Efficient DNNs",
+      "source": "ACM TODAES · Crossref题录",
+      "url": "https://doi.org/10.1145/3827619",
+      "published_at": "2026-11-12",
+      "publication_month": null,
+      "venue_type": "journal",
+      "news_genre": null,
+      "excerpt": "Leveraging the robustness of deep neural networks (DNNs), fixed-point mixed-precision models have effectively reduced hardware costs in edge in-memory accelerators. However, existing studies on multipliers are poorly suited to mixed-precision models. On the one hand, most of them employ fixed bit-widths or offer only limited configurations, lacking the fine-grained reconfigurability required by mixed-precision models. On the other hand, layers with smaller retained bit-widths can tolerate larger multiplication errors to achieve lower hardware costs, as the inaccurate bits are discarded. However, existing approximate multipliers cannot achieve low-cost dynamic error control, resulting in this optimization potential being wasted. To address these issues, this study proposes a fixed-point approximate multiplier with fine-grained reconfigurability. By breaking full multiplication into small 2-bit/3-bit operations and discarding non-critical ones selectively, the proposed multiplier ensures high hardware utilization across varying bit-widths while enabling low-cost fine-grained error control. Building on this multiplier, a DDR5-oriented near-memory accelerator architecture is proposed, incorporating extended dynamic random-access memory (DRAM) commands and semi-SIMD scheduling schemes. Compared to state-of-the-art processing-in-memory (PIM) architectures, the proposed architecture achieves a reduction of 40.8% in area, 16.3% in power consumption, and 6.5% in latency, respectively.",
+      "evidence_kind": "原始摘要",
+      "reading_takeaway": "与作者采用的存内计算基线相比，SGAP 报告面积、功耗和延迟分别减少 40.8%、16.3% 和 6.5%。",
+      "organization": "ACM TODAES · Crossref题录",
+      "attention_eligible": false,
+      "attention_note": "论文或企业／机构自述不计媒体覆盖；保留为技术线索。"
+    },
+    "592ceb60750d63a0d88f915d": {
+      "id": "592ceb60750d63a0d88f915d",
+      "content_type": "news",
+      "title": "Bull Shows Intel Xeon Diamond Rapids Package at SC26",
+      "source": "ServeTheHome",
+      "url": "https://www.servethehome.com/bull-shows-intel-xeon-diamond-rapids-package-at-sc26/",
+      "published_at": "2026-11-18",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "署名报道",
+      "excerpt": "报道用现场照片展示 Bull 刀片中的 Diamond Rapids 封装、双路节点和液冷接头。",
+      "evidence_kind": "原文核对简述",
+      "organization": "ServeTheHome",
+      "attention_eligible": true,
+      "attention_note": "现场照片与作者观察支持确认实物展出及部件布局。文章未提供量产、交付或长时负载数据。",
+      "author": "Patrick Kennedy"
+    },
+    "5b12cde3f76ba73e8a919ab4": {
+      "id": "5b12cde3f76ba73e8a919ab4",
+      "content_type": "news",
+      "title": "Marvell and Penguin Solutions Collaborate to Address Data Center AI Memory and Accelerate Inference at Scale",
+      "source": "Penguin Solutions",
+      "url": "https://ir.penguinsolutions.com/files/doc_news/Marvell-and-Penguin-Solutions-Collaborate-to-Address-Data-Center-AI-Memory-and-Accelerate-Inference-at-Scale-2026.pdf",
+      "published_at": "2026-11-16",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "同稿分发",
+      "excerpt": "Penguin IR 刊载双方联合公告，覆盖 CXL 扩容和光内存池合作。",
+      "evidence_kind": "原文核对简述",
+      "organization": "Penguin Solutions",
+      "attention_eligible": false,
+      "attention_note": "与 Marvell 官网页面为同一联合公告，核心方案、引述及交付计划一致。",
+      "author": "Marvell / Penguin Solutions"
+    },
+    "5cdd8006d9375cfe9e59c2b5": {
+      "id": "5cdd8006d9375cfe9e59c2b5",
+      "content_type": "news",
+      "title": "DeepX Tapes Out Second-Gen Chip, Projects 6.7× Performance Gain With LPDDR5x-PIM",
+      "source": "EE Times",
+      "url": "https://www.eetimes.com/deepx-tapes-out-second-gen-chip-projects-6-7x-performance-gain-with-lpddr5x-pim/",
+      "published_at": "2026-11-09",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "专业媒体报道",
+      "excerpt": "DeepX is targeting edge markets including robotics with its second-generation AI accelerator, which can run large LLMs on device in under 5 W. The post DeepX Tapes Out Second-Gen Chip, Projects 6.7× Performance Gain With LPDDR5x-PIM appeared first on EE Times.",
+      "evidence_kind": "来源简介",
+      "organization": "EE Times",
+      "attention_eligible": true,
+      "attention_note": "按媒体机构计入本期覆盖。来源简介提供报道线索，稿件的署名、赞助或转载关系需要原文信息才能区分。"
+    },
+    "631fc4bbd8b63ecee0b80d69": {
+      "id": "631fc4bbd8b63ecee0b80d69",
+      "content_type": "paper",
+      "title": "APEX: an Adaptive Photonic-Electronic Chiplet Interconnection Architecture for DNN Inference",
+      "source": "ACM TODAES · Crossref题录",
+      "url": "https://doi.org/10.1145/3821436",
+      "published_at": "2026-11-11",
+      "publication_month": null,
+      "venue_type": "journal",
+      "news_genre": null,
+      "excerpt": "The exponential growth of Deep Neural Network (DNN) has precipitated a crisis in inter-chiplet communication, where traditional electrical interconnects struggle to meet the bandwidth density and energy efficiency requirements of massive-scale inference. While Silicon Photonics (SiPh) inherently offers the high bandwidth density and distance-independent energy efficiency required to transcend these metallic barriers, existing optical architectures remain fundamentally constrained by static topologies and prohibitive thermal reconfiguration latencies. This rigidity renders them ill-suited for the dynamic, phase-varying traffic patterns inherent in DNN workloads. To this end, we introduce APEX, a reconfigurable photonic-electrical interconnection architecture with dynamic logical topology reconfiguration algorithm engineered to resolve these scalability barriers. Central to APEX is a novel state-aware randomized greedy heuristic algorithm, which dynamically orchestrates wavelength allocation to adapt to the phase-varying traffic patterns inherent in DNN workloads. We validate the proposed approach against an optimal Integer Linear Programming (ILP) baseline, demonstrating that our linear time heuristic achieves near-optimal fidelity with a marginal energy overhead of only 5.6% in the early stages. Furthermore, it demonstrates robust scalability to synthesize full-layer network configurations where ILP solvers face combinatorial explosion. Evaluation across representative workloads reveals that APEX delivers a substantial leap in energy efficiency, achieving 0.69 pJ/bit for the BERT model—an approximate 41% reduction compared with Simba’s 1.17 pJ/bit.",
+      "evidence_kind": "原始摘要",
+      "reading_takeaway": "BERT 评估中，互连能耗为 0.69 pJ/bit，较 Simba 的 1.17 pJ/bit 低约 41%。",
+      "organization": "ACM TODAES · Crossref题录",
+      "attention_eligible": false,
+      "attention_note": "论文或企业／机构自述不计媒体覆盖；保留为技术线索。"
+    },
+    "66d2d2a366c54d0fba3584ac": {
+      "id": "66d2d2a366c54d0fba3584ac",
+      "content_type": "news",
+      "title": "[News] Micron Reportedly Says All Major Customers Eye 3D DRAM Tie-Ups, Broader Adoption Expected by 2030–31",
+      "source": "TrendForce 集邦咨询",
+      "url": "https://www.trendforce.com/news/2026/11/20/news-micron-reportedly-says-all-major-customers-eye-3d-dram-tie-ups-broader-adoption-expected-by-2030-31/",
+      "published_at": "2026-11-20",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "二手编译",
+      "excerpt": "文章整理美光高管在 TomorrowX 峰会对 3D DRAM 的路线判断，涉及客户合作、热管理与采用时间预期。",
+      "evidence_kind": "原文核对简述",
+      "organization": "TrendForce 集邦咨询",
+      "attention_eligible": false,
+      "attention_note": "正文列明引用 Investing.com 会议文字记录、TechNews 和 HotHardware。按二手编译处理，时间表属于管理层预期。",
+      "author": "TrendForce 编辑"
+    },
+    "682b342c05c430ad2a698bdb": {
+      "id": "682b342c05c430ad2a698bdb",
+      "content_type": "news",
+      "title": "Qnity at One: Randy King on Shrink, Stack and the Materials Behind AI",
+      "source": "EE Times",
+      "url": "https://www.eetimes.com/qnity-at-one-randy-king-on-shrink-stack-and-the-materials-behind-ai/",
+      "published_at": "2026-11-18",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "厂商供稿",
+      "excerpt": "供稿讨论 AI 芯片制造中缩放、堆叠与先进封装材料面临的系统级约束。",
+      "evidence_kind": "原文核对简述",
+      "organization": "EE Times",
+      "attention_eligible": false,
+      "attention_note": "EE Times 首页列入 Partner Content，正文署名为 Qnity 高管。",
+      "author": "Randal King（Qnity）"
+    },
+    "6a342d8fa359881c5f7afa48": {
+      "id": "6a342d8fa359881c5f7afa48",
+      "content_type": "news",
+      "title": "Rethinking Memory For AI Inference",
+      "source": "Semiconductor Engineering",
+      "url": "https://semiengineering.com/rethinking-memory-for-ai-inference/",
+      "published_at": "2026-11-12",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "专业媒体报道与行业观点",
+      "excerpt": "Processing data closer to memory could reduce power and boost performance, but software, thermal, and architectural challenges remain. The post Rethinking Memory For AI Inference appeared first on Semiconductor Engineering.",
+      "evidence_kind": "来源简介",
+      "organization": "Semiconductor Engineering",
+      "attention_eligible": true,
+      "attention_note": "按媒体机构计入本期覆盖。来源简介提供报道线索，稿件的署名、赞助或转载关系需要原文信息才能区分。"
+    },
+    "6a6861bb894abcdb6781d38f": {
+      "id": "6a6861bb894abcdb6781d38f",
+      "content_type": "news",
+      "title": "The imec Report: Scaling Optical Interconnects For The AI Era",
+      "source": "Semiconductor Engineering",
+      "url": "https://semiengineering.com/the-imec-report-scaling-optical-interconnects-for-the-ai-era/",
+      "published_at": "2026-10-27",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "专业媒体报道与行业观点",
+      "excerpt": "Unprecedented demand for bandwidth calls for bringing optics closer to silicon through a fundamental rethinking of the optical interconnect roadmap. The post The imec Report: Scaling Optical Interconnects For The AI Era appeared first on Semiconductor Engineering.",
+      "evidence_kind": "来源简介",
+      "organization": "Semiconductor Engineering",
+      "attention_eligible": true,
+      "attention_note": "按媒体机构计入本期覆盖。来源简介提供报道线索，稿件的署名、赞助或转载关系需要原文信息才能区分。"
+    },
+    "701dbfcc431daef8569f0bab": {
+      "id": "701dbfcc431daef8569f0bab",
+      "content_type": "paper",
+      "title": "GTRCiM: Generic Temperature-Resilient Subthreshold-FeFET Based Compute-in-Memory",
+      "source": "ACM TODAES · Crossref题录",
+      "url": "https://doi.org/10.1145/3831703",
+      "published_at": "2026-11-03",
+      "publication_month": null,
+      "venue_type": "journal",
+      "news_genre": null,
+      "excerpt": "Compute-in-memory (CiM) offers a promising solution to the hardware challenges faced in artificial intelligence (AI) and the Internet of Things (IoT), particularly in tackling the “memory wall” problem. By leveraging non-volatile memory (NVM) devices arranged in a crossbar structure, CiM efficiently accelerates multiply-accumulate (MAC) computations, which are essential for neural networks and various AI models. Emerging NVM, i.e., Ferroelectric FET (FeFET), is a particularly appealing choice for constructing ultra-low-power CiM arrays due to its CMOS compatibility, voltage-driven write/read mechanisms and high I ON /I OFF ratio. Operating FeFETs in the subthreshold region, i.e., subthreshold-FeFETs, further reduces power, but introduces vulnerability to temperature drift, leading to potential accuracy degradation. In this article, we present subthreshold-FeFET based temperature-resilient 2T-1FeFET and 2FeFET-1T CiM cell designs that address the temperature vulnerability. These two cells leverage feedback mechanisms to minimize the output current fluctuations caused by temperature drift. We further propose GTRCiM, a novel generic temperature-resilient CiM design that accommodates both our proposed CiM cells and other typical FeFET based cells while maintaining ultra-low-power consumption with subthreshold-FeFETs. By incorporating an additional column of the CiM array as a reference, and leveraging the temperature-resilient cell design, GTRCiM compensates for the effects of temperature drift, as temperature affects both arrays uniformly. We integrate the proposed GTRCiM array with typical 1FeFET-1R, and our proposed 2T-1FeFET, 2FeFET-1T cells and validate that GTRCiM enhances the temperature resilience with our proposed cells and even the temperature vulnerable 1FeFET-1R cell. Benchmarking results at system level using the NeuroSim framework show that our proposed GTRCiM array integrated with subthreshold-FeFET based 1FeFET-1R cells achieves 28.09 TOPS/W energy efficiency, surpassing existing CiM designs while maintaining sufficient temperature resilience.",
+      "evidence_kind": "原始摘要",
+      "reading_takeaway": "NeuroSim 系统级评估中，采用 1FeFET-1R 单元的 GTRCiM 配置达到 28.09 TOPS/W，并报告温度鲁棒性提高。",
+      "organization": "ACM TODAES · Crossref题录",
+      "attention_eligible": false,
+      "attention_note": "论文或企业／机构自述不计媒体覆盖；保留为技术线索。"
+    },
+    "70c1947cf010f80294ef7b31": {
+      "id": "70c1947cf010f80294ef7b31",
+      "content_type": "news",
+      "title": "Marvell and Penguin Solutions Collaborate to Address Data Center AI Memory and Accelerate Inference at Scale",
+      "source": "Marvell",
+      "url": "https://www.marvell.com/company/newsroom/marvell-penguin-solutions-data-center-ai-memory-inference.html",
+      "published_at": "2026-11-16",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "联合公告",
+      "excerpt": "双方公布 CXL 扩容与跨机架光内存共享合作。跨机架路线的联合开发样品预计于 2027 年下半年提供。",
+      "evidence_kind": "原文核对简述",
+      "organization": "Marvell",
+      "attention_eligible": false,
+      "attention_note": "双方联合发布。Penguin 的 IR PDF 为同一联合稿；保留同一事件，产品计划按厂商披露处理。",
+      "author": "Marvell / Penguin Solutions"
+    },
+    "7218ea4159b7a623731dc519": {
+      "id": "7218ea4159b7a623731dc519",
+      "content_type": "news",
+      "title": "Samsung Electronics Finalizes Three-Track Development Strategy for Next-Generation DRAM",
+      "source": "THE ELEC",
+      "url": "https://www.thelec.net/news/articleView.html?idxno=15696",
+      "published_at": "2026-11-17",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "署名报道",
+      "excerpt": "THE ELEC 引用产业人士称，三星探索将 HBM5 的存储阵列和外围逻辑分别制造后键合，另外保留面向移动和高性能内存的研发路线。",
+      "evidence_kind": "原文核对简述",
+      "organization": "THE ELEC",
+      "attention_eligible": true,
+      "attention_note": "原站署名独家报道，主要依据产业人士。具体方案和时间表仍待三星公开确认。",
+      "author": "JY Han"
+    },
+    "77d19b08058f062640d0b8f5": {
+      "id": "77d19b08058f062640d0b8f5",
+      "content_type": "news",
+      "title": "デルタ電子とローム、AIデータセンターの電力課題解決に向けた協業を強化",
+      "source": "ROHM",
+      "url": "https://www.rohm.co.jp/news-detail?defaultGroupId=false&news-title=2026-11-18_news_delta",
+      "published_at": "2026-11-18",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "联合公告",
+      "excerpt": "双方签署基本协议，计划在日本共同整理 AI 数据中心 800V 直流供电的要求和系统规格。",
+      "evidence_kind": "原文核对简述",
+      "organization": "ROHM",
+      "attention_eligible": false,
+      "attention_note": "合作双方发布的一手资料，支持确认协议范围，系统实测和部署结果仍待公开。",
+      "author": "罗姆／台达电子日本公司"
+    },
+    "7f9444b0ae8d9d1be3fdbc9d": {
+      "id": "7f9444b0ae8d9d1be3fdbc9d",
+      "content_type": "news",
+      "title": "Agentic AI Should Fit the Way You Engineer",
+      "source": "Synopsys 芯片设计博客",
+      "url": "https://www.synopsys.com/blogs/chip-design/agentic-ai-adoption-paths-chip-design.html",
+      "published_at": "2026-11-09",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "企业技术博客",
+      "excerpt": "Explore three agentic AI adoption paths that help chip design teams combine flexible AI stacks with trusted, physics-based engineering tools.",
+      "evidence_kind": "来源简介",
+      "organization": "Synopsys 芯片设计博客",
+      "attention_eligible": false,
+      "attention_note": "论文或企业／机构自述不计媒体覆盖；保留为技术线索。"
+    },
+    "8477effb7829a98cb70b8c42": {
+      "id": "8477effb7829a98cb70b8c42",
+      "content_type": "news",
+      "title": "Lambda puts Nvidia photonics to work in 10,000-GPU AI cluster",
+      "source": "TechTarget",
+      "url": "https://www.techtarget.com/news/lambda-puts-nvidia-photonics-to-work-in-10000-gpu-ai-cluster/874899/",
+      "published_at": "2026-11-17",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "署名报道",
+      "excerpt": "记者报道 Lambda 以共封装光学交换机连接逾万张 GPU 的项目，引用两名外部分析师讨论电力预算、维修和供应商依赖。",
+      "evidence_kind": "原文核对简述",
+      "organization": "TechTarget",
+      "attention_eligible": true,
+      "attention_note": "原站记者署名，含 Moor Insights & Strategy 与 HyperFrame Research 的分析。部署及指标仍应归于披露方。",
+      "author": "Shane Snider"
+    },
+    "84a783fbcfac80f79fab257e": {
+      "id": "84a783fbcfac80f79fab257e",
+      "content_type": "news",
+      "title": "異なるメーカーの車載チップレットを相互接続へ、ASRAとimecが共通要件を策定",
+      "source": "TECH+（マイナビ）· 半导体",
+      "url": "https://news.mynavi.jp/techplus/article/20261117-5343229/",
+      "published_at": "2026-11-17",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "署名解读（基于机构公告）",
+      "excerpt": "报道梳理车载芯粒互操作文件 ACIR 对裸片互连、错误报告、启动和功耗管理的要求。",
+      "evidence_kind": "原文核对简述",
+      "organization": "TECH+（マイナビ）· 半导体",
+      "attention_eligible": false,
+      "attention_note": "署名技术解读主要沿用机构资料，作为芯粒互操作的补充证据。",
+      "author": "服部毅"
+    },
+    "870c2dc209874fc364e88153": {
+      "id": "870c2dc209874fc364e88153",
+      "content_type": "news",
+      "title": "D-Matrix bets stacked DRAM can solve inference’s memory bandwidth problem",
+      "source": "SiliconANGLE",
+      "url": "https://siliconangle.com/2026/11/19/raptor-chip-stacks-3d-dram-tackle-inference-memory-limits-sc26/",
+      "published_at": "2026-11-19",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "有赞助披露的采访",
+      "excerpt": "SC26 采访 d-Matrix 工程负责人，讨论 Raptor 在推理逻辑下方堆叠 DRAM 的做法。技术收益来自厂商陈述。",
+      "evidence_kind": "原文核对简述",
+      "organization": "SiliconANGLE",
+      "attention_eligible": false,
+      "attention_note": "专访有 NYSE Wired 赞助披露，因此作为背景。Raptor 架构此前已公开，此处记录本周采访。",
+      "author": "Kelly Knight"
+    },
+    "883dee8726b5f1d4e4881c84": {
+      "id": "883dee8726b5f1d4e4881c84",
+      "content_type": "news",
+      "title": "Vertical DRAM Stacking Expands Thermal Design Space Beyond HBM-on-GPU (imec)",
+      "source": "Semiconductor Engineering",
+      "url": "https://semiengineering.com/vertical-dram-stacking-expands-thermal-design-space-beyond-hbm-imec/",
+      "published_at": "2026-10-26",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "研究动态报道（链接原研究）",
+      "excerpt": "Researchers at imec published “Beyond HBM-on-GPU: Thermal Design Envelope for 3D Volumetric DRAM-on-GPU Integration.” Summary: Researchers evaluated a 3D memory architecture that rotates DRAM dies vertically above a GPU and places cooling cavities between them as an alternative to conventional 2.5D HBM and direct-stacked HBM-on-GPU. Package-level thermal simulations examined stack height, memory capacity and organization,... » read more The post Vertical DRAM Stacking Expands Thermal Design Space Beyond HBM-on-GPU (imec) appeared first on Semiconductor Engineering.",
+      "evidence_kind": "来源简介",
+      "organization": "Semiconductor Engineering",
+      "attention_eligible": true,
+      "attention_note": "按媒体机构计入本期覆盖。来源简介提供报道线索，稿件的署名、赞助或转载关系需要原文信息才能区分。"
+    },
+    "8c43c1d20b25e15910bb9b4b": {
+      "id": "8c43c1d20b25e15910bb9b4b",
+      "content_type": "news",
+      "title": "2027年3月期上期 事業状況説明会資料",
+      "source": "JSR",
+      "url": "https://ssl4.eir-parts.net/doc/4185/ir_material_for_fiscal_ym/219424/00.pdf",
+      "published_at": "2026-11-19",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "企业说明会材料",
+      "excerpt": "JSR 在 11 月 19 日的说明会材料中确认韩国 MOR 生产中心已竣工，计划继续推进量产供给。",
+      "evidence_kind": "原文核对简述",
+      "organization": "JSR",
+      "attention_eligible": false,
+      "attention_note": "JSR 新闻索引链接的原始说明资料。可确认工厂阶段，正式量产和合格供货规模待公布。",
+      "author": "JSR"
+    },
+    "8d17507365a589198532247e": {
+      "id": "8d17507365a589198532247e",
+      "content_type": "paper",
+      "title": "UVMarvel: an Automated LLM-aided UVM Machine for Subsystem-level RTL Verification",
+      "source": "DAC · Crossref会议题录",
+      "url": "https://doi.org/10.1145/3770743.3811404",
+      "published_at": "2026-10-22",
+      "publication_month": null,
+      "venue_type": "conference",
+      "news_genre": null,
+      "excerpt": "Verification presents a major bottleneck in Integrated Circuit (IC) development, consuming nearly 70% of total effort. While the Universal Verification Methodology (UVM) improves reuse through structured verification environments, constructing subsystem-level UVM testbenches and generating high-quality stimuli still require extensive manual coding, repeated EDA tool runs, and deep protocol and micro-architectural expertise. We present UVMarvel, an automated verification framework that leverages Large Language Models (LLMs) to build UVM testbenches for subsystem-level RTL. UVMarvel introduces an Intermediate Representation (IR) and a Bus Protocol Library to translate heterogeneous specifications into protocol-correct subsystem-level UVM testbenches, and employs a Signal Tracker and a Verilog Patching Library to guide LLM-based stimuli refinement. UVMarvel is the first framework capable of automatically constructing subsystem-level UVM testbenches across mainstream bus protocols, and it achieves an average code coverage of 95.65%, while reducing verification time from several human working days to a 4.5-hour automated execution.",
+      "evidence_kind": "原始摘要",
+      "reading_takeaway": "作者报告子系统验证的平均代码覆盖率为 95.65%，自动流程用时 4.5 小时。",
+      "organization": "DAC · Crossref会议题录",
+      "attention_eligible": false,
+      "attention_note": "论文或企业／机构自述不计媒体覆盖；保留为技术线索。"
+    },
+    "8f64592a14c42b684015a968": {
+      "id": "8f64592a14c42b684015a968",
+      "content_type": "news",
+      "title": "Using AI for Analog Design",
+      "source": "Semiconductor Engineering",
+      "url": "https://semiengineering.com/using-ai-for-analog-design/",
+      "published_at": "2026-10-28",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "专业媒体报道与行业观点",
+      "excerpt": "The growing role of AI in analog and mixed-signal design, where complexity is rising, schedules are tightening, and the cost of mistakes is higher than ever. The post Using AI for Analog Design appeared first on Semiconductor Engineering.",
+      "evidence_kind": "来源简介",
+      "organization": "Semiconductor Engineering",
+      "attention_eligible": true,
+      "attention_note": "按媒体机构计入本期覆盖。来源简介提供报道线索，稿件的署名、赞助或转载关系需要原文信息才能区分。"
+    },
+    "92aa190df139c7c613f79bf4": {
+      "id": "92aa190df139c7c613f79bf4",
+      "content_type": "news",
+      "title": "全明星阵容！存算一体产业创新发展大会11月20日武汉光谷启幕",
+      "source": "爱集微（集微网）",
+      "url": "https://www.ijiwei.com/n/1140239",
+      "published_at": "2026-11-14",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "专业媒体报道",
+      "excerpt": "11月20 日，存算一体产业创新发展大会将在武汉光谷万豪酒店隆重举办。本届大会由武汉东湖新技术开发区管委会主办，爱集微承办，以“存算融合・智涌光谷”为主题，立足武汉存储产业根基，打造存算融合领域政产学研资高端对话与产业落地对接平台，汇聚产业各方力量，探寻存算一体技术创新与产业化发展的新路径。",
+      "evidence_kind": "来源简介",
+      "organization": "爱集微（集微网）",
+      "attention_eligible": false,
+      "attention_note": "承办方会议预告，不计独立媒体关注。"
+    },
+    "9b19413eaab062e47b015aff": {
+      "id": "9b19413eaab062e47b015aff",
+      "content_type": "paper",
+      "title": "SAFTAC: Simulation-Augmented Fine-Tuning of Open-Source LLMs for Analog Circuit Design",
+      "source": "arXiv 作者预印本",
+      "url": "https://arxiv.org/abs/2611.08543",
+      "published_at": "2026-11-05",
+      "publication_month": null,
+      "venue_type": "preprint",
+      "news_genre": null,
+      "excerpt": "Circuit design for analog integrated circuits (ICs) is challenging because circuit topology, device sizing, and circuit performance are tightly coupled. Existing large language model (LLM)-based methods either rely on inference-time correction around frozen models or train on limited circuit types without directly using simulation outcomes as training signals. A key bottleneck is that existing datasets do not provide sufficient task information for training LLMs on end-to-end specification-conditioned design. To fill this gap, we first construct a large-scale simulation-grounded dataset with 8,626 design tasks across 10 different types of analog circuits, where each task includes a textual description, labeled I/O ports, loading condition, target specifications, a testbench, and a reference netlist. Using this dataset, we present SAFTAC, a simulation-augmented fine-tuning framework that trains LLMs to generate and revise analog circuit design. SAFTAC combines three-stage supervised fine-tuning, which progressively builds the capabilities required for analog circuit design and feedback-guided correction, with simulation feedback-augmented reinforcement fine-tuning, which further optimizes models using simulation-grounded rewards. We evaluate SAFTAC under single-pass generation and two-pass generation with simulation feedback, showing improvements over the strongest closed-source LLM by 15.9% and 7.8%, respectively.",
+      "evidence_kind": "原始摘要",
+      "reading_takeaway": "相较作者选定的最强闭源基线，摘要报告单次生成和加入一次仿真反馈的两轮生成分别改善 15.9% 和 7.8%。",
+      "organization": "arXiv 作者预印本",
+      "attention_eligible": false,
+      "attention_note": "论文或企业／机构自述不计媒体覆盖；保留为技术线索。"
+    },
+    "9bbc7038db3f1fa234f5b94c": {
+      "id": "9bbc7038db3f1fa234f5b94c",
+      "content_type": "paper",
+      "title": "AutoC2V: Synthesis-Guided LLM Training for QoR-Optimized C++-to-Verilog Generation",
+      "source": "arXiv 作者预印本",
+      "url": "https://arxiv.org/abs/2611.10824",
+      "published_at": "2026-11-07",
+      "publication_month": null,
+      "venue_type": "preprint",
+      "news_genre": null,
+      "excerpt": "High-level synthesis (HLS) can translate C/C++ kernels into register-transfer level (RTL) designs, yet generating high-quality hardware still relies heavily on manual pragma tuning and repeated synthesis evaluation. We propose AutoC2V, a C++-to-Verilog generation framework driven by real synthesis feedback that enables large language models (LLMs) to directly generate RTL with improved quality of results (QoR) from synthesizable C++ kernels. We construct training data from real synthesis results, including synthesizable C++ source code, the corresponding Verilog RTL, QoR metrics, and optimization objectives. Using this dataset, we align the model toward synthesis-aware RTL generation through Supervised Fine-Tuning (SFT) and Group Relative Policy Optimization (GRPO). To reduce the high cost of repeatedly invoking real synthesis during GRPO, we design the QoR Prediction Reward Model (QoR RM), which predicts latency and resource metrics by encoding RTL into long-context semantic representations, thereby providing low-cost and continuous QoR reward signals for policy optimization. Experimental results demonstrate that AutoC2V not only substantially improves RTL functional pass rates, but also achieves superior latency and resource optimization compared to the unfine-tuned base model, representative HLS optimization approaches (HLSPilot, LLM-DSE, and AutoDSE), and advanced general-purpose commercial models (Claude Opus 4.8, GPT-5.5, Gemini 3.1 Pro, DeepSeek v4 Pro, and GLM-5.2). These results indicate that combining real synthesis data with efficient QoR reward modeling can further improve the ability of LLMs to generate high-quality RTL.",
+      "evidence_kind": "原始摘要",
+      "reading_takeaway": "作者报告，相比未微调模型及所选 HLS 优化基线，AutoC2V 同时改善了 RTL 功能通过率、延迟和资源使用。",
+      "organization": "arXiv 作者预印本",
+      "attention_eligible": false,
+      "attention_note": "论文或企业／机构自述不计媒体覆盖；保留为技术线索。"
+    },
+    "9ef5433ffd0ca2dbecc53331": {
+      "id": "9ef5433ffd0ca2dbecc53331",
+      "content_type": "news",
+      "title": "Chiplets: Panel Discussion: Scaling Chiplets Without Breaking the System – Where are the Limits?",
+      "source": "EE Times",
+      "url": "https://www.eetimes.com/chiplets-panel-discussion-scaling-chiplets-without-breaking-the-system-where-are-the-limits/",
+      "published_at": "2026-11-11",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "专业媒体报道",
+      "excerpt": "As chiplet-based designs grow in scale and complexity, the technical challenges mount up as every layer of the system introduces new constraints. The post Chiplets: Panel Discussion: Scaling Chiplets Without Breaking the System – Where are the Limits? appeared first on EE Times.",
+      "evidence_kind": "来源简介",
+      "organization": "EE Times",
+      "attention_eligible": true,
+      "attention_note": "按媒体机构计入本期覆盖。来源简介提供报道线索，稿件的署名、赞助或转载关系需要原文信息才能区分。"
+    },
+    "a00e7ff3ebc466ed33b833e8": {
+      "id": "a00e7ff3ebc466ed33b833e8",
+      "content_type": "news",
+      "title": "Microsoft and Intel deepen collaboration to deliver differentiated Azure infrastructure",
+      "source": "Intel Newsroom",
+      "url": "https://www.intel.com/content/www/us/en/newsroom/news/corporate/microsoft-azure-infrastructure-collaboration.html",
+      "published_at": "2026-11-18",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "联合公告",
+      "excerpt": "微软和英特尔公布长期合作，将在 Azure 自研芯片上使用 EMIB 先进封装。协议另包含多年 Xeon 供应。",
+      "evidence_kind": "原文核对简述",
+      "organization": "Intel Newsroom",
+      "attention_eligible": false,
+      "attention_note": "双方公告确认采用意向。公告未披露自研芯片型号、晶圆工艺、封装供货量或部署时间。",
+      "author": "Intel / Microsoft"
+    },
+    "a09000dfe0153a289826f039": {
+      "id": "a09000dfe0153a289826f039",
+      "content_type": "news",
+      "title": "Marvell and Penguin Solutions aim to end the RAMpocalypse with photonic memory fabric",
+      "source": "The Register",
+      "url": "https://www.theregister.com/systems/2026/11/16/marvell-and-penguin-solutions-aim-to-end-the-rampocalypse-with-photonic-memory-fabric/5309921",
+      "published_at": "2026-11-16",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "署名报道",
+      "excerpt": "记者就模块和整机的分工采访 Marvell 负责人，并讨论远端显存共享与近封装光学的可维护性。",
+      "evidence_kind": "原文核对简述",
+      "organization": "The Register",
+      "attention_eligible": true,
+      "attention_note": "原站系统编辑署名，包含向该媒体提供的专访及技术比较，超过通稿内容。",
+      "author": "Tobias Mann"
+    },
+    "a12d640290da83ad401ca4b6": {
+      "id": "a12d640290da83ad401ca4b6",
+      "content_type": "news",
+      "title": "Chip Industry Week In Review",
+      "source": "Semiconductor Engineering",
+      "url": "https://semiengineering.com/chip-industry-week-in-review-165/",
+      "published_at": "2026-11-20",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "行业速览",
+      "excerpt": "该期行业速览汇总了西门子拟收购 Breker、微软采用 EMIB 计划及 SC26 硬件动态。",
+      "evidence_kind": "原文核对简述",
+      "organization": "Semiconductor Engineering",
+      "attention_eligible": false,
+      "attention_note": "编辑部多事件速览。本次作为 EDA 事件背景，所引签约信息来自公司披露，未计新增独立报道。",
+      "author": "The SE Staff"
+    },
+    "a321fe498889e85786046064": {
+      "id": "a321fe498889e85786046064",
+      "content_type": "news",
+      "title": "Siemens to acquire Breker Verification Systems to expand system-on-chip verification portfolio",
+      "source": "Siemens Newsroom",
+      "url": "https://news.siemens.com/en-us/siemens-to-acquire-breker-verification-systems/",
+      "published_at": "2026-11-17",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "企业公告",
+      "excerpt": "西门子签署收购 Breker 的协议，计划补充 SoC 级验证场景和测试生成能力。公司预计于 12 月交割，仍需满足交割条件。",
+      "evidence_kind": "原文核对简述",
+      "organization": "Siemens Newsroom",
+      "attention_eligible": false,
+      "attention_note": "公司一手公告确认签约，交割和工具集成效果待后续披露。",
+      "author": "Siemens"
+    },
+    "a90a0079837bc7d1607c46b6": {
+      "id": "a90a0079837bc7d1607c46b6",
+      "content_type": "paper",
+      "title": "Embodied Emissions of 2.5D and 3D Scaling in Chipletized GPUs for Low-Carbon AI",
+      "source": "arXiv 作者预印本",
+      "url": "https://arxiv.org/abs/2610.32830",
+      "published_at": "2026-10-23",
+      "publication_month": null,
+      "venue_type": "preprint",
+      "news_genre": null,
+      "excerpt": "GPU compute resources are scaling to support growing AI workloads, leading to further rises in the climate change impact of hyperscale data centers that rely on high-performance GPUs. To model how packaging decisions impact the carbon footprint we have estimated the embodied emissions (EE) of a chiplet-based GPU that has been scaled in 2.5D and 3D using the imec.netzero modelling platform. We doubled the number of compute units and high bandwidth memory (HBM) capacity in the 2.5D and 3D scaled systems and found that 3D scaling results in an 89% increase in EE, as compared to an increase of 141% for 2.5D scaling, positioning 3D scaling as an attractive solution to limit the embodied emissions due to GPU scaling.",
+      "evidence_kind": "原始摘要",
+      "reading_takeaway": "在计算单元和 HBM 容量都翻倍的建模情景里，相对原配置，3D 和 2.5D 方案的制造相关碳排放分别增加 89% 和 141%。",
+      "organization": "arXiv 作者预印本",
+      "attention_eligible": false,
+      "attention_note": "论文或企业／机构自述不计媒体覆盖；保留为技术线索。"
+    },
+    "b2df7947da77d6344944768d": {
+      "id": "b2df7947da77d6344944768d",
+      "content_type": "news",
+      "title": "UCIe 4.0 brings memory into chiplets",
+      "source": "Jon Peddie Research",
+      "url": "https://www.jonpeddie.com/news/ucie-4-0-brings-memory-into-chiplets/",
+      "published_at": "2026-11-16",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "署名技术分析",
+      "excerpt": "分析对照不同版本的规范，并讨论 UCIe.mem 如何把存储逻辑裸片接入同一封装及其设计影响。",
+      "evidence_kind": "原文核对简述",
+      "organization": "Jon Peddie Research",
+      "attention_eligible": true,
+      "attention_note": "原站署名，有版本对照与技术解读。联盟于 11 月 12 日发布标准，本文为窗口内后续分析。",
+      "author": "Jon Peddie"
+    },
+    "b5a2f3ff9c508e15c44ec0f5": {
+      "id": "b5a2f3ff9c508e15c44ec0f5",
+      "content_type": "paper",
+      "title": "3-D NMC-HBM: Design of 3-D Near Memory Computing Architecture in High Bandwidth Memory Considering Signal/Power Integrity and Computing Performance",
+      "source": "IEEE TCAD · Crossref题录",
+      "url": "https://doi.org/10.1109/tcad.2026.3669484",
+      "published_at": null,
+      "publication_month": "2026-11",
+      "venue_type": "journal",
+      "news_genre": null,
+      "excerpt": "In this paper, we propose a design framework for a 3D near-memory computing architecture in high bandwidth memory (3D NMC-HBM) considering signal/power integrity (SI/PI) and computing performance. The design framework enables the physical co-design of the 3D interconnect and power distribution network (PDN) based on an electrical performance evaluation, while integrating the extracted interconnect-level parameters into a cycle-accurate simulator for a system-level performance evaluation. Each component of the 3D NMC-HBM architecture including the NMC processor die, interconnect channels, and a hierarchical 3D PDN is modeled considering the physical dimensions of the conventional graphics processing unit (GPU)-HBM module. The electrical performance of the 3D NMC-HBM architecture is analyzed using a detailed methodology considering SI for providing the extended bandwidth, and PI to ensure stable power delivery for high performance operation of the NMC processing units. Furthermore, the efficacy of the proposed framework is verified through a system-level evaluation. Integrated with a cycle-accurate GPU simulator, the computing performance and power consumption of the 3D NMC-HBM architecture is evaluated, considering the effects of reduced interconnect length, bandwidth extension, and higher core utilization. The results show that the 3D NMC-HBM architecture achieves higher computing performance and lower power consumption when computing memory-bound workloads, compared to the GPU-HBM.",
+      "evidence_kind": "原始摘要",
+      "reading_takeaway": "对受内存限制的工作负载，作者的周期精确仿真报告 3D 近存方案比 GPU-HBM 基线性能更高、功耗更低。",
+      "organization": "IEEE TCAD · Crossref题录",
+      "attention_eligible": false,
+      "attention_note": "论文或企业／机构自述不计媒体覆盖；保留为技术线索。"
+    },
+    "b6fbd715047b092b6a578a24": {
+      "id": "b6fbd715047b092b6a578a24",
+      "content_type": "news",
+      "title": "Scaling CPO Testing Beyond A Single Die",
+      "source": "Semiconductor Engineering",
+      "url": "https://semiengineering.com/scaling-cpo-testing-beyond-a-single-die/",
+      "published_at": "2026-10-21",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "专业媒体报道与行业观点",
+      "excerpt": "Fiber alignment, connector durability, and simultaneous optical and electrical testing pose challenges for high-volume manufacturing. The post Scaling CPO Testing Beyond A Single Die appeared first on Semiconductor Engineering.",
+      "evidence_kind": "来源简介",
+      "organization": "Semiconductor Engineering",
+      "attention_eligible": true,
+      "attention_note": "按媒体机构计入本期覆盖。来源简介提供报道线索，稿件的署名、赞助或转载关系需要原文信息才能区分。"
+    },
+    "b7e7eb296678650652d551ab": {
+      "id": "b7e7eb296678650652d551ab",
+      "content_type": "news",
+      "title": "Q&A: What Real-World Projects Reveal About Multi-Die Design",
+      "source": "Synopsys 芯片设计博客",
+      "url": "https://www.synopsys.com/blogs/chip-design/multi-die-design-real-world-projects.html",
+      "published_at": "2026-11-04",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "企业技术博客",
+      "excerpt": "BroadPak CEO Farhang Yazdani shares insights on multi-die design, advanced packaging, supply chains, co-design, and co-packaged optics.",
+      "evidence_kind": "来源简介",
+      "organization": "Synopsys 芯片设计博客",
+      "attention_eligible": false,
+      "attention_note": "论文或企业／机构自述不计媒体覆盖；保留为技术线索。"
+    },
+    "be79049f7ea3daa8d45b315b": {
+      "id": "be79049f7ea3daa8d45b315b",
+      "content_type": "news",
+      "title": "The Optical Superhighway For AI",
+      "source": "Semiconductor Engineering",
+      "url": "https://semiengineering.com/the-optical-super-highway-for-ai/",
+      "published_at": "2026-11-09",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "专业媒体报道与行业观点",
+      "excerpt": "Exponentially increasing AI compute performance requires exponential interconnect speeds. The post The Optical Superhighway For AI appeared first on Semiconductor Engineering.",
+      "evidence_kind": "来源简介",
+      "organization": "Semiconductor Engineering",
+      "attention_eligible": true,
+      "attention_note": "按媒体机构计入本期覆盖。来源简介提供报道线索，稿件的署名、赞助或转载关系需要原文信息才能区分。"
+    },
+    "be926e0150024d8ea9a9ad7d": {
+      "id": "be926e0150024d8ea9a9ad7d",
+      "content_type": "news",
+      "title": "Silicon Photonic Modulator Reaches 200 Gb/s PAM4 With Reduced DSP (Science Tokyo, Yokohama, AIST, PETRA)",
+      "source": "Semiconductor Engineering",
+      "url": "https://semiengineering.com/silicon-photonic-modulator-reaches-200-gb-s-pam4-with-reduced-dsp-science-tokyo-yokohama-aist-petra/",
+      "published_at": "2026-10-25",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "专业媒体报道与行业观点",
+      "excerpt": "Researchers from Institute of Science Tokyo, Yokohama National University, AIST, and Photonics Electronics Technology Research Association (PETRA) published a technical paper titled “Reduced-DSP 200G/λ Low-Voltage Slow-Light Silicon Modulator Enabled by Built-In EO Equalizer.” Abstract Excerpt: “Multi-Tb/s optical interconnects for artificial intelligence data centers necessitate high-speed, energy-efficient, and compact transceivers. However, conventional silicon Mach-Zehnder modulators are... » read more The post Silicon Photonic Modulator Reaches 200 Gb/s PAM4 With Reduced DSP (Science Tokyo, Yokohama, AIST, PETRA) appeared first on Semiconductor Engineering.",
+      "evidence_kind": "来源简介",
+      "organization": "Semiconductor Engineering",
+      "attention_eligible": true,
+      "attention_note": "按媒体机构计入本期覆盖。来源简介提供报道线索，稿件的署名、赞助或转载关系需要原文信息才能区分。"
+    },
+    "c8266ce7908dbce9d535efda": {
+      "id": "c8266ce7908dbce9d535efda",
+      "content_type": "news",
+      "title": "Lambda announces the world’s first large-scale CPO deployment of NVIDIA Photonics switches",
+      "source": "Lambda",
+      "url": "https://lambda.com/blog/worlds-first-large-scale-deployment-of-nvidia-photonics-switches-with-cpo",
+      "published_at": "2026-11-16",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "企业公告",
+      "excerpt": "Lambda 披露在魁北克园区部署 NVIDIA 共封装光学交换机，并公布该项目与传统光学方案的对比结果。",
+      "evidence_kind": "原文核对简述",
+      "organization": "Lambda",
+      "attention_eligible": false,
+      "attention_note": "客户方一手公告。可用于确认披露的部署范围，企业自测与行业首发主张按原归属引用。",
+      "author": "Lambda"
+    },
+    "c8f51837097654657782e677": {
+      "id": "c8f51837097654657782e677",
+      "content_type": "news",
+      "title": "Shifting HBM4 Controller Functions Closer To Memory (UC Riverside)",
+      "source": "Semiconductor Engineering",
+      "url": "https://semiengineering.com/shifting-hbm4-controller-functions-closer-to-memory-uc-riverside/",
+      "published_at": "2026-11-13",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "专业媒体报道与行业观点",
+      "excerpt": "Tharunya Yogananda and Wantong Li of the University of California, Riverside published a technical paper titled “Beyond Host-Side Control: HBM Controller Partitioning Across Host and HBM Base Dies.” Abstract Excerpt: “Recent generations of high bandwidth memory (HBM), such as HBM4, allow the base die of the memory stack to be manufactured using a logic process... » read more The post Shifting HBM4 Controller Functions Closer To Memory (UC Riverside) appeared first on Semiconductor Engineering.",
+      "evidence_kind": "来源简介",
+      "organization": "Semiconductor Engineering",
+      "attention_eligible": true,
+      "attention_note": "按媒体机构计入本期覆盖。来源简介提供报道线索，稿件的署名、赞助或转载关系需要原文信息才能区分。"
+    },
+    "cd12564d9da20ddc2058a892": {
+      "id": "cd12564d9da20ddc2058a892",
+      "content_type": "news",
+      "title": "UCIe Consortium Advances from Chiplet Connectivity to System-Level Integration with UCIe 4.0 Specification",
+      "source": "UCIe Consortium",
+      "url": "https://www.uciexpress.org/_files/ugd/0c1418_970201e6ba294a0fa690ae864082fc46.pdf",
+      "published_at": "2026-11-12",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "标准组织公告",
+      "excerpt": "联盟发布 UCIe 4.0，增加封装内存储连接能力，并扩展芯粒的管理、可靠性和链路配置。",
+      "evidence_kind": "原文核对简述",
+      "organization": "UCIe Consortium",
+      "attention_eligible": false,
+      "attention_note": "一手标准公告，11 月 12 日发布。作为规范和日期佐证保留。",
+      "author": "UCIe Consortium"
+    },
+    "ced077b5caa881aa7f4ff93e": {
+      "id": "ced077b5caa881aa7f4ff93e",
+      "content_type": "news",
+      "title": "Silicon Photonics Hits the Big Time",
+      "source": "EE Times",
+      "url": "https://www.eetimes.com/silicon-photonics-hits-the-big-time/",
+      "published_at": "2026-11-04",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "专业媒体报道",
+      "excerpt": "The land grab for silicon photonics aims to beat the power wall associated with copper interconnects. We also interviewed Salience Labs about its $125 million funding for optical circuit switching. The post Silicon Photonics Hits the Big Time appeared first on EE Times.",
+      "evidence_kind": "来源简介",
+      "organization": "EE Times",
+      "attention_eligible": true,
+      "attention_note": "按媒体机构计入本期覆盖。来源简介提供报道线索，稿件的署名、赞助或转载关系需要原文信息才能区分。"
+    },
+    "d4c2b523a61a7fd90da06111": {
+      "id": "d4c2b523a61a7fd90da06111",
+      "content_type": "news",
+      "title": "CTO Interview with Dr. Valerio Tenace of ChipNexus",
+      "source": "SemiWiki",
+      "url": "https://semiwiki.com/eda/chipnexus/376283-cto-interview-with-dr-valerio-tenace-of-chipnexus/",
+      "published_at": "2026-11-18",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "厂商问答",
+      "excerpt": "SemiWiki 采访 ChipNexus CTO，涉及多智能体拆分设计步骤、设计人员确认结果、EDA 上下文与本地执行。文内链接到该刊此前的模拟设计报道。",
+      "evidence_kind": "原文核对简述",
+      "organization": "SemiWiki",
+      "attention_eligible": false,
+      "attention_note": "有署名问答，页面设有 Sponsor 与公司入口，本文主体为厂商回答。按厂商观点保留，赞助关系未作额外推定。",
+      "author": "Daniel Nenni"
+    },
+    "d9c9cfe63d6750181552ad75": {
+      "id": "d9c9cfe63d6750181552ad75",
+      "content_type": "news",
+      "title": "Cadence Introduces Maestro, a Domain-Specialized AI Model Portfolio to Revolutionize Agentic Chip and System Design",
+      "source": "Cadence 官方公告",
+      "url": "https://www.cadence.com/en_US/home/company/newsroom/press-releases/pr/2026/cadence-introduces-maestro-a-domain-specialized-ai-model.html",
+      "published_at": "2026-10-26",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "企业官方公告",
+      "excerpt": "Cadence发布面向芯片与系统设计智能体的Maestro专用AI模型组合，介绍其与EDA工具及强化学习反馈的集成方式。公告中的效果描述属于企业自述。",
+      "evidence_kind": "来源简介",
+      "organization": "Cadence 官方公告",
+      "attention_eligible": false,
+      "attention_note": "论文或企业／机构自述不计媒体覆盖；保留为技术线索。"
+    },
+    "dbaf06ff9e99692a4667f41a": {
+      "id": "dbaf06ff9e99692a4667f41a",
+      "content_type": "news",
+      "title": "Physics-Based Validation: The Foundation Of Trustworthy Agentic EDA",
+      "source": "Semiconductor Engineering",
+      "url": "https://semiengineering.com/physics-based-validation-the-foundation-of-trustworthy-agentic-eda/",
+      "published_at": "2026-10-29",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "专业媒体报道与行业观点",
+      "excerpt": "What self-verifying agents validate their decisions against and why physics-based engines are the authority on correctness. The post Physics-Based Validation: The Foundation Of Trustworthy Agentic EDA appeared first on Semiconductor Engineering.",
+      "evidence_kind": "来源简介",
+      "organization": "Semiconductor Engineering",
+      "attention_eligible": true,
+      "attention_note": "按媒体机构计入本期覆盖。来源简介提供报道线索，稿件的署名、赞助或转载关系需要原文信息才能区分。"
+    },
+    "e6dd821c3c594d418f4b7509": {
+      "id": "e6dd821c3c594d418f4b7509",
+      "content_type": "news",
+      "title": "Imec advances Europe's silicon interposer technology",
+      "source": "imec · 官方研究与产业公告",
+      "url": "https://www.imec-int.com/en/press/imec-advances-europes-silicon-interposer-technology-capabilities-through-nanoic-pilot-line",
+      "published_at": "2026-11-10",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "研究机构公告",
+      "excerpt": "Baseline flows of NanoIC’s silicon interposer platform mark key step towards open-access PDKs, helping organizations better explore and prepare for next-generation chiplet-based systems.",
+      "evidence_kind": "来源简介",
+      "organization": "imec · 官方研究与产业公告",
+      "attention_eligible": false,
+      "attention_note": "论文或企业／机构自述不计媒体覆盖；保留为技术线索。"
+    },
+    "eb46439080619f4a7c505c69": {
+      "id": "eb46439080619f4a7c505c69",
+      "content_type": "news",
+      "title": "Beyond Bandwidth: AI Inference Is Reshaping The Memory Wall",
+      "source": "Semiconductor Engineering",
+      "url": "https://semiengineering.com/beyond-bandwidth-ai-inference-is-reshaping-the-memory-wall/",
+      "published_at": "2026-11-12",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "专业媒体报道与行业观点",
+      "excerpt": "Longer contexts, higher concurrency, multimodal models, and AI agents will continue changing where memory pressure appears. The post Beyond Bandwidth: AI Inference Is Reshaping The Memory Wall appeared first on Semiconductor Engineering.",
+      "evidence_kind": "来源简介",
+      "organization": "Semiconductor Engineering",
+      "attention_eligible": true,
+      "attention_note": "按媒体机构计入本期覆盖。来源简介提供报道线索，稿件的署名、赞助或转载关系需要原文信息才能区分。"
+    },
+    "ebbddb17a89f713b73c52e5a": {
+      "id": "ebbddb17a89f713b73c52e5a",
+      "content_type": "news",
+      "title": "PFN and SEMIFIVE Collaborate to Develop the MN-Core L2000 Series of Next-Generation AI Inference Chips",
+      "source": "Preferred Networks",
+      "url": "https://www.preferred.jp/en/news/pr20261116",
+      "published_at": "2026-11-17",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "联合公告",
+      "excerpt": "双方披露联合开发 MN-Core L2000，将逻辑裸片和 DRAM 垂直堆叠，逻辑采用三星代工平台，计划于 2027 年第一季度提交流片。",
+      "evidence_kind": "原文核对简述",
+      "organization": "Preferred Networks",
+      "attention_eligible": false,
+      "attention_note": "原站刊登日为 11 月 17 日，公告采用芝加哥当地 11 月 16 日电头。带宽目标为企业预期。",
+      "author": "PFN / SEMIFIVE"
+    },
+    "ee68dcea31edefe50deed62c": {
+      "id": "ee68dcea31edefe50deed62c",
+      "content_type": "news",
+      "title": "Five Ways NVIDIA Co-Design Maximizes the Value of Every Byte in the AI Factory",
+      "source": "NVIDIA Technical Blog",
+      "url": "https://developer.nvidia.com/blog/five-ways-nvidia-co-design-maximizes-the-value-of-every-byte-in-the-ai-factory/",
+      "published_at": "2026-11-05",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "企业技术博客",
+      "excerpt": "In an AI factory, high bandwidth memory (HBM)is the fastest, most expensive, and most contested memory tier. Every byte spent on a redundant weight copy, an...",
+      "evidence_kind": "来源简介",
+      "organization": "NVIDIA Technical Blog",
+      "attention_eligible": false,
+      "attention_note": "论文或企业／机构自述不计媒体覆盖；保留为技术线索。"
+    },
+    "ee6ec89839eb9f1c9f2b75ed": {
+      "id": "ee6ec89839eb9f1c9f2b75ed",
+      "content_type": "news",
+      "title": "Chiplets: Meta-Scale Chiplet Velocity Accelerating AI SoC Development to Match the Rapid Evolution of AI Model",
+      "source": "EE Times",
+      "url": "https://www.eetimes.com/chiplets-meta-scale-chiplet-velocity-accelerating-ai-soc-development-to-match-the-rapid-evolution-of-ai-model/",
+      "published_at": "2026-11-04",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "专业媒体报道",
+      "excerpt": "This event session is presented by Olivia Wu, Distinguished Engineer at Meta AI model architectures are evolving faster than traditional chip development cycles, and at Meta’s scale—serving billions of users across ranking & recommendation and generative AI workloads—this mismatch is untenable. Meta’s Infra Silicon team has responded with a six-month SoC tape-out cadence, delivering four […] The post Chiplets: Meta-Scale Chiplet Velocity Accelerating AI SoC Development to Match the Rapid Evolution of AI Model appeared first on EE Times.",
+      "evidence_kind": "来源简介",
+      "organization": "EE Times",
+      "attention_eligible": false,
+      "attention_note": "企业代表演讲，媒体承载不等于独立报道。"
+    },
+    "f5447a6635537e0217fb4cbd": {
+      "id": "f5447a6635537e0217fb4cbd",
+      "content_type": "paper",
+      "title": "TopoSizing: An LLM-Aided Framework of Topology-Based Understanding and Sizing for AMS Circuits",
+      "source": "IEEE TCAD · Crossref题录",
+      "url": "https://doi.org/10.1109/tcad.2026.3685525",
+      "published_at": null,
+      "publication_month": "2026-11",
+      "venue_type": "journal",
+      "news_genre": null,
+      "excerpt": "Analog and mixed-signal (AMS) circuit design remains challenging due to the shortage of high-quality data and the difficulty of embedding domain knowledge into automated flows. Traditional black-box optimization achieves sampling efficiency but lacks circuit understanding, which often causes evaluations to be wasted in low-value regions of the design space. In contrast, learning-based methods embed structural knowledge but are case-specific and costly to retrain. Recent attempts with large language models (LLMs) show potential, yet they often rely on manual intervention, limiting generality and transparency. We propose TopoSizing, an end-to-end framework that performs robust circuit understanding directly from raw netlists and translates this knowledge into optimization gains. Our approach first applies graph algorithms to organize circuits into a hierarchical device–module–stage representation. LLM agents then execute an iterative hypothesis–verification–refinement loop with built-in consistency checks, producing explicit annotations. Verified insights are integrated into Bayesian optimization (BO) through LLM-guided initial sampling and stagnation-triggered trust-region updates, improving efficiency while preserving feasibility. On four real-world AMS circuits (OTA, FC-OTA, SACMP, LDO) in a 55-nm CMOS process, TopoSizing achieves 100% correctness in circuit understanding and parameter assignment. In constraint-satisfaction tasks, it delivers 1.4×–4.8× higher sample efficiency and 1.2×–3.5× faster runtime compared with strong baselines, while requiring 2–4× fewer LLM calls than prior LLM-based frameworks. Ablation studies confirm that reliable circuit understanding is essential for these gains.",
+      "evidence_kind": "原始摘要",
+      "reading_takeaway": "4 个 55 nm 模拟与混合信号电路的规格满足任务里，摘要报告采样效率提高到基线的 1.4–4.8 倍，运行速度提高到 1.2–3.5 倍。",
+      "organization": "IEEE TCAD · Crossref题录",
+      "attention_eligible": false,
+      "attention_note": "论文或企业／机构自述不计媒体覆盖；保留为技术线索。"
+    },
+    "fade898eecedd9df196e088f": {
+      "id": "fade898eecedd9df196e088f",
+      "content_type": "news",
+      "title": "AI inference servers shrink to fit the air-cooled racks enterprises already run",
+      "source": "SiliconANGLE",
+      "url": "https://siliconangle.com/2026/11/19/power-efficient-inference-chips-let-enterprises-own-ai-hardware-sc26/",
+      "published_at": "2026-11-19",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "有赞助披露的采访",
+      "excerpt": "SC26 采访 Axelera 产品负责人，讨论企业风冷机房与推理系统采用数字存内计算的条件。",
+      "evidence_kind": "原文核对简述",
+      "organization": "SiliconANGLE",
+      "attention_eligible": false,
+      "attention_note": "有实际采访。原文披露 NYSE Wired 赞助该节目环节，媒体声明赞助方无编辑控制；本榜保守列为背景。",
+      "author": "Ryan Stevens"
+    },
+    "fae1fed6bb44e5ec3d9241e8": {
+      "id": "fae1fed6bb44e5ec3d9241e8",
+      "content_type": "news",
+      "title": "[thebell interview] 세미파이브, 일본 PFN '3D-IC' 내년 초 테이프아웃",
+      "source": "thebell",
+      "url": "https://m.thebell.co.kr/m/newsview.asp?newskey=202611161434253480102835",
+      "published_at": "2026-11-17",
+      "publication_month": null,
+      "venue_type": null,
+      "news_genre": "署名报道",
+      "excerpt": "记者采访 SEMIFIVE 负责人，并解释把 DRAM 直接堆叠在逻辑裸片上与将 HBM 放在逻辑旁边的结构区别。",
+      "evidence_kind": "原文核对简述",
+      "organization": "thebell",
+      "attention_eligible": true,
+      "attention_note": "原站公开页注明采访及署名。流片和量产信息仍为受访方计划。",
+      "author": "노태민"
+    }
+  }
+}
