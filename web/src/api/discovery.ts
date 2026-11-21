@@ -93,6 +93,21 @@ export function safeExternalUrl(value: string | null | undefined): string | unde
   }
 }
 
+export function newsGenreLabel(value?: string | null): string {
+  if (value === '来源性质待确认') return '来源类型未确认'
+  return (value || '').replace(/\s*[（(]\s*待核验\s*[）)]\s*$/, '').trim()
+}
+
+export function readingBasisLabel(value?: string, contentType?: 'paper' | 'news'): string {
+  const labels: Record<string, string> = {
+    original: '公开原文摘录', original_summary: '原文核对简述', metadata: contentType === 'paper' ? '论文题录' : '页面公开信息',
+    abstract: '作者摘要', abstract_excerpt: '作者摘要摘录', excerpt: '来源简介', bibliography: '论文题录',
+    listing: '官方检索摘要或新闻列表', headline: '标题与来源链接',
+    stored_abstract: '已收录摘要或简介', stored_summary: '当时收录的简介', material: '已收录的资料摘录',
+  }
+  return value ? labels[value] || '' : ''
+}
+
 export function publicationLabel(item: DiscoveryItem): string {
   if (item.published_at) return item.published_at.slice(0, 10)
   if (item.publication_month) return `${item.publication_month}（仅月份）`

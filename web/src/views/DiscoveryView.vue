@@ -5,13 +5,13 @@ import type { LocationQuery, LocationQueryRaw } from 'vue-router'
 import SummaryPreview from '../components/SummaryPreview.vue'
 import FavoriteButton from '../components/FavoriteButton.vue'
 import CollectionPanel from '../components/CollectionPanel.vue'
-import ICRelationPanel from '../components/ICRelationPanel.vue'
 import PublicationPeriodBadge from '../components/PublicationPeriodBadge.vue'
 import { IS_STATIC } from '../static-mode'
 import {
   dateKindLabel, getDiscoveryFacets, listDiscoveryItems, listDiscoveryRuns,
-  localTimeLabel, publicationLabel, safeExternalUrl, summaryKindLabel, venueKindLabel, venueLabel,
+  localTimeLabel, newsGenreLabel, publicationLabel, safeExternalUrl, summaryKindLabel, venueLabel,
 } from '../api/discovery'
+import { workspace } from '../workspace'
 import type {
   DiscoveryContentType, DiscoveryDateBasis, DiscoveryFacets,
   DiscoveryFilters, DiscoveryItem, DiscoveryOrigin, DiscoveryRun,
@@ -22,6 +22,8 @@ const router = useRouter()
 const PAGE_SIZE = 20
 const contentType = computed<DiscoveryContentType>(() => queryString(route.query, 'content_type') === 'news' ? 'news' : 'paper')
 const isPaper = computed(() => contentType.value === 'paper')
+const categories: DiscoveryContentType[] = ['paper', 'news']
+const categoryTabs = computed(() => workspace.domain === 'ic' ? [...categories].reverse() : categories)
 const categoryLabel = computed(() => isPaper.value ? '文献' : '新闻')
 const countUnit = computed(() => isPaper.value ? '篇' : '条')
 const paperOnlyFilters = ['topic','venue','publication_kind','research_track','literature_scope','publication_period']
@@ -86,19 +88,15 @@ const advancedFilters = computed(() => [
   ['date_basis','日期依据',queryString(route.query,'date_basis')==='collected' ? '收录日期' : ''],
   ['origin','来源类别',({seed:'已核验样本',collected:'公开来源采集'} as Record<string,string>)[queryString(route.query,'origin')] || ''],
   ['publication_kind','出版形式',({journal:'正式期刊题录',conference:'会议论文',preprint:'作者预印本'} as Record<string,string>)[queryString(route.query,'publication_kind')] || ''],
+  ['research_track','研究主线',({any_ai:'两类AI交叉研究',ai_for_ic:'AI用于芯片设计',ic_for_ai:'芯片用于AI计算',general_ic:'通用集成电路研究'} as Record<string,string>)[queryString(route.query,'research_track')] || ''],
+  ['publication_period','发表时间',({recent_published:'近期正式发表',recent_preprint:'近期预印本',historical:'历史资料',month_only:'仅提供月份',unknown:'发表日期未知'} as Record<string,string>)[queryString(route.query,'publication_period')] || ''],
+  ['literature_scope','文献范围',({all:'全部候选',archive:'扩展归档'} as Record<string,string>)[queryString(route.query,'literature_scope')] || ''],
+  ['news_scope','新闻范围',({all:'全部候选',archive:'拓展归档'} as Record<string,string>)[queryString(route.query,'news_scope')] || ''],
 ].filter(([, ,value]) => value).map(([key,label,value]) => ({key,label,value})))
-const hasFilters = computed(() => Boolean(
-  queryString(route.query, 'q') ||
-  queryString(route.query, 'topic') || queryString(route.query, 'venue') || queryString(route.query, 'date_from') ||
-  queryString(route.query, 'date_to') || queryString(route.query, 'origin') || queryString(route.query, 'publication_kind') || queryString(route.query,'research_track') ||
-  queryString(route.query,'publication_period') || queryString(route.query,'literature_scope') && queryString(route.query,'literature_scope')!=='main' || queryString(route.query,'news_scope') && queryString(route.query,'news_scope')!=='main',
-))
+const hasFilters = computed(() => Boolean(queryString(route.query, 'q') || advancedFilters.value.length))
 const currentPage = computed(() => Math.floor(offset.value / PAGE_SIZE) + 1)
 const totalPages = computed(() => Math.max(1, Math.ceil(total.value / PAGE_SIZE)))
 const resultDateBasis = computed(() => queryString(route.query, 'date_basis') === 'collected' ? '收录日期' : isPaper.value ? '发表日期' : '新闻发布日期')
-const paperTabScope = computed(() => isPaper.value ? queryString(route.query, 'literature_scope') || 'main' : 'main')
-const paperTabCount = computed(() => paperTabScope.value==='all' ? facets.value?.papers : paperTabScope.value==='archive' ? facets.value?.archive_papers : facets.value?.main_papers ?? facets.value?.papers)
-const paperTabLabel = computed(() => paperTabScope.value==='all' ? '篇原始候选' : paperTabScope.value==='archive' ? '篇扩展归档' : '篇主库')
 const rangeLabel = computed(() => total.value && items.value.length
   ? `${offset.value + 1}–${Math.min(offset.value + items.value.length, total.value)}` : '0')
 
@@ -180,10 +178,9 @@ async function reset() {
   await navigate(query)
 }
 
-async function changeLiteratureScope() {
+function changeLiteratureScope() {
   form.research_track=''
   form.topic=''
-  await submit()
 }
 
 async function choosePeriod(period: string) {
@@ -251,6 +248,7 @@ watch(() => route.fullPath, () => {
     return
   }
   readQuery(route.query)
+  if (route.query.collection === '1') collectionOpen.value = true
   void load()
 }, { immediate: true })
 
@@ -262,19 +260,17 @@ onBeforeUnmount(() => {
 
 <template>
   <div>
-    <header class="mb-4 border-b border-stone-200 pb-4 dark:border-stone-800">
-      <div class="flex items-center justify-between gap-4">
-        <h2 class="font-serif text-2xl font-bold text-stone-900 sm:text-3xl dark:text-stone-50">每日发现</h2>
-        <button v-if="!IS_STATIC" type="button" :aria-expanded="collectionOpen" aria-controls="discovery-collection" class="pagination-button py-2" @click="collectionOpen=!collectionOpen">{{ collectionOpen ? '收起采集' : '采集管理' }}</button>
-      </div>
-      <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-stone-500">
-        <p v-if="facets">库内 {{ facets.total }} 条<span v-if="IS_STATIC" class="ml-3">数据截至 {{ facets.today }}</span><span v-else-if="facets.new_today !== undefined" class="ml-3 text-accent">今日收录 {{ facets.new_today }} 条</span></p>
+    <header class="mb-4 flex flex-wrap items-end justify-between gap-3">
+      <h2 class="font-serif text-3xl font-bold text-stone-900 sm:text-4xl dark:text-stone-50">每日发现</h2>
+      <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-stone-600 dark:text-stone-400">
         <button type="button" :aria-expanded="statisticsOpen" aria-controls="discovery-statistics" class="underline underline-offset-4 hover:text-accent" @click="statisticsOpen=!statisticsOpen">{{ statisticsOpen ? '收起统计' : '资料统计' }}</button>
+        <button v-if="!IS_STATIC" type="button" :aria-expanded="collectionOpen" aria-controls="discovery-collection" class="underline underline-offset-4 hover:text-accent" @click="collectionOpen=!collectionOpen">{{ collectionOpen ? '收起采集' : '采集管理' }}</button>
       </div>
     </header>
 
     <section v-if="statisticsOpen && facets" id="discovery-statistics" aria-label="资料统计" class="mb-4 border border-stone-200 p-4 text-xs leading-6 text-stone-500 dark:border-stone-700">
       <div class="flex flex-wrap gap-x-6 gap-y-1">
+        <p>库内 {{ facets.total }} 条<span v-if="IS_STATIC"> · 数据截至 {{ facets.today }}</span><span v-else-if="facets.new_today !== undefined"> · 今日收录 {{ facets.new_today }} 条</span></p>
         <p>原始文献候选 {{ facets.papers }} 条<span v-if="!IS_STATIC"> · 今日收录 {{ facets.papers_today || 0 }} 篇</span></p>
         <p>新闻 {{ facets.news }} 条<span v-if="facets.archived_news"> · 原始候选 {{ facets.news_candidates }} 条 · 拓展归档 {{ facets.archived_news }} 条</span></p>
       </div>
@@ -288,27 +284,30 @@ onBeforeUnmount(() => {
     </section>
 
     <nav aria-label="文献与新闻分类" class="mb-3 flex gap-1 border-b border-stone-200 dark:border-stone-700">
-      <button type="button" :aria-pressed="isPaper" class="border-b-2 px-4 py-2 text-sm" :class="isPaper ? 'border-accent font-semibold text-accent' : 'border-transparent text-stone-500 hover:text-accent'" @click="changeContentType('paper')">文献<span v-if="facets" class="ml-2 text-xs font-normal tabular-nums">{{ paperTabCount }} {{ paperTabLabel }}</span></button>
-      <button type="button" :aria-pressed="!isPaper" class="border-b-2 px-4 py-2 text-sm" :class="!isPaper ? 'border-accent font-semibold text-accent' : 'border-transparent text-stone-500 hover:text-accent'" @click="changeContentType('news')">新闻<span v-if="facets" class="ml-2 text-xs font-normal tabular-nums">{{ facets.news }} 条</span></button>
+      <button v-for="category in categoryTabs" :key="category" type="button" :aria-pressed="contentType===category" class="border-b-2 px-4 py-2 text-sm" :class="contentType===category ? 'border-accent font-semibold text-accent' : 'border-transparent text-stone-600 hover:text-accent dark:text-stone-400'" @click="changeContentType(category)">{{ category==='news' ? '新闻' : '文献' }}</button>
     </nav>
 
     <div v-if="!IS_STATIC" id="discovery-collection" v-show="collectionOpen">
       <CollectionPanel @completed="load" />
     </div>
 
-    <section aria-label="资料检索" class="mb-4 border border-stone-200 bg-white p-3 sm:p-4 dark:border-stone-800 dark:bg-stone-900">
+    <section aria-label="资料检索" class="mb-4">
       <h3 class="sr-only">{{ categoryLabel }}检索</h3>
       <form @submit.prevent="submit">
         <div class="flex flex-wrap items-end gap-2">
-          <div class="min-w-0 flex-1 basis-48">
+          <div class="min-w-0 flex-1 basis-full sm:basis-48">
             <label for="discovery-keyword" class="sr-only">关键词</label>
             <input id="discovery-keyword" v-model="form.q" type="search" placeholder="搜索标题、摘要或标签" class="discovery-input" />
           </div>
           <button type="submit" :disabled="loading" class="min-h-[42px] bg-accent px-4 py-2 text-sm font-medium text-white hover:bg-accent-soft disabled:cursor-wait disabled:opacity-60">{{ loading ? '查询中…' : `查询${categoryLabel}` }}</button>
-          <button type="button" :disabled="loading" class="pagination-button min-h-[42px] px-3 py-2" @click="reset">重置条件</button>
+          <button type="button" :aria-expanded="advancedOpen" aria-controls="discovery-advanced" class="pagination-button min-h-[42px] px-3 py-2" @click="advancedOpen=!advancedOpen">{{ advancedOpen ? '收起筛选' : '筛选' }}<span v-if="advancedFilters.length">（{{ advancedFilters.length }}）</span></button>
         </div>
 
-        <div class="mt-3 grid gap-3" :class="isPaper ? 'sm:grid-cols-3' : 'sm:grid-cols-2'">
+        <div v-if="advancedFilters.length" class="mt-3 flex flex-wrap gap-2">
+          <button v-for="filter in advancedFilters" :key="filter.key" type="button" :aria-label="`移除${filter.label}：${filter.value}`" class="max-w-full truncate rounded border border-stone-200 px-2 py-1 text-xs text-stone-600 hover:border-accent hover:text-accent dark:border-stone-700 dark:text-stone-400" @click="removeAdvancedFilter(filter.key)">{{ filter.value }} ×</button>
+        </div>
+
+        <div id="discovery-advanced" v-show="advancedOpen" class="mt-3 grid gap-3 rounded-lg border border-stone-200 bg-white p-4 sm:grid-cols-3 dark:border-stone-800 dark:bg-stone-900">
           <div v-if="isPaper && facets?.domain==='ic'">
             <label for="discovery-literature-scope" class="filter-label">文献范围</label>
             <select id="discovery-literature-scope" v-model="form.literature_scope" class="discovery-input" @change="changeLiteratureScope">
@@ -317,30 +316,22 @@ onBeforeUnmount(() => {
           </div>
           <div v-if="isPaper">
             <label for="discovery-publication-period" class="filter-label">发表时间分类</label>
-            <select id="discovery-publication-period" v-model="form.publication_period" class="discovery-input" @change="submit">
+            <select id="discovery-publication-period" v-model="form.publication_period" class="discovery-input">
               <option value="">全部发表时间</option><option value="recent_published">近期正式发表（近30天）</option><option value="recent_preprint">近期预印本（近30天首次提交）</option><option value="historical">历史资料（30天之前）</option><option value="month_only">仅提供发表月份</option><option v-if="facets?.publication_audit?.counts.unknown" value="unknown">来源未提供发表日期</option>
             </select>
           </div>
           <div v-if="isPaper && facets?.domain==='ic'">
             <label for="discovery-research-track" class="filter-label">研究主线</label>
-            <select id="discovery-research-track" v-model="form.research_track" class="discovery-input" @change="submit">
+            <select id="discovery-research-track" v-model="form.research_track" class="discovery-input">
               <option value="">全部集成电路资料</option><option value="any_ai">两类AI交叉研究</option><option value="ai_for_ic">AI用于芯片设计</option><option value="ic_for_ai">芯片用于AI计算</option><option value="general_ic">通用集成电路研究</option>
             </select>
           </div>
           <div v-if="!isPaper && facets?.domain==='ic'">
             <label for="discovery-news-scope" class="filter-label">新闻范围</label>
             <select id="discovery-news-scope" v-model="form.news_scope" class="discovery-input">
-              <option value="main">集成电路新闻与动态（{{ facets.news }} 条）</option><option value="archive">算力软件与应用拓展（{{ facets.archived_news }} 条）</option><option value="all">全部原始新闻候选（{{ facets.news_candidates }} 条）</option>
+              <option value="main">集成电路新闻与动态（{{ facets.news }} 条）</option><option value="archive">拓展归档（{{ facets.archived_news }} 条）</option><option value="all">全部原始新闻候选（{{ facets.news_candidates }} 条）</option>
             </select>
           </div>
-        </div>
-
-        <div class="mt-3 flex flex-wrap items-center gap-2">
-          <button type="button" :aria-expanded="advancedOpen" aria-controls="discovery-advanced" class="text-xs text-accent underline underline-offset-4" @click="advancedOpen=!advancedOpen">{{ advancedOpen ? '收起筛选' : '更多筛选' }}<span v-if="advancedFilters.length"> · {{ advancedFilters.length }} 项已用</span></button>
-          <button v-for="filter in advancedFilters" :key="filter.key" type="button" :aria-label="`移除${filter.label}：${filter.value}`" class="max-w-full truncate border border-stone-200 px-2 py-1 text-xs text-stone-500 hover:border-accent hover:text-accent dark:border-stone-700" @click="removeAdvancedFilter(filter.key)">{{ filter.label }}：{{ filter.value }} ×</button>
-        </div>
-
-        <div id="discovery-advanced" v-show="advancedOpen" class="mt-4 grid gap-3 border-t border-stone-100 pt-4 sm:grid-cols-3 dark:border-stone-800">
           <div>
             <label for="discovery-date-basis" class="filter-label">日期依据</label>
             <select id="discovery-date-basis" v-model="form.date_basis" class="discovery-input"><option value="published">{{ isPaper ? '发表日期' : '新闻发布日期' }}</option><option value="collected">收录日期</option></select>
@@ -363,6 +354,10 @@ onBeforeUnmount(() => {
             <label for="discovery-publication-kind" class="filter-label">论文出版形式</label>
             <select id="discovery-publication-kind" v-model="form.publication_kind" class="discovery-input"><option value="">全部出版形式</option><option value="journal">正式期刊题录</option><option value="conference">会议论文</option><option value="preprint">作者预印本</option></select>
           </div>
+          <div class="flex gap-3 sm:col-span-3">
+            <button type="submit" :disabled="loading" class="bg-accent px-3 py-2 text-sm font-medium text-white hover:bg-accent-soft disabled:opacity-60">应用筛选</button>
+            <button type="button" :disabled="loading" class="pagination-button px-3 py-2" @click="reset">重置条件</button>
+          </div>
         </div>
         <p v-if="formError" role="alert" class="mt-3 text-sm text-red-600 dark:text-red-400">{{ formError }}</p>
       </form>
@@ -382,32 +377,21 @@ onBeforeUnmount(() => {
       <button v-if="total > 0" type="button" class="mt-5 text-sm text-accent underline underline-offset-4" @click="changePage(0)">返回第一页</button>
       <button v-else-if="hasFilters || offset" type="button" class="mt-5 text-sm text-accent underline underline-offset-4" @click="reset">查看全部{{ categoryLabel }}</button>
     </div>
-    <div v-else class="space-y-4">
-      <article v-for="item in items" :key="item.id" class="border border-stone-200 bg-white p-5 transition-colors hover:border-stone-300 sm:p-6 dark:border-stone-800 dark:bg-stone-900 dark:hover:border-stone-700">
-        <div class="flex flex-wrap items-center gap-x-3 gap-y-2 text-[11px] text-stone-400">
-          <span class="px-2 py-0.5 font-semibold tracking-wide" :class="item.content_type === 'paper' ? 'bg-accent/10 text-accent' : 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400'">{{ item.content_type === 'paper' ? '文献' : '新闻' }}</span>
-          <span>{{ item.origin === 'seed' ? '已核验样本' : '公开来源采集' }}</span>
-          <span v-if="item.news_genre">{{ item.news_genre }}</span>
+    <div v-else class="divide-y divide-stone-200 rounded-lg border border-stone-200 bg-white px-4 sm:px-6 dark:divide-stone-800 dark:border-stone-800 dark:bg-stone-900">
+      <article v-for="item in items" :key="item.id" class="py-4 sm:py-5">
+        <h3 class="break-words font-serif text-lg font-semibold leading-7 text-stone-900 dark:text-stone-100"><router-link :to="detailLink(item)" class="block hover:text-accent hover:underline">{{ item.title }}</router-link></h3>
+        <div class="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-stone-600 dark:text-stone-400">
+          <span>{{ venueLabel(item) || item.source || '来源未提供' }}</span>
+          <span v-if="newsGenreLabel(item.news_genre)">{{ newsGenreLabel(item.news_genre) }}</span>
           <PublicationPeriodBadge v-if="item.content_type==='paper'" :item="item" />
-          <span v-if="item.relevance === 'pending'" class="text-amber-700 dark:text-amber-400">{{ item.publication_status === 'journal_metadata' ? '期刊范围初筛' : '关键词初筛' }} · 相关性待核验</span>
           <span class="tabular-nums sm:ml-auto">{{ dateKindLabel(item.date_kind) }} · {{ publicationLabel(item) }}</span>
         </div>
-        <h3 class="mt-3 break-words font-serif text-lg font-semibold leading-8 text-stone-900 sm:text-xl dark:text-stone-100"><router-link :to="detailLink(item)" class="hover:text-accent">{{ item.title }}</router-link></h3>
-        <p v-if="item.verification_mode==='official_search_listing_manual'" class="mt-2 text-xs leading-6 text-amber-700">人工核对官方检索／列表；正文直连受限，未作全文核验。</p>
-        <SummaryPreview v-if="item.abstract_text || item.summary" :id="`summary-${item.id}`" :text="item.abstract_text || item.summary" :label="item.content_type === 'news' ? item.summary_kind==='human' ? '人工简述' : '来源简介' : item.abstract_text ? '摘要预览' : summaryKindLabel(item.summary_kind)" />
-        <p v-else class="mt-3 text-sm leading-6 text-stone-400">来源暂未提供摘要，可进入原文了解详情。</p>
-        <ICRelationPanel v-if="item.ic_ai && item.content_type==='paper'" :analysis="item.ic_ai" />
-        <div v-else-if="item.topics.length" class="mt-4 flex flex-wrap gap-2"><span v-for="topic in item.topics" :key="topic" class="border border-stone-200 px-2 py-0.5 text-[11px] leading-5 text-stone-500 dark:border-stone-700 dark:text-stone-400">{{ topic }}</span></div>
-        <p v-else class="mt-4 text-xs text-stone-400">待分类</p>
-        <FavoriteButton :item="item" />
-        <div class="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-stone-100 pt-3 text-xs dark:border-stone-800">
-          <div class="min-w-0">
-            <p v-if="venueLabel(item)" class="break-words text-stone-600 dark:text-stone-300">{{ venueKindLabel(item) }}：{{ venueLabel(item) }}</p>
-            <p v-else-if="item.content_type === 'paper'" class="text-stone-400">期刊/会议：{{ item.venue_type === 'preprint' ? '未提供（预印本）' : '未提供' }}</p>
-            <p class="mt-1 break-words text-stone-500 dark:text-stone-400">采集来源：{{ item.source || '未提供' }}</p>
-            <p class="mt-1 text-[11px] text-stone-400">收录于 {{ localTimeLabel(item.collected_at) }}</p>
-          </div>
-          <div class="flex shrink-0 items-center gap-5"><router-link :to="detailLink(item)" class="text-accent hover:underline">查看详情</router-link><a v-if="safeExternalUrl(item.url)" :href="safeExternalUrl(item.url)" target="_blank" rel="noopener noreferrer" class="text-stone-500 hover:text-accent dark:text-stone-400">原始出处 ↗</a><span v-else class="text-stone-400">原文链接未提供</span></div>
+        <p v-if="item.verification_mode==='official_search_listing_manual'" class="mt-2 text-xs leading-6 text-stone-600 dark:text-stone-400">阅读依据为官方检索摘要或新闻列表。</p>
+        <SummaryPreview v-if="item.abstract_text || item.summary" :id="`summary-${item.id}`" :text="item.abstract_text || item.summary" :label="item.content_type === 'news' ? item.summary_kind==='human' ? '报道简介' : '来源简介' : item.abstract_text ? '摘要预览' : summaryKindLabel(item.summary_kind)" />
+        <p v-if="item.ic_ai?.topics.length || item.topics.length" class="mt-2 text-xs leading-5 text-stone-600 dark:text-stone-400">{{ (item.ic_ai?.topics.length ? item.ic_ai.topics : item.topics).join(' · ') }}</p>
+        <div class="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
+          <FavoriteButton :item="item" class="!mt-0" />
+          <a v-if="safeExternalUrl(item.url)" :href="safeExternalUrl(item.url)" target="_blank" rel="noopener noreferrer" class="text-stone-600 hover:text-accent hover:underline dark:text-stone-400">原始出处 ↗</a>
         </div>
       </article>
     </div>
@@ -441,9 +425,9 @@ onBeforeUnmount(() => {
   @apply mb-1.5 block text-xs font-medium text-stone-500 dark:text-stone-400;
 }
 .discovery-input {
-  @apply block min-h-[42px] w-full min-w-0 rounded-none border border-stone-300 bg-white px-3 py-2 text-sm text-stone-700 outline-none transition-colors placeholder:text-stone-400 focus:border-accent focus:ring-1 focus:ring-accent/30 dark:border-stone-700 dark:bg-stone-950 dark:text-stone-200;
+  @apply block min-h-[42px] w-full min-w-0 rounded-md border border-stone-300 bg-white px-3 py-2 text-sm text-stone-700 outline-none transition-colors placeholder:text-stone-400 focus:border-accent focus:ring-1 focus:ring-accent/30 dark:border-stone-700 dark:bg-stone-950 dark:text-stone-200;
 }
 .pagination-button {
-  @apply border border-stone-300 px-4 py-2 text-xs text-stone-600 hover:border-accent hover:text-accent disabled:cursor-default disabled:opacity-40 disabled:hover:border-stone-300 disabled:hover:text-stone-600 dark:border-stone-700 dark:text-stone-300;
+  @apply rounded-md border border-stone-300 px-4 py-2 text-xs text-stone-600 hover:border-accent hover:text-accent disabled:cursor-default disabled:opacity-40 disabled:hover:border-stone-300 disabled:hover:text-stone-600 dark:border-stone-700 dark:text-stone-300;
 }
 </style>

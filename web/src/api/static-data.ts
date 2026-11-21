@@ -2,6 +2,8 @@ import type { DiscoveryFacets, DiscoveryFilters, DiscoveryItem, DiscoveryList } 
 import type { AnalysisRun } from './analysis'
 import type { PersonalList } from './discovery'
 import { readRecord } from './browser-library'
+import type { ICBriefing, ICDailyEdition } from '../briefing-types'
+import type { TechnologyTopicDetail, TechnologyTopicIndexEntry } from './ic-editor'
 
 export interface ResearchTopic { id: string; track: string; name: string; focus: string; count: number }
 export interface Exploration {
@@ -11,6 +13,11 @@ export interface Exploration {
 interface Snapshot {
   schema_version: 1; exported_at: string; items: (DiscoveryItem & { created_at?: string })[]
   facets: DiscoveryFacets; exploration: Omit<Exploration, 'items'>; reports: AnalysisRun[]
+  ic_briefing?: Record<string, ICBriefing>
+  ic_rankings?: Record<string, ICBriefing>
+  ic_topics?: { topics: TechnologyTopicIndexEntry[]; details: Record<string, TechnologyTopicDetail>; cool_days: number }
+  daily_observations?: ICDailyEdition[]
+  weekly_observations?: ICDailyEdition[]
 }
 let pending: Promise<Snapshot> | undefined
 

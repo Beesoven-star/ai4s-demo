@@ -65,7 +65,7 @@ onBeforeUnmount(() => { ++generation; controller?.abort() })
         <p class="mt-2 text-xs leading-6 text-accent">{{ item.topics.join(' · ') || '专题待分类' }}<span v-if="item.library?.personal_tags.length"> · 个人标签：{{ item.library.personal_tags.join('、') }}</span></p>
         <p class="mt-3 whitespace-pre-wrap break-words text-sm leading-7 text-stone-600 dark:text-stone-300">{{ item.library?.notes || '尚未填写个人备注' }}</p>
         <p class="mt-2 text-xs text-stone-500">收藏于 {{ localTimeLabel(item.library?.saved_at) }}</p>
-        <div class="flex flex-wrap items-center gap-4"><FavoriteButton :item="item" @changed="load"/><router-link :to="{ path: `/discover/item/${item.id}`, query: { from: route.fullPath } }" class="mt-3 text-sm text-accent underline">编辑备注与状态</router-link></div>
+        <div class="flex flex-wrap items-center gap-4"><FavoriteButton :item="item" @changed="load"/><router-link :to="{ path: `/discover/item/${item.id}`, query: { from: route.fullPath, edit: 'notes' } }" class="mt-3 text-sm text-accent underline">编辑备注与状态</router-link></div>
       </article>
       <nav v-if="result.total > 20 || offset" class="mt-5 flex items-center justify-between text-sm" aria-label="收藏分页"><button :disabled="offset === 0" class="border px-4 py-2 disabled:opacity-30" @click="query(Math.max(0, offset - 20))">上一页</button><span>{{ Math.floor(offset / 20) + 1 }} / {{ Math.max(1, Math.ceil(result.total / 20)) }}</span><button :disabled="offset + 20 >= result.total" class="border px-4 py-2 disabled:opacity-30" @click="query(offset + 20)">下一页</button></nav>
     </template>

@@ -8,16 +8,29 @@ import SettingsView from '../views/SettingsView.vue'
 import DiscoveryView from '../views/DiscoveryView.vue'
 import DiscoveryDetailView from '../views/DiscoveryDetailView.vue'
 import ICResearchView from '../views/ICResearchView.vue'
+import TechnologyTopicView from '../views/TechnologyTopicView.vue'
 import PersonalLibraryView from '../views/PersonalLibraryView.vue'
 import ResearchAnalysisView from '../views/ResearchAnalysisView.vue'
+import TechnologyOverviewView from '../views/TechnologyOverviewView.vue'
 import { isWeeklySection } from '../sections'
 import { loadWorkspace, workspace } from '../workspace'
 
 export const router = createRouter({
   history: IS_STATIC ? createWebHashHistory() : createWebHistory(),
   routes: [
-    { path: '/', redirect: '/discover' },
+    { path: '/', name: 'home', component: TechnologyOverviewView },
+    {
+      path: '/observations/editor',
+      redirect: (to) => {
+        const draftId = typeof to.query.draft === 'string' ? to.query.draft : ''
+        return {
+          name: 'home',
+          query: draftId.endsWith('-daily') || to.query.kind === 'daily' ? { view: 'daily' } : {},
+        }
+      },
+    },
     { path: '/explore/ic', name: 'ic-exploration', component: ICResearchView },
+    { path: '/explore/ic/topics/:topicId', name: 'ic-technology-topic', component: TechnologyTopicView, props: true },
     { path: '/discover', name: 'discover', component: DiscoveryView },
     { path: '/library', name: 'library', component: PersonalLibraryView },
     { path: '/analysis', name: 'research-analysis', component: ResearchAnalysisView },
@@ -54,16 +67,18 @@ export const router = createRouter({
     { path: '/settings', name: 'settings', component: SettingsView },
     { path: '/:pathMatch(.*)*', redirect: '/discover' },
   ],
-  scrollBehavior() {
-    return { top: 0 }
+  scrollBehavior(to) {
+    return to.hash === '#tracked-topics' ? { el: to.hash, top: 16 } : { top: 0 }
   },
 })
 
 router.afterEach((to) => {
   const titles: Record<string, string> = {
+    home: '热点与技术观察',
     library: '我的收藏',
     'research-analysis': '相关性分析',
-    'ic-exploration': '集成电路主题探索',
+    'ic-exploration': '技术专题与评价',
+    'ic-technology-topic': '技术专题',
     discover: '每日发现',
     'discover-detail': '资料详情',
     workdocs: '工作文档',
@@ -78,6 +93,7 @@ router.afterEach((to) => {
 router.beforeEach(async (to) => {
   if (IS_STATIC && ['workdocs', 'settings'].includes(String(to.name))) return { name: 'research-analysis', replace: true }
   await loadWorkspace()
+  if (to.name === 'ic-technology-topic' && workspace.domain !== 'ic') return { name: 'home', replace: true }
   if (to.meta.requiresReports && !workspace.reportsEnabled) {
     return { name: 'discover', replace: true }
   }

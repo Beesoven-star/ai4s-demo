@@ -4,11 +4,12 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --mode pages",
-    "build": "node scripts/check-pages.mjs && vite build --mode pages",
+    "dev": "vite",
+    "build": "vite build",
+    "export:pages": "node scripts/export-pages.mjs",
     "build:pages": "node scripts/check-pages.mjs && vite build --mode pages",
     "verify:pages": "node scripts/verify-pages.mjs",
-    "preview": "vite preview --mode pages"
+    "preview": "vite preview"
   },
   "dependencies": {
     "markdown-it": "^14.1.0",

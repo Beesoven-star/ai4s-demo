@@ -12,12 +12,14 @@ const pageName = computed(() => {
     return SECTION_LABEL[String(route.params.key)] ?? '每日研判'
   }
   switch (route.name) {
+    case 'home':
+      return '热点与技术观察'
     case 'library':
       return '我的收藏'
     case 'research-analysis':
       return '相关性分析'
     case 'ic-exploration':
-      return '集成电路主题探索'
+      return '技术专题与评价'
     case 'discover':
       return '每日发现'
     case 'discover-detail':
@@ -42,7 +44,7 @@ const pageName = computed(() => {
   <div class="min-h-screen lg:flex">
     <AppSidebar />
     <div class="min-w-0 flex-1">
-      <main class="mx-auto max-w-4xl px-4 py-8 sm:px-6">
+      <main class="mx-auto px-4 py-8 sm:px-6" :class="['home','ic-exploration'].includes(String(route.name)) ? 'max-w-6xl' : 'max-w-4xl'">
         <router-view :key="route.name" />
       </main>
       <footer

@@ -5,6 +5,7 @@ import type { DiscoveryItem } from '../discovery-types'
 import PublicationPeriodBadge from '../components/PublicationPeriodBadge.vue'
 import { IS_STATIC } from '../static-mode'
 import { staticExploration } from '../api/static-data'
+import TechnologyBriefing from '../components/TechnologyBriefing.vue'
 interface ResearchTopic { id: string; track: string; name: string; focus: string; count: number }
 interface Exploration {
   screened_on: string; tracks: Record<string,string>; topics: ResearchTopic[]; items: DiscoveryItem[]; note: string
@@ -57,6 +58,10 @@ onBeforeUnmount(() => controller.abort())
 
 <template>
   <div>
+    <TechnologyBriefing :topic-mode="true" />
+    <details class="mt-8 border-t border-stone-200 pt-5 dark:border-stone-700">
+    <summary class="cursor-pointer text-base font-semibold">浏览完整研究分类与论文库</summary>
+    <div class="mt-6">
     <header class="mb-7">
       <p class="text-[11px] font-semibold tracking-[0.2em] text-accent">AI + INTEGRATED CIRCUITS</p>
       <h2 class="mt-3 font-serif text-3xl font-bold sm:text-4xl">集成电路研究专题</h2>
@@ -88,7 +93,7 @@ onBeforeUnmount(() => controller.abort())
           <p class="text-xs leading-6 text-stone-500">{{ dateKindLabel(paper.date_kind) }} · {{ publicationLabel(paper) }} · {{ paper.venue_name || paper.journal || paper.source }}</p>
           <PublicationPeriodBadge :item="paper" />
           <h4 class="mt-2 text-base font-semibold leading-7"><RouterLink :to="`/discover/item/${encodeURIComponent(paper.id)}`" class="hover:text-accent">{{ paper.title }}</RouterLink></h4>
-          <p class="mt-2 text-xs leading-7 text-accent">{{ paper.ic_ai!.topics.join(' · ') || paper.ic_ai!.scope_label || '待复核' }}</p>
+          <p class="mt-2 text-xs leading-7 text-accent">{{ paper.ic_ai!.topics.join(' · ') || (paper.ic_ai!.basis === 'title_only' ? '依据题名' : '依据题名与摘要') }}</p>
           <p class="mt-1 text-xs leading-6 text-stone-500">{{ paper.ic_ai!.reviewed_on ? '题名/摘要范围审核' : '新候选自动线索初筛' }} · {{ paper.ic_ai!.basis==='title_only' ? '只有题名，缺少原始摘要' : '依据题名与可用摘要' }} · 尚未核验全文</p>
           <details class="mt-3 text-sm"><summary class="cursor-pointer text-stone-600 dark:text-stone-300">查看归类依据与摘要节选</summary><div v-for="(e,index) in paper.ic_ai!.evidence" :key="index" class="mt-3 border-l-2 border-stone-200 pl-3 text-xs leading-7 text-stone-500"><p>{{ e.topic_id }} · {{ e.field==='title' ? '题名线索' : '摘要线索' }}</p><p>{{ e.ai_signal }}</p><p v-if="e.task_signal!==e.ai_signal">{{ e.task_signal }}</p></div><p class="mt-3 text-xs leading-7 text-stone-500">{{ paper.ic_ai!.note }}</p><p class="mt-3 break-words text-xs leading-7 text-stone-500">{{ paper.abstract_text || '暂无原始摘要，请查看原始出处。' }}</p></details>
           <div class="mt-3 flex gap-5 text-xs"><RouterLink :to="`/discover/item/${encodeURIComponent(paper.id)}`" class="text-accent underline">详情、收藏与备注</RouterLink><a :href="safeExternalUrl(paper.url)" target="_blank" rel="noopener noreferrer" class="text-stone-500 underline">原始出处 ↗</a></div>
@@ -96,5 +101,7 @@ onBeforeUnmount(() => controller.abort())
         <nav v-if="pages>1" aria-label="论文分页" class="mt-6 flex items-center justify-between text-sm"><button :disabled="page===1" class="border px-4 py-2 disabled:opacity-30" @click="page--">上一页</button><span>{{ page }} / {{ pages }}</span><button :disabled="page>=pages" class="border px-4 py-2 disabled:opacity-30" @click="page++">下一页</button></nav>
       </section>
     </template>
+    </div>
+    </details>
   </div>
 </template>

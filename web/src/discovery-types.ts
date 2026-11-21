@@ -1,3 +1,5 @@
+import type { ICObservationClassification, WeeklyHighlight } from './briefing-types'
+
 export type DiscoveryContentType = 'paper' | 'news'
 export type DiscoveryOrigin = 'seed' | 'collected'
 export type DiscoveryDateBasis = 'published' | 'collected'
@@ -21,6 +23,10 @@ export interface DiscoveryItem {
   analysis_classification?: { tracks: string[]; topic_ids: string[]; topics: string[]; scope: string; reviewed_on?: string }
   publication_timing?: {kind: string; label: string; as_of: string; recent_start: string; note: string}
   abstract_provenance?: {source: string; url: string}[]
+  reading_notes?: { basis: 'report' | 'report_excerpt' | 'report_summary' | 'news_listing' | 'source_intro' | 'abstract' | 'abstract_excerpt' | 'abstract_notes_excerpt'; points: { label: string; text: string }[] }
+  published_source_check?: { status: 'original' | 'original_summary' | 'metadata' | 'listing' | 'excerpt' | 'headline'; genre?: string | null; summary?: string; boundary?: string }
+  event_briefs?: (WeeklyHighlight & { title: string; sources: { id: string; name: string }[] })[]
+  observation_classification?: ICObservationClassification
   ic_ai?: ICAnalysis
   library?: PersonalRecord
   id: string
@@ -28,6 +34,7 @@ export interface DiscoveryItem {
   origin: DiscoveryOrigin
   sample_role?: string
   title: string
+  authors?: string[]
   source: string
   journal?: string | null
   venue_type?: 'journal' | 'conference' | 'preprint' | null
@@ -127,3 +134,4 @@ export interface DiscoveryRun {
   window_start?: string | null
   window_end?: string | null
 }
+

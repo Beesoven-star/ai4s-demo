@@ -17,7 +17,7 @@ export interface AnalysisPreview {
   counts: Record<string,number>; excluded: Record<string,number>; max_sources: number
 }
 export interface AnalysisClaim {
-  text: string; source_ids: string[]; evidence: {source_id: string; quote: string}[]
+  text: string; source_ids: string[]; evidence: {source_id: string; quote: string; evidence_id?: string|null}[]
 }
 export interface AnalysisReport {
   title: string; overview: AnalysisClaim
@@ -33,6 +33,11 @@ export interface AnalysisRun {
   retry_of?: string; elapsed_seconds?: number
   usage?: {prompt_tokens?: number; completion_tokens?: number; total_tokens?: number; reasoning_tokens?: number}
   generation_policy?: {max_tokens: number; timeout_seconds: number; reasoning_effort?: string}
+  draft_report?: AnalysisReport
+  error_code?: string
+  citation_issues?: {path: string; source_id: string; evidence_id?: string|null; quote: string; reason: string; source_title: string}[]
+  citation_repairs?: {path: string; source_id: string; reason: string}[]
+  citation_policy?: string
 }
 export interface ModelConnection {model: string; base_url: string; key_configured: boolean; key_source?: string}
 export interface AnalysisOptions {today: string; max_sources: number; topics: {id: string; track: string; name: string}[]}

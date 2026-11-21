@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import { analysisRequest, type ModelConnection } from '../api/analysis'
+import TopicEvaluationSettings from '../components/TopicEvaluationSettings.vue'
+import AutomaticObservationSettings from '../components/AutomaticObservationSettings.vue'
+import ReadingPromptSettings from '../components/ReadingPromptSettings.vue'
+import { workspace } from '../workspace'
 
 const form=reactive({base_url:'https://api.deepseek.com',model:'deepseek-flash',api_key:''})
 const connection=ref<ModelConnection|null>(null)
@@ -35,8 +39,8 @@ async function test(){
     <header class="mb-7"><h2 class="font-serif text-3xl font-bold">设置</h2><div class="mt-5 border-t-2 border-stone-900 dark:border-stone-100" /></header>
     <p v-if="loading" role="status" class="py-12 text-sm text-stone-500">正在加载…</p>
     <form v-else class="max-w-xl" @submit.prevent="save">
-      <h3 class="font-serif text-xl font-semibold">相关性分析使用的模型服务</h3>
-      <p class="mt-2 text-sm text-stone-500">用于分析你选中的文献和新闻，采集与去重独立运行。</p>
+      <h3 class="font-serif text-xl font-semibold">模型服务</h3>
+      <p class="mt-2 text-sm text-stone-500">{{ workspace.domain === 'ic' ? '用于自动整理详情页和观察，以及分析你选中的资料。' : '用于分析你选中的文献和新闻。' }}</p>
       <label for="analysis-base-url" class="mt-6 block text-sm">服务地址</label>
       <input id="analysis-base-url" v-model="form.base_url" type="url" required spellcheck="false" class="mt-2 w-full border border-stone-300 bg-transparent px-3 py-2.5 text-sm dark:border-stone-700" placeholder="https://api.deepseek.com" />
       <p class="mt-2 text-xs text-stone-400">填写兼容 Chat Completions 的基础地址，不含 /chat/completions。第三方服务请使用其提供的地址。</p>
@@ -51,5 +55,10 @@ async function test(){
       <p v-if="notice" role="status" class="mt-4 text-sm text-green-700 dark:text-green-400">{{ notice }}</p>
     </form>
     <p v-if="error" role="alert" class="mt-4 text-sm text-red-600">{{ error }}</p>
+    <template v-if="workspace.domain === 'ic'">
+      <ReadingPromptSettings />
+      <AutomaticObservationSettings />
+      <TopicEvaluationSettings />
+    </template>
   </div>
 </template>

@@ -49,6 +49,55 @@ if (!process.env.PAGES_TEST_STORE) {
     const id = snapshot.items.find(item => item.content_type === 'paper' && item.ic_ai.scope === 'main').id
     const note = '静态展示持久化核验：中文备注与 <script>纯文本</script>'
     if (process.env.PAGES_TEST_PHASE === 'save') {
+      const briefing = await server.ssrLoadModule('/src/api/briefing.ts')
+      for (const days of [7,30]) {
+        const edition = await briefing.getICBriefing(days)
+        assert.equal(edition.window.days, days)
+        assert.equal(edition.window.date_to, snapshot.facets.today, 'The rankings must reflect the export date')
+        assert.equal(edition.technologies.length, 6)
+        assert(Object.keys(edition.sources).every(id => snapshot.items.some(item => item.id===id)), 'All briefing evidence must resolve to exported details')
+        assert(edition.technologies.every(t => t.review_status==='provisional'))
+      }
+      assert((await briefing.getICBriefing(30)).event_attention_order.length <= 50)
+      const editor = await server.ssrLoadModule('/src/api/ic-editor.ts')
+      const topicIndex = await editor.getTechnologyTopics()
+      const topicEntry = topicIndex.topics.find(topic => topic.evaluation_status)
+      assert(topicEntry, 'Exported topics must include the published evaluations')
+      const topic = await editor.getTechnologyTopic(topicEntry.id)
+      assert(topic.events.length && topic.evaluation?.finding.references.length, 'The topic page must contain its evidence')
+      assert((await briefing.getICObservations()).report, 'Daily view defaults to the latest exported report')
+      assert((await editor.getPublishedWeekly()).report, 'Weekly archive has a published report')
+      const analysis = await server.ssrLoadModule('/src/api/analysis.ts')
+      const options = await analysis.analysisRequest('/options')
+      const filters = { date_from: snapshot.facets.publication_audit.recent_start, date_to: options.today,
+        date_basis: 'published', include_papers: true, include_news: true, literature_scope: 'main',
+        news_scope: 'main', research_track: '', topic: '', keyword: '' }
+      const preview = await analysis.analysisRequest('/preview', filters)
+      assert(preview.total > 0, 'Static analysis must return selectable materials')
+      assert.equal(preview.counts.paper + preview.counts.news, preview.total)
+      assert(preview.sources.every(source => source.published_at >= filters.date_from && source.published_at <= filters.date_to))
+      const archiveRuns = await analysis.analysisRequest('/runs')
+      assert.equal(archiveRuns.length, snapshot.reports.length)
+      if (archiveRuns.length) assert.equal((await analysis.analysisRequest('/runs/' + archiveRuns[0].id)).report.title, snapshot.reports[0].report.title)
+      await assert.rejects(analysis.analysisRequest('/preview', { ...filters, include_papers: false, include_news: false }), /至少选择/)
+      await assert.rejects(analysis.analysisRequest('/preview', { ...filters, date_from: '2026-02-30' }), /日期范围/)
+      await assert.rejects(analysis.analysisRequest('/preview', { ...filters, research_track: 'ic_for_ai', topic: 'A1' }), /不一致/)
+      await assert.rejects(analysis.analysisRequest('/runs', { filters, item_ids: [] }), /生成新报告请使用本地完整版/)
+      // Optional local baseline, produced using the existing Python selector.
+      const baselinePath = new URL('../../.runtime/pages-analysis-baseline.json', import.meta.url)
+      if (existsSync(baselinePath)) {
+        const baseline = JSON.parse(readFileSync(baselinePath, 'utf8'))
+        if (baseline.exported_at === snapshot.exported_at) {
+          for (const entry of baseline.cases) {
+            const actual = await analysis.analysisRequest('/preview', entry.filters)
+            assert.deepEqual(actual.sources.map(source => source.id), entry.ids, entry.name)
+            assert.deepEqual(actual.counts, entry.counts, entry.name)
+            assert.deepEqual(actual.excluded, entry.excluded, entry.name)
+            assert.deepEqual(actual.sources.map(source => [source.evidence_quality, source.excerpt, source.tracks, source.topics]), entry.evidence, entry.name)
+          }
+          console.log(`Analysis filtering matches the Python backend for ${baseline.cases.length} cases, including news classification and missing dates.`)
+        }
+      }
       assert.equal((await api.listPersonalLibrary({})).total, 0, 'Visitors must not inherit the owner library')
       const main = await api.listDiscoveryItems({ content_type: 'paper' })
       assert.equal(main.total, snapshot.facets.main_papers)
