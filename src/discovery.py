@@ -567,16 +567,18 @@ def get_facets(db_path=None) -> dict:
             FROM discovery_items ORDER BY venue""").fetchall()
         result = {**dict(totals), "today": today, "topics": [row[0] for row in topics], "venues": [row[0] for row in venues if row[0]]}
         if os.environ.get('DNEWS_RESEARCH_DOMAIN') == 'ic':
-            from src.ic_research import TOPICS, TRACKS, analyze, scope_of
+            from src.ic_research import TOPICS, TRACKS, analyze, latest_paper_dates, scope_of
             from src.publication_timing import statistics
             from collections import Counter
             papers=[json.loads(row[0]) for row in conn.execute("SELECT payload FROM discovery_items WHERE content_type='paper'")]
-            scopes=Counter(scope_of(analyze(paper)) for paper in papers)
+            by_scope = [(paper, scope_of(analyze(paper))) for paper in papers]
+            scopes=Counter(scope for _, scope in by_scope)
             result.update(domain='ic', topics=[topic['name'] for topic in TOPICS], research_tracks=TRACKS)
-            valid=[paper for paper in papers if scope_of(analyze(paper))!='excluded']
+            valid=[paper for paper, scope in by_scope if scope != 'excluded']
             audit=statistics(valid)
             audit['collection_days']=dict(sorted(Counter(paper.get('collected_at','')[:10] for paper in papers).items()))
             result.update(literature_scopes=dict(scopes),publication_audit=audit,
+                latest_paper_dates=latest_paper_dates(by_scope, today),
                 main_papers=scopes['main'],archive_papers=scopes['archive'],pending_papers=scopes['pending'],excluded_papers=scopes['excluded'])
             archived=conn.execute("SELECT COUNT(*) FROM discovery_items WHERE content_type='news' AND json_extract(payload,'$.news_scope')='archive'").fetchone()[0]
             result.update(news_candidates=result['news'],archived_news=archived,news=result['news']-archived)

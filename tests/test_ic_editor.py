@@ -1,5 +1,7 @@
 import asyncio
+from contextlib import closing
 from datetime import date
+import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
@@ -8,7 +10,7 @@ from unittest.mock import patch
 from fastapi import HTTPException
 from pydantic import ValidationError
 
-from src import analysis_connection, discovery, ic_automatic, ic_editor
+from src import analysis_connection, discovery, ic_automatic, ic_editor, ic_topics
 from src.discovery_collection import CollectionService
 from src.ic_observation_drafts import build_drafts
 from src.ic_observations import load_catalog
@@ -75,7 +77,7 @@ class ObservationEditorTests(unittest.TestCase):
             self.assertEqual(editor_api.weekly()['report']['id'], 'trial-weekly')
             self.assertIsNone(editor_api.weekly('original')['report'])
 
-    def test_weekly_archive_groups_versions_by_cutoff_date(self):
+    def test_weekly_archive_groups_rolling_editions_by_natural_week(self):
         def report(identity, day, published_at):
             return {'id': identity, 'title': identity, 'date': day, 'date_from': day, 'published_at': published_at}
 
@@ -85,16 +87,15 @@ class ObservationEditorTests(unittest.TestCase):
         same_day_as_original = report('revised-original-weekly', '2026-11-20', '2026-11-23T13:10:00+08:00')
         with patch('src.web.ic_editor.editor.publications', return_value=[latest, earlier, previous, same_day_as_original]):
             current = editor_api.weekly()
-            self.assertEqual(current['report'], latest)
-            self.assertEqual([row['date'] for row in current['editions']], ['2026-11-22', '2026-11-21', '2026-11-20'])
-            self.assertEqual([row['id'] for row in current['versions']], [latest['id'], earlier['id']])
-            self.assertEqual(editor_api.weekly(earlier['id'])['report'], earlier)
-            self.assertEqual(editor_api.weekly(day=date(2026, 11, 21))['report'], previous)
-            self.assertEqual(editor_api.weekly(day=date(2026, 11, 20))['report'], same_day_as_original)
+            self.assertEqual(current['report']['id'], latest['id'])
+            self.assertEqual([(row['date_from'], row['date']) for row in current['editions']], [('2026-11-16', '2026-11-22')])
+            self.assertFalse(current['versions'])
+            self.assertEqual(editor_api.weekly(earlier['id'])['report'], current['report'])
+            self.assertEqual(editor_api.weekly(day=date(2026, 11, 21))['report'], current['report'])
             original = editor_api.weekly('original')
             self.assertEqual(original['selected_version'], 'original')
-            self.assertEqual([row['id'] for row in original['versions']], [same_day_as_original['id'], 'original'])
-            self.assertIsNone(editor_api.weekly(day=date(2026, 11, 19))['report'])
+            self.assertFalse(original['versions'])
+            self.assertIsNone(editor_api.weekly(day=date(2026, 11, 15))['report'])
 
     def test_daily_archive_uses_latest_version_for_each_date(self):
         legacy = {'selected_day': '2026-11-21', 'today': '2026-11-21',
@@ -122,7 +123,6 @@ class ObservationEditorTests(unittest.TestCase):
         self.assertEqual(ic_editor.daily_with_editions(legacy, reports, 'rewrite')['report']['id'], 'rewrite')
 
     def test_collection_creates_automatic_editions_and_keeps_manual_publication(self):
-        import json
         ic_automatic.initialize(self.database)
         CollectionService(self.database)
         discovery.upsert_items([
@@ -155,9 +155,56 @@ class ObservationEditorTests(unittest.TestCase):
         self.assertEqual(ic_automatic.recent_runs(self.database)[0]['status'], 'published')
         self.assertIsNone(ic_editor.get_draft('trial-daily', self.database)['published_at'])
 
-    def test_automatic_editions_require_substantive_updates_and_reuse_assessments(self):
-        import json
+    def test_retired_hbm_weekly_is_unlisted_and_new_evidence_updates_the_topic(self):
+        ic_automatic.initialize(self.database)
+        CollectionService(self.database)
+        day = '2026-11-21'
+        stamp = f'{day}T14:30:00+08:00'
+        archived = {'id': 'legacy-hbm_weekly', 'kind': ic_editor.HBM_WEEKLY, 'date': day,
+                    'date_from': '2026-11-15', 'published_at': stamp, 'title': '历史 HBM 周报',
+                    'entries': [{'comparison': {'route': 'ssd'}}]}
+        pending = {'id': 'pending-hbm_weekly', 'kind': ic_editor.HBM_WEEKLY, 'status': 'queued',
+                   'attempts': 0, 'date': day, 'draft_ids': ['pending-hbm_weekly'], 'available_at': stamp}
+        with closing(discovery._connect(self.database)) as db, db:
+            db.execute('INSERT INTO ic_editor_drafts VALUES (?, ?, 2, ?, ?)',
+                       (archived['id'], stamp, stamp, json.dumps(archived)))
+            db.execute('INSERT INTO ic_editor_publications VALUES (?, ?, ?, ?, ?)',
+                       (archived['id'], archived['kind'], day, stamp, json.dumps(archived)))
+            db.execute('INSERT INTO ic_auto_runs VALUES (?, ?, ?, ?, ?)',
+                       (pending['id'], pending['status'], stamp, stamp, json.dumps(pending)))
+        ic_automatic.initialize(self.database)
+        self.assertEqual(ic_automatic.recent_runs(self.database)[0]['status'], 'cancelled')
 
+        quote = 'AMD IT deployed MEXT on 86 engineering hosts.'
+        discovery.upsert_items([dict(url='https://example.org/mext', title='AMD MEXT deployment', summary=quote,
+                                    content_type='news', source='Example', published_at=day)], db_path=self.database)
+        worker = ic_automatic.ObservationWorker(self.database, 'unused config')
+        job = {'id': 'new-evidence', 'status': 'success', 'window_end': day, 'inserted': 1,
+               'finished_at': stamp, 'runs': []}
+        ids = worker.after_collection(job, self.database)
+        self.assertEqual(ids, ['new-evidence-daily', 'new-evidence-weekly'])
+        ic_automatic.replay(self.database, date.fromisoformat(day))
+        self.assertFalse(any(run['kind'] == ic_editor.HBM_WEEKLY and run['status'] != 'cancelled'
+                             for run in ic_automatic.recent_runs(self.database) if 'kind' in run))
+        key = ic_editor.get_draft(ids[0], self.database)['candidates'][0]['id']
+        proposal = {'topics': [{'topic_id': 'hbm', 'name': 'HBM 与 AI 存储层次协同', 'overview': '内存分层。',
+                                'question': '怎样扩容？', 'follow_up': '跟踪延迟。',
+                                'events': [{'title': 'AMD 内部部署 MEXT', 'summary': '在工程主机部署。',
+                                            'source_ids': [key], 'evidence_source_id': key, 'evidence_id': 1}]}]}
+        result = analysis_connection.CompletionText(json.dumps(proposal), usage={}, elapsed_seconds=1, policy={})
+        with patch.object(analysis_connection, 'credentials', return_value=({'base_url': 'https://api.deepseek.com'}, 'test')), \
+             patch.object(analysis_connection, 'complete', return_value=result):
+            self.assertTrue(asyncio.run(ic_topics.process_next(self.database)))
+        timeline = ic_topics.topic_detail('hbm', self.database)['events']
+        source = next(source for event in timeline for source in event['sources'] if source['id'] == key)
+        self.assertEqual(source['verified_excerpt'], quote)
+        self.assertEqual(ic_editor.publications(ic_editor.HBM_WEEKLY, self.database), [archived])
+        with patch.dict('os.environ', {'DNEWS_DISCOVERY_DB': str(self.database)}):
+            weekly = editor_api.weekly(version=archived['id'])
+            self.assertIsNone(weekly['report'])
+            self.assertEqual(weekly['selected_version'], 'original')
+
+    def test_automatic_editions_require_substantive_updates_and_reuse_assessments(self):
         ic_automatic.initialize(self.database)
         CollectionService(self.database)
         worker = ic_automatic.ObservationWorker(self.database, 'not used')
@@ -249,6 +296,106 @@ class ObservationEditorTests(unittest.TestCase):
             self.assertTrue(asyncio.run(worker.process_next()))
             self.assertIn('引文与来源材料不符', ic_automatic.recent_runs(self.database)[0]['error'])
             self.assertEqual(len(ic_editor.publications('daily', self.database)), 2)
+
+    def test_weekly_updates_same_issue_and_preserves_its_main_thread(self):
+        ic_automatic.initialize(self.database)
+        worker = ic_automatic.ObservationWorker(self.database, 'unused')
+
+        def add(slug, day, summary):
+            discovery.upsert_items([dict(url=f'https://example.org/{slug}', title=slug, summary=summary,
+                                         content_type='news', source='Example', published_at=day)], db_path=self.database)
+            return next(row['id'] for row in discovery.list_items(db_path=self.database)['items'] if row['title'] == slug)
+
+        def stage(identity, day):
+            job = {'id': identity, 'status': 'success', 'window_end': day, 'inserted': 1,
+                   'finished_at': f'{day}T16:00:00+08:00', 'runs': []}
+            drafts = ic_editor.stage_completed_collection(job, self.database, kinds=('weekly',))
+            ic_automatic.enqueue(self.database, drafts)
+            return ic_editor.get_draft(drafts[0], self.database)
+
+        def response(key, headline, *, target=None):
+            report = {'title': headline, 'intro': headline, 'change': {'source_id': key, 'evidence_id': 1},
+                      'entries': [{'title': headline, 'summary': headline, 'source_ids': [key], 'update_entry': target}]}
+            return analysis_connection.CompletionText(json.dumps({'weekly': report}), usage={}, elapsed_seconds=1, policy={})
+
+        old = add('sunday', '2026-11-22', 'The chip was demonstrated in a closed laboratory.')
+        first = add('monday', '2026-11-23', 'The company began a laboratory prototype test.')
+        with patch.object(analysis_connection, 'credentials', return_value=({'base_url': 'https://api.deepseek.com'}, 'test')), \
+             patch.object(analysis_connection, 'complete', return_value=response(first, '本周主线')) as complete, \
+             patch.object(ic_automatic, '_evidence', side_effect=lambda candidates, *_: {
+                 key: {'status': 'excerpt', 'text': item['summary']} for key, item in candidates.items()}):
+            monday = stage('monday', '2026-11-23')
+            self.assertEqual((monday['date_from'], monday['week_end']), ('2026-11-23', '2026-11-29'))
+            self.assertNotIn(old, {item['id'] for item in monday['candidates']})
+            self.assertTrue(asyncio.run(worker.process_next()))
+            initial, = ic_editor.publications('weekly', self.database)
+
+            extra = add('wednesday', '2026-11-25', 'An independent tester published latency observations.')
+            complete.return_value = response(extra, '额外的延迟观测')
+            stage('wednesday', '2026-11-25')
+            self.assertTrue(asyncio.run(worker.process_next()))
+            updated, = ic_editor.publications('weekly', self.database)
+            self.assertEqual((updated['id'], updated['title'], updated['intro']),
+                             (initial['id'], '本周主线', '本周主线'))
+            self.assertEqual(updated['entries'][0], initial['entries'][0])
+            self.assertEqual(updated['coverage_through'], '2026-11-25')
+            self.assertIn('previous.entries', complete.call_args.args[0])
+
+            stage('older-replay', '2026-11-24')
+            self.assertTrue(asyncio.run(worker.process_next()))
+            self.assertEqual(complete.await_count, 2)
+            self.assertEqual(ic_editor.publications('weekly', self.database), [updated])
+
+            correction = add('friday', '2026-11-27', 'The company completed validation of the first prototype.')
+            complete.return_value = response(correction, '原型完成验证', target=1)
+            stage('friday', '2026-11-27')
+            self.assertTrue(asyncio.run(worker.process_next()))
+            latest, = ic_editor.publications('weekly', self.database)
+            self.assertEqual(latest['title'], initial['title'])
+            self.assertEqual(latest['entries'][0]['source']['id'], correction)
+            self.assertEqual(latest['entries'][1], updated['entries'][1])
+
+            next_week = add('next-monday', '2026-11-30', 'Another manufacturer reported an installation.')
+            complete.return_value = response(next_week, '下周主线')
+            stage('next-monday', '2026-11-30')
+            self.assertTrue(asyncio.run(worker.process_next()))
+        reports = ic_editor.publications('weekly', self.database)
+        self.assertEqual([(row['date_from'], row['date']) for row in reports],
+                         [('2026-11-30', '2026-12-06'), ('2026-11-23', '2026-11-29')])
+
+    def test_daily_publishes_with_a_numbered_excerpt_when_weekly_is_invalid(self):
+        ic_automatic.initialize(self.database)
+        day = '2026-11-21'
+        excerpt = 'The company disclosed an optical switch deployed at its first data center.'
+        discovery.upsert_items([dict(url='https://example.org/numbered', title='Optical switch deployment',
+                                     summary=excerpt, content_type='news', source='Example', published_at=day)],
+                               db_path=self.database)
+        worker = ic_automatic.ObservationWorker(self.database, 'unused')
+        job = {'id': 'numbered', 'status': 'success', 'window_end': day, 'inserted': 1,
+               'finished_at': f'{day}T14:30:00+08:00', 'runs': []}
+        drafts = ic_editor.stage_completed_collection(job, self.database, kinds=('daily', 'weekly'))
+        ic_automatic.enqueue(self.database, drafts)
+        key = ic_editor.get_draft(drafts[0], self.database)['candidates'][0]['id']
+        reference = {'source_id': key, 'evidence_id': 1}
+        edition = {'title': '光交换样机部署', 'intro': '来自已入库的报道。', 'change': reference,
+                   'entries': [{'title': '光交换机部署', 'summary': '厂商披露了首个部署。', 'source_ids': [key]}]}
+        response = {'daily': edition, 'weekly': {**edition, 'change': {**reference, 'evidence_id': 99}},
+                    'source_reviews': [{'source_id': key, 'kind': 'reporting', 'evidence': None}]}
+        raw = analysis_connection.CompletionText(json.dumps(response), usage={}, elapsed_seconds=1, policy={})
+        evidence = {key: {'status': 'excerpt', 'text': excerpt}}
+        with patch.object(analysis_connection, 'credentials', return_value=({'base_url': 'https://api.deepseek.com'}, 'test')), \
+             patch.object(analysis_connection, 'complete', return_value=raw) as complete, \
+             patch.object(ic_automatic, '_evidence', return_value=evidence):
+            self.assertTrue(asyncio.run(worker.process_next()))
+            prompt = complete.call_args.args[0]
+        self.assertIn('change_excerpts', prompt)
+        self.assertIn(excerpt, prompt)
+        self.assertEqual(len(ic_editor.publications('daily', self.database)), 1)
+        self.assertFalse(ic_editor.publications('weekly', self.database))
+        run = ic_automatic.recent_runs(self.database)[0]
+        self.assertEqual(run['status'], 'queued')
+        self.assertEqual(run['publications'], ['numbered-daily'])
+        self.assertEqual(set(run['edition_errors']), {'weekly'})
 
     def test_original_article_can_reuse_single_source_summary_only(self):
         automation = {'prompt_version': 'test', 'generated_at': '2026-11-20T10:00:00+08:00',

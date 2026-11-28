@@ -58,6 +58,8 @@ class EvaluationSettings(BaseModel):
 
 class Replay(BaseModel):
     day: date
+    topic_id: str | None = Field(default=None, min_length=1, max_length=100)
+    topics_only: bool = False
 
 
 @router.get('/drafts')
@@ -118,7 +120,7 @@ def update_reading_prompt(kind: Literal['paper', 'news'], body: ReadingPromptSet
 
 @router.post('/automation/replay', status_code=202)
 def replay(body: Replay):
-    return {'id': _request(ic_automatic.replay, discovery._path(), body.day)}
+    return {'id': _request(ic_automatic.replay, discovery._path(), body.day, body.topic_id, body.topics_only)}
 
 
 @router.get('/evaluation-settings')
@@ -134,12 +136,8 @@ def update_evaluation_settings(body: EvaluationSettings):
 @router.get('/topics')
 def topics():
     db = discovery._path()
-    cards = ic_topic_evaluation.published_cards(db)
-    rows = ic_topics.topic_index(db)
-    for row in rows:
-        if card := cards.get(row['id']):
-            row['evaluation_status'] = 'ranked' if card['total'] is not None else 'partial'
-    return {'topics': rows, 'runs': ic_topics.recent_runs(db), 'cool_days': ic_topics.COOL_DAYS}
+    return {'topics': ic_topic_evaluation.topic_directory(db), 'runs': ic_topics.recent_runs(db),
+            'cool_days': ic_topics.COOL_DAYS, 'as_of': ic_topics._now().date().isoformat()}
 
 
 @router.get('/topics/{identity}')
@@ -159,5 +157,5 @@ def weekly(version: Annotated[str | None, Query(max_length=100)] = None, day: da
     story = archived.get('weekly_story') or {}
     original = {'id': 'original', 'date': window['date_to'], 'date_from': window['date_from'],
                 'title': story.get('question') or '本周技术观察'}
-    return editor.weekly_with_editions(editor.publications('weekly'), original, day=day.isoformat() if day else None,
-                                       version=version)
+    return editor.calendar_week_archive(editor.publications('weekly'), original, day=day.isoformat() if day else None,
+                                        version=version)

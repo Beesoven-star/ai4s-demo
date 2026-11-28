@@ -78,6 +78,7 @@ export interface ICObservationClassification {
 export interface ICDailyEdition {
   id?: string
   date_from?: string
+  coverage_through?: string
   published_at?: string
   date: string
   title: string

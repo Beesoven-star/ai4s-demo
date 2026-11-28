@@ -1,6 +1,7 @@
 """Describe the material behind a claim, separately from the claim itself."""
 
 import re
+import textwrap
 import unicodedata
 
 
@@ -36,6 +37,12 @@ HAN = re.compile(r'[\u3400-\u9fff]')
 
 def _compact(value):
     return ' '.join(unicodedata.normalize('NFKC', value).split())
+
+
+def evidence_excerpts(text, *, width, limit):
+    segments = re.split(r'(?<=[.!?])\s+|(?<=[。！？])\s*', ' '.join(text.split()))
+    return [part for segment in segments for part in textwrap.wrap(segment, width, break_on_hyphens=False)
+            if len(part) >= 8][:limit]
 
 
 def reading_points(fields, note_fields, material, basis, *, optional=()):

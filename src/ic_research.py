@@ -45,6 +45,16 @@ def scope_of(analysis):
 
 def scope_matches(payload,scope):
     return int(scope_of(from_payload(payload))==scope)
+
+
+def latest_paper_dates(papers, today):
+    dates = {}
+    for paper, scope in papers:
+        day = paper.get('published_at')
+        if day and day <= today:
+            for key in (scope, 'all'):
+                dates[key] = max(day, dates.get(key, ''))
+    return dates
 AI = re.compile(r'\b(?:LLMs?|large language models?|language models?|machine learning|deep learning|neural(?:[- ]network)?s?|reinforcement learning|graph neural|artificial intelligence|generative (?:AI|models?)|AI|DNNs?|CNNs?|neuromorphic|spiking|autoencoders?|GNNs?|bayesian optimization)\b', re.I)
 LEARNING = re.compile(r'\b(?:(?:LLMs?|large language models?|language models?)[- ](?:based|guided|driven|assisted|orchestrated|augmented|training)|machine learning(?!\s*(?:\(|applications|workloads))|deep learning|reinforcement learning|graph neural|graph networks?|(?:deep|recurrent|convolutional) neural networks?|(?:using|via|based on).{0,35}neural networks?|neural[- ]network[- ]based|[CD]NN[- ]based|physics[- ]informed|generative (?:AI|models?)|AI[- ](?:aided|assisted|driven|based)|GNNs?|autoencoders?|bayesian optimization|flow matching|XGBoost|knowledge distillation|agentic|multi[- ]agent|transformer[- ]based|fine[- ]tuning|train\w*.{0,25}LLMs?)\b', re.I)
 DESIGN = {

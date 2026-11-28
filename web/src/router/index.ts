@@ -14,6 +14,7 @@ import ResearchAnalysisView from '../views/ResearchAnalysisView.vue'
 import TechnologyOverviewView from '../views/TechnologyOverviewView.vue'
 import { isWeeklySection } from '../sections'
 import { loadWorkspace, workspace } from '../workspace'
+import { HBM_TOPIC_ID } from '../hbm-topic'
 
 export const router = createRouter({
   history: IS_STATIC ? createWebHashHistory() : createWebHistory(),
@@ -93,6 +94,9 @@ router.afterEach((to) => {
 router.beforeEach(async (to) => {
   if (IS_STATIC && ['workdocs', 'settings'].includes(String(to.name))) return { name: 'research-analysis', replace: true }
   await loadWorkspace()
+  if (to.name === 'home' && to.query.sample === HBM_TOPIC_ID && workspace.domain === 'ic') {
+    return { name: 'ic-technology-topic', params: { topicId: HBM_TOPIC_ID }, replace: true }
+  }
   if (to.name === 'ic-technology-topic' && workspace.domain !== 'ic') return { name: 'home', replace: true }
   if (to.meta.requiresReports && !workspace.reportsEnabled) {
     return { name: 'discover', replace: true }

@@ -1,12 +1,19 @@
 <script setup lang="ts">
-import { onBeforeUnmount, ref, watch } from 'vue'
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { listPersonalLibrary, localTimeLabel, publicationLabel, READING_LABELS } from '../api/discovery'
 import type { PersonalList } from '../api/discovery'
 import FavoriteButton from '../components/FavoriteButton.vue'
+import { getTechnologyTopic } from '../api/ic-editor'
+import { followedTopicIds, initializeFollowProgress, savedTopicProgress, unreadTopicEvents } from '../composables/useTopicFollow'
 import { IS_STATIC } from '../static-mode'
 const route = useRoute()
 const router = useRouter()
+const followCount = ref(0)
+const followedTopics = ref<{ id: string; name: string; unread: number; progress?: string; text?: string }[]>([])
+const followLoading = ref(false)
+const followFailed = ref(false)
+let followRequest: AbortController | undefined
 const result = ref<PersonalList | null>(null)
 const loading = ref(true)
 const error = ref('')
@@ -36,8 +43,49 @@ async function query(nextOffset = 0) {
   else await router.push({ path: '/library', query: params })
 }
 async function reset() { q.value = ''; status.value = ''; topic.value = ''; tag.value = ''; type.value = ''; await query() }
+
+async function loadFollowedTopics() {
+  followRequest?.abort()
+  const request = new AbortController()
+  followRequest = request
+  followLoading.value = true
+  followFailed.value = false
+  try {
+    const ids = followedTopicIds()
+    followCount.value = ids.length
+    const results = await Promise.allSettled(ids.map(async id => {
+      const data = await getTechnologyTopic(id, request.signal)
+      if (request.signal.aborted) throw new Error('Request cancelled')
+      initializeFollowProgress(id, data.events)
+      const saved = savedTopicProgress(id)
+      const unread = unreadTopicEvents(data.events, Array.isArray(saved) ? saved : null)
+      const event = unread[0]
+      const changes = event?.stage_changes || []
+      return { id, name: data.name, unread: unread.length, progress: event?.id, text: changes[changes.length - 1]?.summary || event?.title }
+    }))
+    if (request.signal.aborted) return
+    followedTopics.value = results.flatMap(result => result.status === 'fulfilled' ? [result.value] : [])
+    followFailed.value = results.some(result => result.status === 'rejected')
+  } catch {
+    if (!request.signal.aborted) followFailed.value = true
+  } finally {
+    if (!request.signal.aborted) followLoading.value = false
+  }
+}
+
 watch(() => route.fullPath, load, { immediate: true })
-onBeforeUnmount(() => { ++generation; controller?.abort() })
+onMounted(() => {
+  void loadFollowedTopics()
+  window.addEventListener('focus', loadFollowedTopics)
+  window.addEventListener('storage', loadFollowedTopics)
+})
+onBeforeUnmount(() => {
+  ++generation
+  controller?.abort()
+  followRequest?.abort()
+  window.removeEventListener('focus', loadFollowedTopics)
+  window.removeEventListener('storage', loadFollowedTopics)
+})
 </script>
 <template>
   <div>
@@ -45,6 +93,20 @@ onBeforeUnmount(() => { ++generation; controller?.abort() })
     <h2 class="mt-3 font-serif text-3xl font-bold">我的收藏</h2>
     <p class="mt-3 text-sm leading-7 text-stone-500">保存值得继续阅读的论文与动态，记录自己的判断和阅读进度。</p>
     <p v-if="IS_STATIC" class="mt-2 text-xs leading-6 text-stone-500">收藏和备注保存在当前浏览器，刷新或关闭网页后仍保留。清除网站数据或结束无痕浏览会删除记录。</p>
+    <section v-if="followCount || followFailed" aria-labelledby="followed-topics" class="mt-5 rounded-lg border border-stone-200 bg-stone-50 p-4 dark:border-stone-800 dark:bg-stone-900">
+      <h3 id="followed-topics" class="text-sm font-semibold">关注的专题</h3>
+      <ul v-if="followedTopics.length" class="mt-2 space-y-2">
+        <li v-for="record in followedTopics" :key="record.id">
+          <RouterLink :to="{ name: 'ic-technology-topic', params: { topicId: record.id }, query: record.progress ? { progress: record.progress } : {} }" class="inline-flex flex-wrap items-baseline gap-x-3 gap-y-1 text-sm text-accent hover:underline">
+            <span>{{ record.name }} →</span><span v-if="record.unread" class="font-semibold">{{ record.unread }} 项新进展</span>
+          </RouterLink>
+          <p class="mt-1 line-clamp-2 text-xs text-stone-600 dark:text-stone-400">{{ record.text || '上次查看后暂无新进展。' }}</p>
+        </li>
+      </ul>
+      <p v-if="followLoading && !followedTopics.length" role="status" class="mt-2 text-xs text-stone-600 dark:text-stone-400">正在读取专题进展…</p>
+      <p v-else-if="followFailed" class="mt-2 text-xs text-stone-600 dark:text-stone-400">部分关注记录或进展暂时无法读取。 <button type="button" class="underline" @click="loadFollowedTopics">重试</button></p>
+      <p class="mt-2 text-xs text-stone-600 dark:text-stone-400">关注记录保存在当前浏览器。</p>
+    </section>
     <p v-if="result" class="mt-4 text-sm text-stone-500">当前资料库收藏 {{ result.facets.total }} 条 · 待读 {{ result.facets.status_counts.unread || 0 }} · 阅读中 {{ result.facets.status_counts.reading || 0 }} · 已读 {{ result.facets.status_counts.read || 0 }} · 重点跟进 {{ result.facets.status_counts.follow_up || 0 }}</p>
     <form class="my-6 grid gap-4 border-y border-stone-200 py-5 sm:grid-cols-2 dark:border-stone-700" @submit.prevent="query()">
       <label class="sm:col-span-2"><span class="mb-2 block text-xs">关键词（资料、备注或个人标签）</span><input v-model="q" type="search" class="library-input" placeholder="检索标题、摘要或自己的备注"/></label>

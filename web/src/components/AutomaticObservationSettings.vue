@@ -14,7 +14,7 @@ let timer: ReturnType<typeof setInterval> | undefined
 
 const labels: Record<AutomaticRun['status'], string> = {
   queued: '等待整理', running: '正在整理', published: '已自动更新',
-  empty: '日期范围内暂无资料', unchanged: '沿用已发布版本', failed: '整理失败',
+  empty: '日期范围内暂无资料', unchanged: '沿用已发布版本', failed: '整理失败', cancelled: '已停止',
 }
 
 async function refresh() {
@@ -24,7 +24,7 @@ async function refresh() {
       prompt.value = savedPrompt.value = state.prompt
       version.value = state.version
     }
-    runs.value = state.runs
+    runs.value = state.runs.filter(run => run.kind !== 'hbm_weekly')
   } catch (cause) {
     if (!version.value) error.value = cause instanceof Error ? cause.message : '观察设置加载失败'
   }
@@ -69,7 +69,7 @@ onBeforeUnmount(() => clearInterval(timer))
 <template>
   <section class="mt-10 max-w-2xl border-t border-stone-200 pt-6 dark:border-stone-800" aria-labelledby="observation-settings">
     <h3 id="observation-settings" class="font-serif text-xl font-semibold">自动观察</h3>
-    <p class="mt-2 text-sm leading-6 text-stone-600 dark:text-stone-300">采集完成后，工作台根据新增材料判断是否更新今日观察和本周简报。只有能写进报告的实质进展才发布新版。提示词可调整选材、写法和关注方向。</p>
+    <p class="mt-2 text-sm leading-6 text-stone-600 dark:text-stone-300">采集后，有可核对的新进展时更新今日观察、自然周周报和对应专题。</p>
     <form v-if="version" class="mt-4" @submit.prevent="save">
       <label for="observation-prompt" class="text-sm font-medium">整理提示词</label>
       <textarea id="observation-prompt" v-model="prompt" rows="6" required maxlength="3500" class="mt-2 w-full rounded border border-stone-300 bg-transparent p-3 text-sm leading-6 dark:border-stone-700" />

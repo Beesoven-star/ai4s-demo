@@ -76,3 +76,13 @@ class PaperAnalysisTests(unittest.TestCase):
             analysis._validate(fields, item)
         fields.update(boundary='评估范围包括7个28 nm设计。', evidence='a 50% reduction in peak current.')
         self.assertEqual(analysis._validate(fields, item)['basis'], 'abstract')
+
+    def test_keeps_a_complete_long_abstract_sentence(self):
+        quote = ('The experiment compared loop related synthesis directives with the baseline and measured ' * 3
+                 + 'the impact on the number of Pareto-optimal designs.')
+        self.assertGreater(len(quote), 300)
+        fields = dict(result='作者比较了帕累托最优设计。', question='循环指令如何影响设计结果？',
+                      method='对比循环综合指令和基线。', boundary='评估限于文中综合指令。', evidence_id=1)
+        self.assertEqual(analysis._validate(fields, {'abstract_text': quote})['basis'], 'abstract')
+        with self.assertRaisesRegex(ValueError, '原文编号'):
+            analysis._validate({**fields, 'evidence_id': 2}, {'abstract_text': quote})

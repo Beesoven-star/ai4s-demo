@@ -1,5 +1,5 @@
 import asyncio
-from datetime import datetime
+from datetime import datetime, timedelta
 import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -55,14 +55,20 @@ class TopicEvaluationTests(unittest.TestCase):
         cn = ({'base_url': 'https://api.deepseek.com', 'model': 'test'}, 'test')
         when = datetime(2026, 11, 21, 16, tzinfo=SHANGHAI)
         with patch.object(evaluation.ic_topics, 'get_topics', return_value=[self.topic]), \
+             patch.object(evaluation.ic_topics, 'topic_index', return_value=[{
+                 'id': self.topic['id'], 'status': 'active', 'established': False,
+             }]), \
              patch.object(evaluation, '_now', return_value=when), \
              patch.object(evaluation.analysis_connection, 'credentials', return_value=cn), \
              patch.object(evaluation.analysis_connection, 'complete') as complete:
-            complete.return_value = json.dumps(self.response(first))
+            response = self.response(first)
+            response['evaluations'].append({'topic_id': self.topic['id'], 'evaluation': None})
+            complete.return_value = json.dumps(response)
             self.assertTrue(asyncio.run(evaluation.process_next(self.db)))
             card = evaluation.published_cards(self.db)[self.topic['id']]
             self.assertIsNone(card['total'])
             self.assertEqual([point['id'] for point in card['dimensions']], ['bottleneck'])
+            self.assertFalse(evaluation.topic_directory(self.db)[0]['in_directory'])
             self.assertFalse(asyncio.run(evaluation.process_next(self.db)))
             self.assertEqual(complete.await_count, 1)
             self.assertNotIn(self.topic['id'], {row['id'] for row in evaluation.with_ranked_evaluations(
@@ -73,6 +79,7 @@ class TopicEvaluationTests(unittest.TestCase):
             self.assertTrue(asyncio.run(evaluation.process_next(self.db)))
             card = evaluation.published_cards(self.db)[self.topic['id']]
             self.assertEqual(card['total'], 11)
+            self.assertTrue(evaluation.topic_directory(self.db)[0]['in_directory'])
             ranked = evaluation.with_ranked_evaluations(briefing(), self.db, topics=[self.topic])['importance_entries']
             self.assertIn((self.topic['id'], 11), {(row['id'], row['score']) for row in ranked})
             self.assertEqual([row['rank'] for row in ranked], list(range(1, len(ranked) + 1)))
@@ -89,6 +96,31 @@ class TopicEvaluationTests(unittest.TestCase):
         verified = [{'references': [{'quote': 'Measurements show power falls by 12% for the baseline load.'}]}]
         self.assertEqual(evaluation._stage_label('lab', verified), '实验验证')
 
+    def test_retains_original_evidence_for_an_updated_event(self):
+        source = {'id': 'official', 'title': 'Public deployment case', 'source': 'Vendor', 'content_type': 'news',
+                  'url': 'https://example.org/case', 'published_at': '2026-10-30', 'reading_basis': 'original',
+                  'news_genre': '机构或厂商披露', 'verified_excerpt': 'The system was deployed across 86 hosts.'}
+        original = evaluation._material(None, source, {'id': 'deployment', 'date': '2026-11-25'})
+        newest = {'id': 'story', 'event_id': 'deployment', 'direct': False, 'date': '2026-11-25'}
+        old = {f'old-{i}': {'id': f'old-{i}', 'event_id': f'event-{i}', 'direct': True, 'date': '2026-11-20'}
+               for i in range(8)}
+        selected = evaluation._select({'official': original, 'story': newest, **old}, {'story'})
+        self.assertEqual(list(selected)[:2], ['story', 'official'])
+        self.assertEqual(original['date'], '2026-10-30')
+        self.assertTrue(original['direct'])
+
+    def test_only_active_established_or_ranked_topics_enter_the_directory(self):
+        rows = [dict(id='seed', status='active', established=True),
+                dict(id='supported', status='active', established=False),
+                dict(id='pending', status='active', established=False),
+                dict(id='ready', status='active', established=False),
+                dict(id='past', status='history', established=False)]
+        cards = {'supported': {'total': None}, 'ready': {'total': 9}, 'past': {'total': 9}}
+        with patch.object(evaluation.ic_topics, 'topic_index', return_value=rows):
+            directory = evaluation.topic_directory(self.db, cards=cards)
+        self.assertEqual([row['id'] for row in directory if row['in_directory']], ['seed', 'ready'])
+        self.assertEqual(directory[1]['evaluation_status'], 'partial')
+
     def test_unquoted_numbers_and_unmatched_quotes_cannot_publish(self):
         first = self.add('first.example', '2026-11-18', 'Measurements show power falls by 12% for the baseline load.')
         cn = ({'base_url': 'https://api.deepseek.com', 'model': 'test'}, 'test')
@@ -104,4 +136,14 @@ class TopicEvaluationTests(unittest.TestCase):
             self.assertFalse(evaluation._independent([
                 {'organization': 'a', 'event_id': 'single'}, {'organization': 'b', 'event_id': 'single'},
             ]))
+            complete.side_effect = [
+                json.dumps(self.response({'quote_id': 'M1Q1'}, finding='测试显示功耗改善99%。')),
+                json.dumps({'texts': {'finding': '实测显示与基线相比功耗降低。'}}),
+            ]
+            with patch.object(evaluation, '_now', return_value=evaluation._now() + timedelta(minutes=3)):
+                self.assertTrue(asyncio.run(evaluation.process_next(self.db)))
+            self.assertIn('不得写任何阿拉伯数字', complete.await_args_list[-2].args[0])
+            self.assertIn('Measurements show power falls by 12%', complete.await_args.args[0])
+            card = evaluation.published_cards(self.db)[self.topic['id']]
+            self.assertEqual(card['finding']['references'][0]['source_id'], first['source_id'])
 

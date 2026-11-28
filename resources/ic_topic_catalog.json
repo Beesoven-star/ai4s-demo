@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-21-v5",
+  "version": "2026-11-28-v7",
   "categories": [
     {"id":"design","name":"电路设计与 EDA","pattern":"\\b(?:EDA|RTL|CMOS|physical design|RF amplifier|chip design)\\b|电路设计|芯片设计|射频|布线"},
     {"id":"manufacturing","name":"制造、工艺与设备","pattern":"\\b(?:lithograph\\w*|photoresists?|wafer|etching|foundr\\w*|plasma chamber)\\b|晶圆|光刻|刻蚀|半导体设备|薄膜沉积|フォトレジスト|MOR工場|半導体の製造技術"},
@@ -9,10 +9,10 @@
     {"id":"power","name":"供电与散热","pattern":"\\b(?:power delivery|voltage regulators?|thermal management|heat dissipation|thermal design|liquid cooling|air cooling)\\b|供电网络|电源完整性|堆叠.{0,8}散热|热设计|散热系统|液冷"}
   ],
   "topics": [
-    {"id":"optics","name":"AI光互连与共封装光学","category_ids":["memory","packaging"],"status":"active","pattern":"\\b(?:CPO|NPO|co[- ]packaged optics|silicon photonics|optical interconnects?|photonic connectors?)\\b|共封装光|硅光|光互连"},
-    {"id":"chiplet","name":"面向AI的芯粒与3D集成","category_ids":["packaging"],"status":"active","pattern":"\\b(?:chiplets?|UCIe|hybrid bonding|3D[- ]IC|3D integration|3D stacking|silicon interposer)\\b|芯粒|3D堆叠|混合键合|中介层|チップレット|ダイ間接続"},
-    {"id":"hbm","name":"HBM与AI存储层次协同","category_ids":["memory"],"status":"active","pattern":"\\b(?:HBM\\d*|3D DRAM|stacked DRAM|CXL|memory tiering|optical memory pool)\\b|高带宽内存|存储层次|光内存池"},
-    {"id":"pim","name":"面向AI的存内与近存计算","category_ids":["architecture","memory"],"status":"active","pattern":"\\b(?:in[- ]memory comput\\w*|near[- ]memory comput\\w*|processing[- ]in[- ]memory|D-IMC)\\b|存内计算|近存计算|存算一体"},
+    {"id":"optics","name":"AI光互连与共封装光学","category_ids":["memory","packaging"],"status":"active","pattern":"\\b(?:CPO|NPO|co[- ]packaged optics|silicon photonics|optical interconnects?|optical transceivers?|photonic connectors?|photonic design|SOI waveguides?)\\b|共封装光|硅光|光互连|光通信技術|光インターコネクト|シリコンフォトニクス"},
+    {"id":"chiplet","name":"面向AI的芯粒与3D集成","category_ids":["packaging"],"status":"active","pattern":"\\b(?:chiplets?|UCIe|hybrid[- ]bond(?:ing|ed)|3D[- ](?:IC|integration|stacking)|silicon interposer)\\b|芯粒|3D堆叠|混合键合|中介层|チップレット|ダイ間接続"},
+    {"id":"hbm","name":"HBM与AI存储层次协同","category_ids":["memory"],"status":"active","pattern":"\\b(?:HBM\\d*[Ee]?|3D DRAM|stacked DRAM|CXL|memory tiering|optical memory pool|(?:AMD )?MEXT|Storage[- ]Next|GPU memory)\\b|高带宽内存|存储层次|内存分层|三维\\s*DRAM|GPUメモリ|光内存池"},
+    {"id":"pim","name":"面向AI的存内与近存计算","category_ids":["architecture","memory"],"status":"active","pattern":"\\b(?:(?:in|near)[- ]memory comput\\w*|(?:comput\\w*|processing)[- ](?:in|near)[- ]memory|D-IMC)\\b|存内计算|近存计算|存算一体|内存内计算|メモリ内演算|メモリ内コンピューティング"},
     {"id":"rtl","name":"LLM辅助RTL生成与验证","category_ids":["design"],"status":"active","paper_topic_ids":["A1"],"pattern":"\\b(?:LLMs?|large language models?|AI agents?)\\b.{0,80}\\b(?:RTL|Verilog)\\b|\\b(?:RTL|Verilog)\\b.{0,80}\\b(?:LLMs?|large language models?|AI agents?)\\b|(?:LLM|大模型|智能体).{0,12}RTL"},
     {"id":"analog","name":"AI辅助模拟与RF电路设计","category_ids":["design"],"status":"active","paper_topic_ids":["A3"],"pattern":"\\b(?:AI|LLMs?|machine learning|reinforcement learning)\\b.{0,80}\\b(?:analog design|analog circuit|RF amplifier)\\b|(?:AI|大模型|机器学习).{0,12}(?:模拟电路|模拟设计|射频电路)"},
     {"id":"power-thermal","name":"AI芯片供电与散热","category_ids":["power"],"status":"active","reason":"800V 供电协议和 Bull 的液冷刀片分别提供了配电与冷却的案例。结合加速器供电网络和堆叠芯片热设计，可继续跟踪从机柜到芯片的转换损耗和热表现。","question":"怎样把电可靠地送到加速器，并控制各级转换损耗和温升？","follow_up":"跟踪并网试点、机柜到板级的转换效率、片上供电完整性，以及实际负载下的冷却效果。","briefing_event_ids":["rohm-delta-800v","bull-rapids-sc26","hbm-thermal"],"source_ids":["557310486a70a1bac42bd5a4","592ceb60750d63a0d88f915d","d65aa2ded6d609166303b9c7","883dee8726b5f1d4e4881c84"],"pattern":"\\b(?:power delivery networks?|voltage regulators?|thermal management|thermal design|liquid[- ]cool(?:ing|ed))\\b|(?<![A-Za-z0-9])800\\s*V(?:DC|\\s*(?:直流|供电))|供电网络|稳压器|堆叠.{0,8}散热|热设计|液冷|直流給電"}

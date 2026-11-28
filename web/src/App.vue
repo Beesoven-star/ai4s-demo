@@ -20,6 +20,8 @@ const pageName = computed(() => {
       return '相关性分析'
     case 'ic-exploration':
       return '技术专题与评价'
+    case 'ic-technology-topic':
+      return '技术专题'
     case 'discover':
       return '每日发现'
     case 'discover-detail':

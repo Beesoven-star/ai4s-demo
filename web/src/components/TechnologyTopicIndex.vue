@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
-import { getTechnologyTopics } from '../api/ic-editor'
+import { getTechnologyTopics, type TechnologyTopics } from '../api/ic-editor'
 
-const props = defineProps<{ compact?: boolean }>()
-const result = ref<Awaited<ReturnType<typeof getTechnologyTopics>> | null>(null)
+const props = defineProps<{ compact?: boolean; directory?: TechnologyTopics }>()
+const ownResult = ref<TechnologyTopics | null>(null)
+const result = computed(() => props.directory || ownResult.value)
 const error = ref('')
 const controller = new AbortController()
-const active = computed(() => (result.value?.topics || []).filter(topic => topic.status === 'active' && !topic.established))
+const active = computed(() => (result.value?.topics || []).filter(topic => topic.status === 'active' && (props.compact ? !topic.established : !topic.in_directory)))
 const past = computed(() => (result.value?.topics || []).filter(topic => topic.status === 'history'))
 const recentSince = computed(() => {
   const asOf = result.value?.as_of
@@ -24,12 +25,12 @@ function topicLink(id: string) {
 
 async function load() {
   error.value = ''
-  try { result.value = await getTechnologyTopics(controller.signal) }
+  try { ownResult.value = await getTechnologyTopics(controller.signal) }
   catch (cause) {
     if (!controller.signal.aborted) error.value = cause instanceof Error ? cause.message : '读取专题失败'
   }
 }
-onMounted(load)
+onMounted(() => { if (!props.directory) void load() })
 onBeforeUnmount(() => controller.abort())
 </script>
 
@@ -53,7 +54,7 @@ onBeforeUnmount(() => controller.abort())
           <p v-if="!compact && topic.latest_event.summary" class="mt-1 line-clamp-2 break-words text-sm leading-6 text-stone-700 dark:text-stone-300">{{ topic.latest_event.summary }}</p>
         </div>
         <p v-if="topic.follow_up" class="mt-2 line-clamp-2 break-words text-sm leading-6 text-stone-600 dark:text-stone-400">{{ topic.follow_up }}</p>
-        <RouterLink :to="topicLink(topic.id)" class="mt-2 inline-block text-sm font-medium text-accent hover:underline">{{ topic.evaluation_status ? '查看评价、进展与出处 →' : '查看进展记录与出处 →' }}</RouterLink>
+        <RouterLink :to="topicLink(topic.id)" class="mt-2 inline-block text-sm font-medium text-accent hover:underline">{{ topic.evaluation_status === 'partial' ? '查看进展与初步评价 →' : '查看进展记录与出处 →' }}</RouterLink>
       </li>
     </ul>
     <template v-if="!compact">

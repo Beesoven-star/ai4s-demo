@@ -681,6 +681,16 @@
       "homepage": "https://ir.amd.com/news-events/press-releases",
       "enabled": true,
       "news_genre": "企业官方公告",
+      "primary_evidence": {
+        "mentions": "\\bAMD\\b",
+        "sitemap": "https://www.amd.com/en.sitemap.xml",
+        "article_prefixes": [
+          "https://ir.amd.com/news-events/press-releases/detail/",
+          "https://www.amd.com/en/resources/case-studies/",
+          "https://www.amd.com/en/blogs/",
+          "https://newsroom.amd.com/news/"
+        ]
+      },
       "relevance_mode": "domain_only",
       "require_exact_date": true,
       "title_include_patterns": [

@@ -9,7 +9,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from src.ic_research import analyze, TOPICS, TRACKS, VERSION
+from src.ic_research import analyze, latest_paper_dates, TOPICS, TRACKS, VERSION
 from src.publication_timing import assess, statistics
 from src.research_analysis import news_analysis
 from src.ic_briefing import briefing, event_briefs_by_source, load_snapshot
@@ -27,8 +27,9 @@ SOURCE_FIELDS = '''ref id content_type title source url doi arxiv_id published_a
 publication_year collected_at venue_type venue excerpt excerpt_truncated evidence_quality tracks topics classification_basis'''.split()
 TOPIC_FIELDS = '''id name overview question follow_up seeded established category_id
 status merged_into latest_progress reviewed_through event_count latest_event'''.split()
-EVENT_FIELDS = 'id title summary boundary date'.split()
-TOPIC_SOURCE_FIELDS = 'id title source url published_at content_type news_genre reading_basis'.split()
+EVENT_FIELDS = 'id title summary boundary date stage'.split()
+STAGE_CHANGE_FIELDS = 'id date from_stage to_stage summary boundary source_id evidence'.split()
+TOPIC_SOURCE_FIELDS = 'id title source url published_at content_type news_genre reading_basis verified_excerpt'.split()
 
 
 def pick(data, fields):
@@ -36,17 +37,15 @@ def pick(data, fields):
 
 
 def export_topics(database, cards, today):
-    index = []
-    for topic in ic_topics.topic_index(database):
-        entry = pick(topic, TOPIC_FIELDS)
-        if card := cards.get(topic['id']):
-            entry['evaluation_status'] = 'ranked' if card['total'] is not None else 'partial'
-        index.append(entry)
+    index = [pick(topic, TOPIC_FIELDS + ['in_directory', 'evaluation_status'])
+             for topic in ic_topic_evaluation.topic_directory(database, cards=cards, today=today)]
     details = {}
     for topic in ic_topics.get_topics(database, today):
         detail = pick(topic, TOPIC_FIELDS)
         detail['events'] = [
-            pick(event, EVENT_FIELDS) | {'sources': [pick(source, TOPIC_SOURCE_FIELDS) for source in event['sources']]}
+            pick(event, EVENT_FIELDS) | {'sources': [pick(source, TOPIC_SOURCE_FIELDS) for source in event['sources']],
+                                         'stage_changes': [pick(change, STAGE_CHANGE_FIELDS)
+                                                           for change in event.get('stage_changes', ())]}
             for event in topic['events'] if event['date'] <= today.isoformat()
         ]
         if card := cards.get(topic['id']):
@@ -106,6 +105,7 @@ def export_snapshot(database, output, *, published_analysis=None):
         'topics': [topic['name'] for topic in TOPICS], 'research_tracks': TRACKS,
         'venues': sorted({item.get('venue_name') or item.get('journal') for item in items if item.get('venue_name') or item.get('journal')}),
         'literature_scopes': dict(scopes), 'main_papers': scopes['main'], 'archive_papers': scopes['archive'],
+        'latest_paper_dates': latest_paper_dates(((item, item['ic_ai']['scope']) for item in papers), today.isoformat()),
         'pending_papers': scopes['pending'], 'excluded_papers': scopes['excluded'],
         'publication_audit': statistics([item for item in papers if item['ic_ai']['scope'] != 'excluded'], today),
     }

@@ -20,6 +20,7 @@ export async function getICBriefing(days: number, signal?: AbortSignal, snapshot
 
 export async function getICObservations(day?: string, signal?: AbortSignal, version?: string): Promise<{
   today: string; selected_day: string; editions: ObservationPeriod[]; report: ICDailyEdition | null; versions?: PublicationVersion[]
+  automation?: { status: 'queued' | 'running' | 'failed' | 'unchanged' | 'empty' | 'published' } | null
 }> {
   if (IS_STATIC) {
     const snapshot = await loadSnapshot(signal)

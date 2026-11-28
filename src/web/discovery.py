@@ -37,7 +37,11 @@ async def ic_observations(day: date | None = None, version: str | None = None):
         raise HTTPException(status_code=404, detail='当前不是集成电路工作台')
     from src.ic_observations import daily_observations
     from src.ic_editor import daily_with_editions, publications
-    return daily_with_editions(daily_observations(day.isoformat() if day else None), publications('daily'), version)
+    from src.ic_automatic import daily_progress
+    archive = daily_with_editions(daily_observations(day.isoformat() if day else None), publications('daily'), version)
+    if not archive['report'] and archive['selected_day'] == archive['today']:
+        archive['automation'] = daily_progress(store._path(), archive['selected_day'])
+    return archive
 
 
 @router.get('/ic-exploration')

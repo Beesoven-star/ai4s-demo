@@ -8,7 +8,7 @@ defineProps<{ report: ICDailyEdition; weekly?: boolean }>()
   <section class="min-w-0 overflow-hidden rounded-lg border border-stone-200 bg-white dark:border-stone-800 dark:bg-stone-900" aria-labelledby="published-observation-title">
     <header class="border-b border-stone-200 p-5 dark:border-stone-800">
       <p class="text-xs text-stone-600 dark:text-stone-400">
-        {{ weekly && report.date_from ? `${report.date_from} 至 ${report.date}` : report.date }}<span v-if="report.automation"> · {{ report.automation.generated_at.slice(11,16) }} 自动更新</span><span v-else-if="report.published_at"> · {{ report.published_at.slice(0,10) }} 发布</span><span v-else-if="report.prepared_on!==report.date"> · {{ report.prepared_on }} 补编</span>
+        {{ weekly && report.date_from ? `${report.date_from} 至 ${report.date}` : report.date }}<span v-if="report.coverage_through && report.coverage_through < report.date"> · 资料截至 {{ report.coverage_through }}</span><span v-if="report.automation"> · {{ report.automation.generated_at.slice(report.coverage_through ? 5 : 11,16).replace('T',' ') }} 自动更新</span><span v-else-if="report.published_at"> · {{ report.published_at.slice(0,10) }} 发布</span><span v-else-if="report.prepared_on!==report.date"> · {{ report.prepared_on }} 补编</span>
       </p>
       <h3 id="published-observation-title" class="mt-2 break-words font-serif text-2xl font-bold leading-snug">{{ report.title }}</h3>
       <p class="mt-2 whitespace-pre-wrap break-words text-sm leading-7 text-stone-700 dark:text-stone-300">{{ report.intro }}</p>

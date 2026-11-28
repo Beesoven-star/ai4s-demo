@@ -18,10 +18,26 @@ function dailyVersionKey(report: ICDailyEdition) {
   return sources.length ? JSON.stringify([sources, report.automation?.material_change]) : report.id || 'original'
 }
 
+function calendarWeek(day: string) {
+  const date = new Date(`${day}T00:00:00Z`)
+  date.setUTCDate(date.getUTCDate() - (date.getUTCDay() + 6) % 7)
+  const start = date.toISOString().slice(0, 10)
+  date.setUTCDate(date.getUTCDate() + 6)
+  return { start, end: date.toISOString().slice(0, 10) }
+}
+
+function naturalWeekReport(report: ICDailyEdition | null | undefined) {
+  if (!report || report.coverage_through) return report || null
+  const { start, end } = calendarWeek(report.date)
+  return { ...report, date_from: start, date: end, coverage_through: report.date,
+    entries: report.entries.filter(entry => (entry.sources?.length ? entry.sources : [entry.source]).every(source =>
+      Boolean(source.published_at && source.published_at >= start && source.published_at <= report.date))) }
+}
+
 export function snapshotArchive(
   reports: ICDailyEdition[],
-  { day, version, original, distinctDaily = false }: {
-    day?: string; version?: string; original?: PublicationVersion; distinctDaily?: boolean
+  { day, version, original, distinctDaily = false, naturalWeek = false }: {
+    day?: string; version?: string; original?: PublicationVersion; distinctDaily?: boolean; naturalWeek?: boolean
   },
 ): ObservationArchive {
   const rows = reports.map(report => ({
@@ -32,6 +48,22 @@ export function snapshotArchive(
     || (b.published_at || '').localeCompare(a.published_at || '') || b.id.localeCompare(a.id))
   const archive: (PublicationVersion & { report: ICDailyEdition | null })[] = rows
   if (original) archive.push({ ...original, report: null })
+  if (naturalWeek) {
+    const issues = new Map<string, typeof archive[number]>()
+    for (const row of archive) {
+      const { end } = calendarWeek(row.date)
+      if (!issues.has(end) || (row.report?.coverage_through && !issues.get(end)?.report?.coverage_through)) issues.set(end, row)
+    }
+    const dates = [...issues.keys()].sort((a, b) => b.localeCompare(a))
+    const requested = day || archive.find(row => row.id === version)?.date
+    const selectedDay = requested && /^\d{4}-\d{2}-\d{2}$/.test(requested) ? calendarWeek(requested).end : dates[0] || ''
+    const selected = original && version === 'original' && calendarWeek(original.date).end === selectedDay
+      ? { ...original, report: null } : issues.get(selectedDay)
+    return {
+      selected_day: selectedDay, selected_version: selected?.id || null, report: naturalWeekReport(selected?.report), versions: [],
+      editions: dates.map(date => ({ date, date_from: calendarWeek(date).start, title: issues.get(date)!.title })),
+    }
+  }
   const groups = new Map<string, typeof archive>()
   for (const row of archive) {
     const group = groups.get(row.date) || []
