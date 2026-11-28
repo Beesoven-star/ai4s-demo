@@ -97,6 +97,7 @@ export interface DiscoveryFacets {
   pending_papers?: number
   excluded_papers?: number
   literature_scopes?: Record<string,number>
+  latest_paper_dates?: Record<string, string>
   publication_audit?: {as_of: string; recent_start: string; counts: Record<string,number>; collection_days: Record<string,number>}
   domain?: string
   research_tracks?: Record<string,string>

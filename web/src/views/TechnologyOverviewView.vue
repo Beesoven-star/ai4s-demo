@@ -10,6 +10,7 @@ import DailyObservationView from './DailyObservationView.vue'
 import PublishedObservation from '../components/PublishedObservation.vue'
 import ObservationArchive from '../components/ObservationArchive.vue'
 import { getPublishedWeekly } from '../api/ic-editor'
+import { HBM_TOPIC_ID } from '../hbm-topic'
 import { workspace } from '../workspace'
 
 type OverviewMode = 'weekly' | 'daily' | 'tracking' | 'rankings'
@@ -61,6 +62,7 @@ const trackingGroups = computed(() => [
 })).filter(group => group.entries.length))
 
 function topicLink(technology: Technology) {
+  if (technology.id === HBM_TOPIC_ID) return { name: 'ic-technology-topic', params: { topicId: technology.id } }
   return { name: 'ic-exploration', query: { technology: technology.id, days: '7' } }
 }
 
@@ -98,8 +100,8 @@ async function loadWeekly() {
   weeklyLoading.value = true
   weeklyError.value = ''
   try {
-    const result = await getPublishedWeekly(weeklyDay.value, weeklyVersion.value, request.signal)
-    if (!request.signal.aborted) weeklyPublication.value = result
+    const archive = await getPublishedWeekly(weeklyDay.value, weeklyVersion.value, request.signal)
+    if (!request.signal.aborted) weeklyPublication.value = archive
   } catch (cause) {
     if (!request.signal.aborted) weeklyError.value = cause instanceof Error ? cause.message : '周报暂时无法读取'
   } finally {
@@ -184,8 +186,7 @@ onBeforeUnmount(() => {
         </div>
         <p v-else class="rounded-lg border border-stone-200 p-5 text-sm text-stone-600 dark:border-stone-800 dark:text-stone-400">这一天没有已保存的周报。</p>
         <div class="min-w-0 space-y-6">
-          <ObservationArchive weekly :editions="weeklyPublication.editions" :versions="weeklyPublication.versions"
-            :selected-day="weeklyPublication.selected_day" :selected-version="weeklyPublication.selected_version"
+          <ObservationArchive weekly :editions="weeklyPublication.editions" :selected-day="weeklyPublication.selected_day"
             :latest-day="weeklyPublication.editions[0]?.date" />
           <aside v-if="weeklyPublication.selected_version==='original' && storyTopics.length" class="min-w-0 border-t-2 border-accent pt-3" aria-labelledby="weekly-topics">
             <h3 id="weekly-topics" class="font-serif text-xl font-bold">沿着本周问题继续读</h3>

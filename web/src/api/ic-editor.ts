@@ -4,7 +4,8 @@ import { loadSnapshot } from './static-data'
 import { snapshotArchive, type ObservationArchive } from './observation-archive'
 
 export interface AutomaticRun {
-  id: string; date: string; status: 'queued' | 'running' | 'published' | 'empty' | 'unchanged' | 'failed'
+  kind?: 'hbm_weekly'
+  id: string; date: string; status: 'queued' | 'running' | 'published' | 'empty' | 'unchanged' | 'failed' | 'cancelled'
   error?: string | null; publications?: string[]; prompt_version: string; attempts: number
   usage?: { total_tokens?: number }; elapsed_seconds?: number
 }
@@ -16,6 +17,7 @@ export interface TechnologyTopic {
 }
 
 export interface TechnologyTopicIndexEntry extends TechnologyTopic {
+  in_directory: boolean
   event_count: number
   evaluation_status?: 'ranked' | 'partial'
   latest_event: { title: string; summary: string; date: string; sources: string[] } | null
@@ -25,11 +27,17 @@ interface TopicSource {
   id: string; title: string; source: string; url: string
   published_at: string; content_type: 'news' | 'paper'; news_genre?: string
   reading_basis?: string
+  verified_excerpt?: string
 }
 
 export interface TechnologyTopicDetail extends TechnologyTopic {
   evaluation?: TopicEvaluation
-  events: { id: string; title: string; summary: string; boundary?: string; date: string; sources: TopicSource[] }[]
+  events: TechnologyEvent[]
+}
+
+export interface TechnologyEvent {
+  id: string; title: string; summary: string; boundary?: string; stage?: string; date: string; sources: TopicSource[]
+  stage_changes?: { id: string; date: string; from_stage: string; to_stage: string; summary: string; boundary?: string; source_id: string; evidence: string }[]
 }
 
 interface TopicRun {
@@ -37,7 +45,7 @@ interface TopicRun {
   changes?: Pick<TechnologyTopic, 'id' | 'name' | 'status'>[]; error?: string
 }
 
-interface TechnologyTopics {
+export interface TechnologyTopics {
   topics: TechnologyTopicIndexEntry[]; runs: TopicRun[]; cool_days: number; as_of?: string
 }
 
@@ -117,7 +125,7 @@ export async function getPublishedWeekly(day?: string, version?: string, signal?
   if (IS_STATIC) {
     const snapshot = await loadSnapshot(signal)
     const original = snapshot.ic_briefing?.['7']
-    return snapshotArchive(snapshot.weekly_observations || [], { day, version, original: original && {
+    return snapshotArchive(snapshot.weekly_observations || [], { day, version, naturalWeek: true, original: original && {
       id: 'original', date: original.window.date_to, date_from: original.window.date_from,
       title: original.weekly_story?.question || '本周技术观察',
     } })

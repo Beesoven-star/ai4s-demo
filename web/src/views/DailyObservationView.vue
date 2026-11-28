@@ -11,6 +11,13 @@ const version = computed(() => typeof route.query.version === 'string' ? route.q
 const data = ref<Awaited<ReturnType<typeof getICObservations>> | null>(null)
 const loading = ref(true)
 const error = ref('')
+const publicationStatus = computed(() => {
+  const status = data.value?.automation?.status
+  if (status === 'queued' || status === 'running') return '采集已完成，正在等待或运行自动整理。'
+  if (status === 'failed') return '采集已完成，本次自动整理失败。下次采集完成后会继续尝试。'
+  if (status) return '本次整理没有找到达到发布条件的当天进展。'
+  return ''
+})
 let controller: AbortController | undefined
 let refreshTimer: ReturnType<typeof setInterval> | undefined
 
@@ -62,6 +69,7 @@ onBeforeUnmount(() => {
     <section v-else class="rounded-lg border border-stone-200 bg-white p-5 dark:border-stone-800 dark:bg-stone-900">
       <p class="text-xs text-stone-600 dark:text-stone-400">{{ data.selected_day }}</p>
       <h3 class="mt-2 font-serif text-xl font-bold">{{ data.selected_day===data.today ? '今日观察尚未发布' : '这一天没有已保存的观察' }}</h3>
+      <p v-if="publicationStatus" class="mt-2 text-sm text-stone-600 dark:text-stone-400">{{ publicationStatus }}</p>
       <div class="mt-3 flex flex-wrap gap-4 text-sm">
         <RouterLink v-if="data.editions[0]" :to="reportLink(data.editions[0].date)" class="text-accent hover:underline">回看最近一期 →</RouterLink>
         <RouterLink :to="{ name: 'discover', query: { content_type: 'news', date_from: data.selected_day, date_to: data.selected_day } }" class="text-accent hover:underline">查看当天已收录新闻 →</RouterLink>

@@ -27,6 +27,11 @@ const categoryTabs = computed(() => workspace.domain === 'ic' ? [...categories].
 const categoryLabel = computed(() => isPaper.value ? '文献' : '新闻')
 const countUnit = computed(() => isPaper.value ? '篇' : '条')
 const paperOnlyFilters = ['topic','venue','publication_kind','research_track','literature_scope','publication_period']
+const literatureScopes = [
+  { id: 'main', label: '主文献库' },
+  { id: 'all', label: '全部文献候选' },
+  { id: 'archive', label: '扩展归档' },
+]
 const form = reactive({
   q: '', content_type: '', topic: '', venue: '', date_from: '', date_to: '',
   date_basis: 'published', origin: '', publication_kind: '', research_track: '',
@@ -90,7 +95,6 @@ const advancedFilters = computed(() => [
   ['publication_kind','出版形式',({journal:'正式期刊题录',conference:'会议论文',preprint:'作者预印本'} as Record<string,string>)[queryString(route.query,'publication_kind')] || ''],
   ['research_track','研究主线',({any_ai:'两类AI交叉研究',ai_for_ic:'AI用于芯片设计',ic_for_ai:'芯片用于AI计算',general_ic:'通用集成电路研究'} as Record<string,string>)[queryString(route.query,'research_track')] || ''],
   ['publication_period','发表时间',({recent_published:'近期正式发表',recent_preprint:'近期预印本',historical:'历史资料',month_only:'仅提供月份',unknown:'发表日期未知'} as Record<string,string>)[queryString(route.query,'publication_period')] || ''],
-  ['literature_scope','文献范围',({all:'全部候选',archive:'扩展归档'} as Record<string,string>)[queryString(route.query,'literature_scope')] || ''],
   ['news_scope','新闻范围',({all:'全部候选',archive:'拓展归档'} as Record<string,string>)[queryString(route.query,'news_scope')] || ''],
 ].filter(([, ,value]) => value).map(([key,label,value]) => ({key,label,value})))
 const hasFilters = computed(() => Boolean(queryString(route.query, 'q') || advancedFilters.value.length))
@@ -178,9 +182,12 @@ async function reset() {
   await navigate(query)
 }
 
-function changeLiteratureScope() {
-  form.research_track=''
-  form.topic=''
+function literatureScopeLink(scope: string) {
+  const query: LocationQueryRaw = { ...route.query, content_type: 'paper', literature_scope: scope === 'main' ? undefined : scope }
+  delete query.offset
+  delete query.research_track
+  delete query.topic
+  return { name: 'discover', query }
 }
 
 async function choosePeriod(period: string) {
@@ -287,6 +294,15 @@ onBeforeUnmount(() => {
       <button v-for="category in categoryTabs" :key="category" type="button" :aria-pressed="contentType===category" class="border-b-2 px-4 py-2 text-sm" :class="contentType===category ? 'border-accent font-semibold text-accent' : 'border-transparent text-stone-600 hover:text-accent dark:text-stone-400'" @click="changeContentType(category)">{{ category==='news' ? '新闻' : '文献' }}</button>
     </nav>
 
+    <nav v-if="isPaper && workspace.domain==='ic'" aria-label="文献范围" class="mb-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
+      <RouterLink v-for="scope in literatureScopes" :key="scope.id" :to="literatureScopeLink(scope.id)"
+        :aria-current="form.literature_scope === scope.id ? 'page' : undefined"
+        class="py-1 underline-offset-4 hover:text-accent hover:underline"
+        :class="form.literature_scope === scope.id ? 'font-semibold text-accent underline' : 'text-stone-700 dark:text-stone-300'">
+        {{ scope.label }}<span v-if="facets?.latest_paper_dates?.[scope.id]" class="ml-1 text-xs font-normal text-stone-500 dark:text-stone-400">最新发表 {{ facets.latest_paper_dates[scope.id] }}</span>
+      </RouterLink>
+    </nav>
+
     <div v-if="!IS_STATIC" id="discovery-collection" v-show="collectionOpen">
       <CollectionPanel @completed="load" />
     </div>
@@ -308,12 +324,6 @@ onBeforeUnmount(() => {
         </div>
 
         <div id="discovery-advanced" v-show="advancedOpen" class="mt-3 grid gap-3 rounded-lg border border-stone-200 bg-white p-4 sm:grid-cols-3 dark:border-stone-800 dark:bg-stone-900">
-          <div v-if="isPaper && facets?.domain==='ic'">
-            <label for="discovery-literature-scope" class="filter-label">文献范围</label>
-            <select id="discovery-literature-scope" v-model="form.literature_scope" class="discovery-input" @change="changeLiteratureScope">
-              <option value="main">主文献库（{{ facets.main_papers }} 篇）</option><option value="all">原始候选（{{ facets.papers }} 条）</option><option value="archive">扩展归档（{{ facets.archive_papers }} 篇）</option>
-            </select>
-          </div>
           <div v-if="isPaper">
             <label for="discovery-publication-period" class="filter-label">发表时间分类</label>
             <select id="discovery-publication-period" v-model="form.publication_period" class="discovery-input">

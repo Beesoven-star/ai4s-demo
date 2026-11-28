@@ -31,7 +31,7 @@ const missing = computed(() => [
             <li v-for="reference in point.references" :key="reference.source_id + '-' + reference.excerpt_index" class="border-l border-stone-300 pl-3 text-xs dark:border-stone-700">
               <a :href="safeExternalUrl(evaluation.sources[reference.source_id].url)" target="_blank" rel="noopener noreferrer"
                 class="font-medium text-accent hover:underline">{{ evaluation.sources[reference.source_id].title }} ↗</a>
-              <p class="mt-1 text-stone-600 dark:text-stone-400">{{ evaluation.sources[reference.source_id].source }} · {{ readingBasisLabel(evaluation.sources[reference.source_id].basis) }}<template v-if="newsGenreLabel(evaluation.sources[reference.source_id].genre)"> · {{ newsGenreLabel(evaluation.sources[reference.source_id].genre) }}</template></p>
+              <p class="mt-1 text-stone-600 dark:text-stone-400">{{ evaluation.sources[reference.source_id].source }} · {{ evaluation.sources[reference.source_id].date }} · {{ readingBasisLabel(evaluation.sources[reference.source_id].basis) }}<template v-if="newsGenreLabel(evaluation.sources[reference.source_id].genre)"> · {{ newsGenreLabel(evaluation.sources[reference.source_id].genre) }}</template></p>
               <blockquote class="mt-1 break-words leading-6 text-stone-700 dark:text-stone-300">{{ reference.quote }}</blockquote>
             </li>
           </ul>

@@ -17,7 +17,7 @@ const periods = computed(() => props.weekly ? props.editions : props.editions.fi
 function reportLink(day?: string, version?: string) {
   return {
     name: 'home',
-    query: props.weekly ? { day, edition: version } : { view: 'daily', day, version },
+    query: props.weekly ? { day } : { view: 'daily', day, version },
   }
 }
 </script>
@@ -38,8 +38,8 @@ function reportLink(day?: string, version?: string) {
       </li>
     </ul>
     <p v-else class="mt-2 text-sm text-stone-500">暂无往期记录</p>
-    <details v-if="versions && (today ? versions.length : weekly && versions.length > 1)" :key="selectedDay" :open="today" class="mt-4 border-t border-stone-200 pt-3 text-sm dark:border-stone-800">
-      <summary class="cursor-pointer font-medium">{{ weekly ? '查看本期版本' : '今日发布' }}（{{ versions.length }}）</summary>
+    <details v-if="today && versions?.length" :key="selectedDay" open class="mt-4 border-t border-stone-200 pt-3 text-sm dark:border-stone-800">
+      <summary class="cursor-pointer font-medium">今日发布（{{ versions.length }}）</summary>
       <ul class="mt-1 space-y-2">
         <li v-for="(row, index) in versions" :key="row.id">
           <RouterLink :to="reportLink(selectedDay, row.id)" :aria-current="selectedVersion===row.id ? 'page' : undefined"
